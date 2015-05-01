@@ -53,8 +53,6 @@ def convert_comment(db, site, filename):
                 else:
                     continue
             content = content + line
-    logger.debug(d)
-    logger.debug(content)
 
     # create DB record
     comment = Comment(site=site, author_name=d['author'], content=content)
@@ -67,7 +65,7 @@ def convert_comment(db, site, filename):
     # else:
     #    comment.url = d['article']
     if 'date' in d:
-        comment.date = d['date']
+        comment.published = d['date']
     comment.save()
 
 
@@ -86,14 +84,13 @@ def convert(db, site_name, url, comment_dir):
 
     site = Site.create(name=site_name, url=url, token='')
 
-    logger.info('Comment directory %s' % comment_dir)
     for dirpath, dirs, files in os.walk(comment_dir):
         for filename in files:
             if filename.endswith(('.md',)):
                 comment_file = '/'.join([dirpath, filename])
                 convert_comment(db, site, comment_file)
             else:
-                logger.debug('ignore file %s' % filename)
+                logger.warn('ignore file %s' % filename)
 
 
 @clize
