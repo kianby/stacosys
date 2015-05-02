@@ -4,10 +4,7 @@
 import os
 import sys
 import logging
-from flask import Flask
 from werkzeug.contrib.fixers import ProxyFix
-
-app = Flask(__name__)
 
 # add current and parent path to syspath
 currentPath = os.path.dirname(__file__)
@@ -17,11 +14,13 @@ for path in paths:
     if path not in sys.path:
         sys.path.insert(0, path)
 
-# configure logging
-
+# more imports
 import config
+from app.services import database
+from app.controllers import api
+from app import app
 
-
+# configure logging
 def configure_logging(level):
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
@@ -40,7 +39,6 @@ configure_logging(logging_level)
 logger = logging.getLogger(__name__)
 
 # initialize database
-from app.services import database
 database.setup()
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
