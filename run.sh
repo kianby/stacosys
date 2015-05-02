@@ -1,3 +1,3 @@
 #!/bin/sh
-python app/server.py "$@"
+python app/run.py "$@"
 
