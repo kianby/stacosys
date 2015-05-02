@@ -61,7 +61,6 @@ def convert_comment(db, site, filename):
     if 'site' in d:
         comment.author_site = d['site']
     if 'url' in d:
-        logger.info(d['url'][:6])
         if d['url'][:7] == 'http://':
             comment.url = d['url'][7:]
         elif d['url'][:8] == 'https://':
@@ -69,6 +68,7 @@ def convert_comment(db, site, filename):
     # else:
     #    comment.url = d['article']
     if 'date' in d:
+        comment.created = d['date']
         comment.published = d['date']
     comment.save()
 
