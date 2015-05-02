@@ -29,11 +29,7 @@ def hash(value):
 
 @provide_db
 def setup(db):
-    from app.models.user import User
-    db.create_tables([User], safe=True)
+    from app.models.site import Site
+    from app.models.comment import Comment
 
-    # create admin user if user table is empty
-    if User.select().count() == 0:
-        admin_user = User(username='admin', password=hash('admin'),
-                          displayname='Admin')
-        admin_user.save()
+    db.create_tables([Site, Comment], safe=True)
