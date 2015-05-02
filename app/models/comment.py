@@ -12,6 +12,7 @@ from app.services.database import get_db
 
 class Comment(Model):
     url = CharField()
+    created = DateTimeField()
     published = DateTimeField()
     author_name = CharField()
     author_email = CharField(default='')
