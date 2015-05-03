@@ -17,6 +17,7 @@ for path in paths:
 
 # import database models 
 from app.services.database import provide_db
+from app.helpers.hashing import salt
 from app.models.site import Site
 from app.models.comment import Comment
 
@@ -57,14 +58,14 @@ def convert_comment(db, site, filename):
     # create DB record
     comment = Comment(site=site, author_name=d['author'], content=content)
     if 'email' in d:
-        comment.author_email = d['email']
+        comment.author_email = d['email'].strip()
     if 'site' in d:
-        comment.author_site = d['site']
+        comment.author_site = d['site'].strip()
     if 'url' in d:
         if d['url'][:7] == 'http://':
-            comment.url = d['url'][7:]
+            comment.url = d['url'][7:].strip()
         elif d['url'][:8] == 'https://':
-            comment.url = d['url'][8:]
+            comment.url = d['url'][8:].strip()
     # else:
     #    comment.url = d['article']
     if 'date' in d:
@@ -86,7 +87,7 @@ def convert(db, site_name, url, comment_dir):
     except Site.DoesNotExist:
         pass
 
-    site = Site.create(name=site_name, url=url, token='')
+    site = Site.create(name=site_name, url=url, token=salt(url))
 
     for dirpath, dirs, files in os.walk(comment_dir):
         for filename in files:
