@@ -58,3 +58,4 @@ target/
 
 # My ignored files and directories
 myconfig.json
+db.sqlite

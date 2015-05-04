@@ -26,7 +26,7 @@ def query_comments():
         logger.info('retrieve comments for token %s, url %s' % (token, url))
         for comment in Comment.select(Comment).join(Site).where(
                (Comment.url == url) &
-               (Site.token == token)).order_by(Comment.published):
+               (Site.token == token)).order_by(+Comment.published):
             d = {}
             d['author'] = comment.author_name
             d['content'] = comment.content
@@ -35,6 +35,7 @@ def query_comments():
             if comment.author_email:
                 d['avatar'] = md5(comment.author_email.strip().lower())
             d['date'] = comment.published.strftime("%Y-%m-%d %H:%M:%S")
+            logger.info(d)
             comments.append(d)
         r = jsonify({'data': comments})
         r.status_code = 200
