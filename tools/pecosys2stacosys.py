@@ -5,6 +5,7 @@ import sys
 import os
 import re
 import logging
+import datetime
 from clize import clize, run
 
 # add necessary directories to PATH
@@ -33,7 +34,6 @@ logger.addHandler(ch)
 
 # regex
 regex = re.compile(r"(\w+):\s*(.*)")
-
 
 def convert_comment(db, site, filename):
     logger.info('convert %s' % filename)
@@ -69,8 +69,9 @@ def convert_comment(db, site, filename):
     # else:
     #    comment.url = d['article']
     if 'date' in d:
-        comment.created = d['date']
-        comment.published = d['date']
+        pub = datetime.datetime.strptime(d['date'], '%Y-%m-%d %H:%M:%S')
+        comment.created = pub
+        comment.published = pub
     comment.save()
 
 
