@@ -1,11 +1,6 @@
 // Released under Apache license
 // Copyright (c) 2015 Yannic ARNOUX
 
-STACOSYS_URL = 'http://127.0.0.1:8000';
-STACOSYS_TOKEN = '9fb3fc042c572cb831005fd16186126765140fa2bd9bb2d4a28e47a9457dc26c';
-//STACOSYS_PAGE = 'blogduyax.madyanne.fr/mes-applications-pour-blackberry.html'
-STACOSYS_PAGE = 'blogduyax.madyanne.fr/migration-du-blog-sous-pelican.html'
-
 // Create the XHR object.
 function stacosys_get_cors_request(method, url) {
   var xhr = new XMLHttpRequest();
@@ -23,12 +18,38 @@ function stacosys_get_cors_request(method, url) {
   return xhr;
 }
 
-function stacosys_get_url() {
-  return STACOSYS_URL + '/comments?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
+function stacosys_count() {
+  var url = STACOSYS_URL + '/comments/count?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
+  var xhr = stacosys_get_cors_request('GET', url);
+  if (!xhr) {
+    console.log('CORS not supported');
+    return 0;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var jsonResponse = JSON.parse(xhr.responseText);
+    var count = jsonResponse.count;
+    if (count > 0) {
+      if (count > 1) { 
+        document.getElementById('show-comment-label').innerHTML = 'Voir les ' + count + ' commentaires';
+      }
+      document.getElementById('show-comments-button').style.display = '';
+    }
+    return jsonResponse.count;
+  };
+
+  xhr.onerror = function() {
+    console.log('Woops, there was an error making the request.');
+    return 0;
+  };
+
+  xhr.send();
 }
 
 function stacosys_load() {
-  var url = stacosys_get_url();
+  var url = STACOSYS_URL + '/comments?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
+
   var xhr = stacosys_get_cors_request('GET', url);
   if (!xhr) {
     alert('CORS not supported');
@@ -52,4 +73,3 @@ function stacosys_load() {
 
   xhr.send();
 }
-window.onload = stacosys_load;
