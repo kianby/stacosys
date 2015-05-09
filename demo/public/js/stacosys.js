@@ -1,8 +1,13 @@
 // Released under Apache license
 // Copyright (c) 2015 Yannic ARNOUX
 
+STACOSYS_URL = 'http://127.0.0.1:8000';
+STACOSYS_TOKEN = '9fb3fc042c572cb831005fd16186126765140fa2bd9bb2d4a28e47a9457dc26c';
+//STACOSYS_PAGE = 'blogduyax.madyanne.fr/mes-applications-pour-blackberry.html'
+STACOSYS_PAGE = 'blogduyax.madyanne.fr/migration-du-blog-sous-pelican.html'
+
 // Create the XHR object.
-function createCORSRequest(method, url) {
+function stacosys_get_cors_request(method, url) {
   var xhr = new XMLHttpRequest();
   if ("withCredentials" in xhr) {
     // XHR for Chrome/Firefox/Opera/Safari.
@@ -18,9 +23,13 @@ function createCORSRequest(method, url) {
   return xhr;
 }
 
-function cosysload() {
-  var url = 'http://cosysnode.madyanne.fr:3000/comments';
-  var xhr = createCORSRequest('GET', url);
+function stacosys_get_url() {
+  return STACOSYS_URL + '/comments?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
+}
+
+function stacosys_load() {
+  var url = stacosys_get_url();
+  var xhr = stacosys_get_cors_request('GET', url);
   if (!xhr) {
     alert('CORS not supported');
     return;
@@ -29,9 +38,10 @@ function cosysload() {
   // Response handlers.
   xhr.onload = function() {
     var jsonResponse = JSON.parse(xhr.responseText);
-    var template = document.getElementById('template').innerHTML;
+    console.log(jsonResponse);
+    var template = document.getElementById('stacosys-template').innerHTML;
     var rendered = Mustache.render(template, jsonResponse);
-    document.getElementById('cosys-comments').innerHTML = rendered;
+    document.getElementById('stacosys-comments').innerHTML = rendered;
   };
 
   xhr.onerror = function() {
@@ -40,4 +50,4 @@ function cosysload() {
 
   xhr.send();
 }
-window.onload = cosysload;
+window.onload = stacosys_load;

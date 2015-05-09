@@ -39,7 +39,7 @@
 
     <!-- cosysnode dependencies -->
     <script src="js/mustache.js"></script>
-    <script src="js/cosysnode.js"></script>
+    <script src="js/stacosys.js"></script>
 </head>
 
 <body>
@@ -124,18 +124,18 @@ instance d'ici peu.</p>
     </form>
 </div>
 
-    <!-- comments container -->
-    <div id="cosys-comments">Chargement...</div>
-    <script id="template" type="x-tmpl-mustache">
-{{#comments}}
+    <!-- stacosys comments container -->
+    <div id="stacosys-comments">Chargement...</div>
+    <script id="stacosys-template" type="x-tmpl-mustache">
+{{#data}}
 <hr>
 <div class="inline">
-    <img src="http://www.gravatar.com/avatar/{{gravatar}}.jpg" style="float:left; margin-right:10px" height="32" width="32">
+    <img src="http://www.gravatar.com/avatar/{{avatar}}.jpg" style="float:left; margin-right:10px" height="32" width="32">
     <span class="title">{{author}}</span>
     <span> - {{date}}</span>
 </div>
-<p>{{preview}}</p>
-{{/comments}}
+<p>{{content}}</p>
+{{/data}}
     </script>
 
 <script type="text/javascript"><!--
