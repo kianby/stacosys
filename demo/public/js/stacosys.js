@@ -1,4 +1,3 @@
-// Released under Apache license
 // Copyright (c) 2015 Yannic ARNOUX
 
 // Create the XHR object.
@@ -18,53 +17,44 @@ function stacosys_get_cors_request(method, url) {
   return xhr;
 }
 
-function stacosys_count() {
+function stacosys_count(callback) {
+
   var url = STACOSYS_URL + '/comments/count?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
   var xhr = stacosys_get_cors_request('GET', url);
   if (!xhr) {
     console.log('CORS not supported');
-    return 0;
-  }
-
-  // Response handlers.
-  xhr.onload = function() {
-    var jsonResponse = JSON.parse(xhr.responseText);
-    var count = jsonResponse.count;
-    if (count > 0) {
-      if (count > 1) { 
-        document.getElementById('show-comment-label').innerHTML = 'Voir les ' + count + ' commentaires';
-      }
-      document.getElementById('show-comments-button').style.display = '';
-    }
-    return jsonResponse.count;
-  };
-
-  xhr.onerror = function() {
-    console.log('Woops, there was an error making the request.');
-    return 0;
-  };
-
-  xhr.send();
-}
-
-function stacosys_load() {
-  var url = STACOSYS_URL + '/comments?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
-
-  var xhr = stacosys_get_cors_request('GET', url);
-  if (!xhr) {
-    alert('CORS not supported');
+    callback(0);
     return;
   }
 
   // Response handlers.
   xhr.onload = function() {
     var jsonResponse = JSON.parse(xhr.responseText);
-    for (var i = 0, numTokens = jsonResponse.data.length; i < numTokens; ++i) {
-      jsonResponse.data[i].mdcontent = markdown.toHTML(jsonResponse.data[i].content);
-    }
-    var template = document.getElementById('stacosys-template').innerHTML;
-    var rendered = Mustache.render(template, jsonResponse);
-    document.getElementById('stacosys-comments').innerHTML = rendered;
+    var count = jsonResponse.count;
+    callback(count);
+  };
+
+  xhr.onerror = function() {
+    console.log('Woops, there was an error making the request.');
+    callback(0);
+  };
+
+  xhr.send();
+}
+
+function stacosys_load(callback) {
+
+  var url = STACOSYS_URL + '/comments?token=' + STACOSYS_TOKEN + '&url=' + STACOSYS_PAGE;
+  var xhr = stacosys_get_cors_request('GET', url);
+  if (!xhr) {
+    console.log('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var jsonResponse = JSON.parse(xhr.responseText);
+    callback(jsonResponse);
   };
 
   xhr.onerror = function() {
