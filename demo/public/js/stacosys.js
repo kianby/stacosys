@@ -38,7 +38,9 @@ function stacosys_load() {
   // Response handlers.
   xhr.onload = function() {
     var jsonResponse = JSON.parse(xhr.responseText);
-    console.log(jsonResponse);
+    for (var i = 0, numTokens = jsonResponse.data.length; i < numTokens; ++i) {
+      jsonResponse.data[i].mdcontent = markdown.toHTML(jsonResponse.data[i].content);
+    }
     var template = document.getElementById('stacosys-template').innerHTML;
     var rendered = Mustache.render(template, jsonResponse);
     document.getElementById('stacosys-comments').innerHTML = rendered;
