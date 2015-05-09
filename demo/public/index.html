@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Yax">
+    <title>Bilan 2014 de l'hébergement</title>
+
+    <!-- Les styles -->
+    <link rel="stylesheet" href="css/pure-0.css" type="text/css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="./theme/css/pure/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/grids-responsive-min.css">
+    <!--<![endif]-->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.css" type="text/css">
+
+    <!-- Le fav and touch icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://blogduyax.madyanne.fr/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://blogduyax.madyanne.fr/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://blogduyax.madyanne.fr/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="http://blogduyax.madyanne.fr/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="http://blogduyax.madyanne.fr/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="http://blogduyax.madyanne.fr/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="http://blogduyax.madyanne.fr/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="http://blogduyax.madyanne.fr/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="http://blogduyax.madyanne.fr/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="http://blogduyax.madyanne.fr/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="http://blogduyax.madyanne.fr/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="http://blogduyax.madyanne.fr/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://blogduyax.madyanne.fr/favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+
+    <script src="js/markdown.js"></script>
+
+    <!-- cosysnode dependencies -->
+    <script src="js/mustache.js"></script>
+    <script src="js/cosysnode.js"></script>
+</head>
+
+<body>
+
+    <div id="dic_bubble" class="selection_bubble fontSize13 noSelect" style="z-index: 9999; border: 1px solid rgb(74, 174, 222); visibility: hidden;"></div><div class="pure-g">
+        <div class="pure-u-1 l-box" id="banner">
+            Le blog du Yax&nbsp;<i class="fa fa-coffee"></i>
+            <p> GNU/Linux et autres libertés</p>
+        </div>
+    </div>
+    <p></p>
+
+    <div class="pure-g">
+        <div class="pure-u-lg-2-3 pure-u-1" id="content">
+            <div class="l-box">
+<section id="content">
+    <article>
+        <header>
+            <h2>
+                Bilan 2014 de l'hébergement
+            </h2>
+        </header>
+        <div>
+            <div class="well">
+<footer class="post-info">
+    <span class="label">Date</span>
+    Sat 20 December 2014
+
+    <span class="label">Tags</span>
+        <i class="icon-tag"></i>Hébergement
+</footer>            </div>
+            <p>Déjà une année que j'ai migré l'hébergement de mes services d'un serveur à la
+maison vers un hébergeur, en l'occurence OVH et son VPS Classic 2, sur un
+container OpenVz dédié.</p>
+<p>Les services hébergés sont à peu près les mêmes avec quelques nouveautés :</p>
+<ul>
+<li>ce blog statique et <a href="http://blogduyax.madyanne.fr/du-nouveau-sur-pecosys.html">son serveur de commentaires</a>,</li>
+<li>une instance de Shaarli pour les favoris <a href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">merci SEB Sauvage</a>,</li>
+<li>un lecteur de flux RSS : <a href="http://tt-rss.org/">Tiny Tiny RSS</a>,</li>
+<li>l'analyseur du trafic du blog : <a href="http://piwik.org/">Piwik</a>,</li>
+<li>mon cloud personnel <a href="http://owncloud.org/">ownCloud</a> auquel j'ai confié récemment le partage de quelques fichiers et de mon calendrier,</li>
+<li>l'interface Web de consultation des e-mails <a href="http://roundcube.net/">Roundcube</a> mais les e-mails restent chez Gandi.</li>
+</ul>
+<p>J'ai commencé à utilisé <a href="https://www.wallabag.org/">Wallabag</a> depuis quelques
+semaines, c'est la pièce qui me manquait dans mon processus de veille, entre le
+lien récupéré en vitesse et avant l'ajout du lien dans mes favoris Shaarli s'il
+en vaut la peine. Je l'utilise dans le cadre du projet
+<a href="https://www.framabag.org/">Framabag</a> mais je prévois d'installer ma propre
+instance d'ici peu.</p>
+        </div>
+	<div class="comment">
+<div id="submit-button">
+    <a class="button-success pure-button" href="javascript:showHide('comment-form',%20'submit-button');">Commenter</a>
+</div>
+
+<div id="comment-form" style="display:none">
+    <form class="pure-form" role="form" action="" onsubmit="this.action=get_action();" method="post">
+        <fieldset class="pure-group">
+            <input class="pure-u-1-2" id="author" name="author" placeholder="Nom ou Surnom *" required="" type="text">
+            <input class="pure-u-1-2" id="email" name="email" placeholder="Adresse email (non publié)" type="email">
+            <input class="pure-u-1-2" id="site" name="site" placeholder="Site Web" type="text">
+        </fieldset>
+        <fieldset class="pure-group">
+            <textarea id="message" class="pure-u-1-2" name="message" rows="4" placeholder="Votre commentaire * (texte simple ou Markdown)" required=""></textarea>
+            <div id="preview-container" style="display:none">
+                <p>Prévisualisation en <a href="http://daringfireball.net/projects/markdown/">Markdown</a> :</p>
+                <div id="preview" class="pure-u-1-2 preview-markdown"></div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <label for="subscribe" class="pure-checkbox">
+                <input name="subscribe" id="subscribe" type="checkbox">&nbsp;S'abonner aux commentaires de cet article (adresse email nécessaire)
+            </label>
+            <p><em>(Les champs obligatoires sont notés avec une *)</em></p>
+            <div id="onestpotes" style="display:none">
+                <input id="captcha" name="captcha" placeholder="Ne pas remplir si vous êtes humain" type="text">
+                <input name="article" id="article" value="972b3e0144e82a9496a2ab9a275e7368" type="hidden">
+            </div>
+        </fieldset>
+        <button onclick="preview_markdown(); return false" class="button-warning pure-button">Prévisualiser</button>
+        <button type="submit" class="button-success pure-button">Envoyer</button>
+    </form>
+</div>
+
+    <!-- comments container -->
+    <div id="cosys-comments">Chargement...</div>
+    <script id="template" type="x-tmpl-mustache">
+{{#comments}}
+<hr>
+<div class="inline">
+    <img src="http://www.gravatar.com/avatar/{{gravatar}}.jpg" style="float:left; margin-right:10px" height="32" width="32">
+    <span class="title">{{author}}</span>
+    <span> - {{date}}</span>
+</div>
+<p>{{preview}}</p>
+{{/comments}}
+    </script>
+
+<script type="text/javascript"><!--
+
+function showHide(panel_id, button_id){
+    if (document.getElementById(panel_id).style.display == 'none'){
+        document.getElementById(panel_id).style.display = '';
+        document.getElementById(button_id).style.display = 'none';
+    } else {
+        document.getElementById(panel_id).style.display = 'none';
+    }
+}
+
+function get_action() {
+  return '/post_a_new_comment';
+}
+
+function preview_markdown() {
+    if (document.getElementById('preview-container').style.display == 'none'){
+        document.getElementById('preview-container').style.display = '';
+    }
+    var $ = function (id) { return document.getElementById(id); };
+    new Editor($("message"), $("preview"));
+}
+
+function Editor(input, preview) {
+    this.update = function () {
+        preview.innerHTML = markdown.toHTML(input.value);
+    };
+    input.editor = this;
+    this.update();
+}
+
+--></script>        </div>
+   </article>
+</section>
+            </div>
+        </div>
+        <div class="pure-u-lg-1-3 pure-u-1" id="sidebar">
+            <div class="l-box">
+<div class="well" id="sidebar">
+    <p class="title"><i class="fa fa-user fa-lg"></i>L'auteur</p>
+    <p>Des articles autour de GNU/Linux par un programmeur fan de Logiciel Libre,
+        d'Open source et de standards ouverts.</p>
+    <p><img src="img/id-150.jpg"></p>
+   <p><a href="http://www.planet-libre.org/"><img src="img/planet-link.png"></a>
+    </p>
+    <p>
+    <a href="http://soutenir.framasoft.org/?pseudo=Yax&amp;web=http%3A%2F%2Fblogduyax.madyanne.fr" title="Je soutiens Framasoft, pourquoi pas vous ?"><img src="img/framasoft.png" alt="Soutenir Framasoft"></a>
+    </p>
+</div>            </div>
+        </div>
+    </div>
+
+    <div class="pure-g">
+        <div id="footer" class="pure-u-1 l-box">
+            <footer>
+                <address id="about">
+                    <i class="fa fa-truck"></i>
+                    Propulsé par <a href="http://pelican.notmyidea.org/">Pelican</a> et <a href="http://python.org/">Python</a>
+                    sur un thème basé sur <a href="http://purecss.io/">Pure</a>
+                    et <a href="http://fortawesome.github.io/Font-Awesome/">Font-Awesome</a>
+                </address>
+            </footer>
+        </div>
+    </div>
+
+
+
+</body></html>

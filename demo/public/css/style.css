@@ -1,0 +1,176 @@
+@font-face{
+    font-family: 'open_sansregular';
+    src: url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.eot');
+    src: url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.eot?iefix') format('eot'),
+         url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.svg#webfont') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, .pure-g [class *= "pure-u"], .pure-g-r [class *= "pure-u"] {
+    font-family: "open_sansregular";
+    //font-size: 14px;
+}
+
+h1, h2, h3 {
+    font-size: 33.75px;
+}
+
+a {
+    color: #045DB7;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+i { 
+    margin: 2px;
+}
+
+pre {
+    background-color: #F5F5F5;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px 4px 4px 4px;
+    display: block;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0 0 10.5px;
+    padding: 10px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+#banner {
+    background-color: #EEEEEE;
+    min-height: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#banner a {
+    color: #666666;
+}
+
+#banner a:hover, a:focus {
+    color: #0099DD;
+}
+
+#banner p { 
+    display:inline;
+    font-weight: normal;
+    margin: 0 9px;
+}
+
+.l-box {
+    padding: 1em;
+}
+
+.tag-1 {
+    font-size : 12pt;
+}
+
+.tag-2 {
+    font-size : 10pt;
+}
+
+.tag-3 {
+    font-size : 8pt;
+}
+
+.well {
+    background-color: #EEEEEE;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    margin-bottom: 20px;
+    min-height: 20px;
+    padding: 19px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+#sidebar i {
+    margin-right: 5px;
+}
+
+.nolist {
+    list-style: none outside none;
+    margin-left: 0;
+    padding-left: 15px;
+}
+
+.label {
+    background-color: #CCCCCC;
+    color: #FFFFFF;
+    font-weight: bold;
+    display: inline-block;
+    padding: 2px 4px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    vertical-align: baseline;
+    white-space: nowrap;
+    border-radius: 3px 3px 3px 3px;
+}
+
+.comment {
+    clear: both;
+    display: block;
+}
+
+.inline { 
+    display:inline;
+}
+
+#footer {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-top: 7px solid #000000;
+    clear: both;
+    color: #444444;
+    margin-top: 30px;
+    padding: 15px;
+}
+
+.divhidden {
+    left: -9999px;
+    position: relative;
+}
+
+.preview-markdown {
+   border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 1px dashed #000000;
+    background: none repeat scroll 0 0 #a0bbb6;
+    padding: 10px;
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
