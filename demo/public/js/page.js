@@ -1,3 +1,7 @@
+// --------------------------------------------------------------------------
+//  Common functions
+// --------------------------------------------------------------------------
+
 function show_hide(panel_id, button_id){
     if (document.getElementById(panel_id).style.display == 'none'){
         document.getElementById(panel_id).style.display = '';
@@ -5,6 +9,23 @@ function show_hide(panel_id, button_id){
     } else {
         document.getElementById(panel_id).style.display = 'none';
     }
+}
+
+// --------------------------------------------------------------------------
+//  Load and display page comments
+// --------------------------------------------------------------------------
+
+function initialize_comments() { 
+  stacosys_count(comments_initialized);
+}
+
+function comments_initialized(count) { 
+  if (count > 0) {
+    if (count > 1) { 
+      document.getElementById('show-comment-label').innerHTML = 'Voir les ' + count + ' commentaires';
+    }
+    document.getElementById('show-comments-button').style.display = '';
+  }
 }
 
 function show_comments() {
@@ -21,18 +42,20 @@ function comments_loaded(response) {
   document.getElementById('stacosys-comments').innerHTML = rendered;
 }
 
-function initialize_comments() { 
-  stacosys_count(comments_initialized);
+// --------------------------------------------------------------------------
+//  Submit a new comment
+// --------------------------------------------------------------------------
+
+function new_comment() {
+  var author = document.getElementById('author').value;
+  // TODO make CORS POST request
+  // and asynchronously redirect depending on result
+  console.log('SUBMIT ' + author);
 }
 
-function comments_initialized(count) { 
-  if (count > 0) {
-    if (count > 1) { 
-      document.getElementById('show-comment-label').innerHTML = 'Voir les ' + count + ' commentaires';
-    }
-    document.getElementById('show-comments-button').style.display = '';
-  }
-}
+// --------------------------------------------------------------------------
+//  Markdown preview
+// --------------------------------------------------------------------------
 
 function preview_markdown() {
     if (document.getElementById('preview-container').style.display == 'none'){
@@ -50,6 +73,4 @@ function Editor(input, preview) {
     this.update();
 }
 
-function get_action() {
-  return '/post_a_new_comment';
-}
+
