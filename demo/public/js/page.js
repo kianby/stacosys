@@ -48,9 +48,16 @@ function comments_loaded(response) {
 
 function new_comment() {
   var author = document.getElementById('author').value;
-  // TODO make CORS POST request
-  // and asynchronously redirect depending on result
-  console.log('SUBMIT ' + author);
+  var email = document.getElementById('email').value;
+  var site = document.getElementById('site').value;
+  var captcha = document.getElementById('captcha').value;
+  //var subscribe = document.getElementById('subscribe').value;
+  
+  stacosys_new(author, email, site, captcha, comment_submitted);
+}
+
+function comment_submitted(success) { 
+  console.log('SUBMITTED : ' + success);
 }
 
 // --------------------------------------------------------------------------
