@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from app import app
 from app.models.site import Site
 from app.models.comment import Comment
@@ -56,3 +56,51 @@ def get_comments_count():
         r = jsonify({'count': 0})
         r.status_code = 200
     return r
+
+
+@app.route("/comments", methods=['POST'])
+def new_comment():
+
+    logger.info("new comment !!!!")
+
+    try:
+        token = request.form['token']
+        site = Site.select().where(Site.token == token).get()
+
+        # FOR DEBUG
+        return "OK"
+
+        source_url = request.headers.get('referer', '')
+        url = app.config["pecosys"]["post"]["redirect_url"]
+
+        if app.config["pecosys"]["post"]["redirect_referer"]:
+            url = app.config["pecosys"]["post"]["redirect_url"] + '?referer=' + request.headers.get('referer', '')
+        else:
+            url = request.headers.get('referer', app.config["pecosys"]["post"]["redirect_url"])
+
+        # get form values and create comment file
+        author = request.form['author']
+        email = request.form['email']
+        site = request.form['site']
+        article = request.form['article']
+        message = request.form['message']
+        subscribe = False
+        if "subscribe" in request.form and request.form['subscribe'] == "on":
+            subscribe = True
+        # honeypot for spammers
+        captcha = ""
+        if "captcha" in request.form:
+            captcha = request.form['captcha']
+        if captcha:
+            logger.warn("discard spam: captcha %s author %s email %s site %s article %s message %s"
+                        % (captcha, author, email, site, article, message))
+        else:
+            req = {'type': 'comment', 'author': author, 'email': email, 'site': site, 'article': article,
+                   'message': message, 'url': source_url, 'subscribe': subscribe}
+            processor.enqueue(req)
+
+    except:
+        logger.exception("new comment failure")
+        abort(400)
+
+    return "OK"

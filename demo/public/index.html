@@ -90,13 +90,14 @@ en vaut la peine. Je l'utilise dans le cadre du projet
 <a href="https://www.framabag.org/">Framabag</a> mais je prévois d'installer ma propre
 instance d'ici peu.</p>
         </div>
-	<div class="comment">
+
+<div class="comment">
 <div id="submit-button">
     <a class="button-success pure-button" href="javascript:show_hide('comment-form','submit-button');">Commenter</a>
 </div>
 
 <div id="comment-form" style="display:none">
-    <form class="pure-form" role="form" action="" onsubmit="this.action=get_action();" method="post">
+    <form class="pure-form" role="form" action="" autocomplete="off" method="post">
         <fieldset class="pure-group">
             <input class="pure-u-1-2" id="author" name="author" placeholder="Nom ou Surnom *" required="" type="text">
             <input class="pure-u-1-2" id="email" name="email" placeholder="Adresse email (non publié)" type="email">
@@ -119,8 +120,8 @@ instance d'ici peu.</p>
                 <input name="article" id="article" value="972b3e0144e82a9496a2ab9a275e7368" type="hidden">
             </div>
         </fieldset>
-        <button onclick="preview_markdown(); return false" class="button-warning pure-button">Prévisualiser</button>
-        <button type="submit" class="button-success pure-button">Envoyer</button>
+        <button type="button" onclick="preview_markdown(); return false;" class="button-warning pure-button">Prévisualiser</button>
+        <button type="button" onclick="new_comment(); return false;" class="button-success pure-button">Envoyer</button>
     </form>
 </div>
 
