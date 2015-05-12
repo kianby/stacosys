@@ -16,23 +16,32 @@ function show_hide(panel_id, button_id){
 // --------------------------------------------------------------------------
 
 function initialize_comments() { 
-  stacosys_count(comments_initialized);
+  stacosys_get_count(init_success, init_failure);
 }
 
-function comments_initialized(count) { 
+function init_success(data) {
+  var response = JSON.parse(data);
+  var count = response.count;
   if (count > 0) {
     if (count > 1) { 
       document.getElementById('show-comment-label').innerHTML = 'Voir les ' + count + ' commentaires';
     }
     document.getElementById('show-comments-button').style.display = '';
   }
+  console.log('initialization success');
+}
+
+function init_failure(error) { 
+  // NOP
+  console.log('initialization failure');
 }
 
 function show_comments() {
-  stacosys_load(comments_loaded);
+  stacosys_load_comments(loading_success, loading_failure);
 }
 
-function comments_loaded(response) { 
+function loading_success(data) { 
+  var response = JSON.parse(data);
   for (var i = 0, numTokens = response.data.length; i < numTokens; ++i) {
     response.data[i].mdcontent = markdown.toHTML(response.data[i].content);
   }
@@ -40,6 +49,11 @@ function comments_loaded(response) {
   var template = document.getElementById('stacosys-template').innerHTML;
   var rendered = Mustache.render(template, response);
   document.getElementById('stacosys-comments').innerHTML = rendered;
+}
+
+function loading_failure(error) {
+  // NOP
+  console.log('loading failure');
 }
 
 // --------------------------------------------------------------------------
@@ -53,11 +67,17 @@ function new_comment() {
   var captcha = document.getElementById('captcha').value;
   //var subscribe = document.getElementById('subscribe').value;
   
-  stacosys_new(author, email, site, captcha, comment_submitted);
+  stacosys_new_comment(author, email, site, captcha, submit_success, submit_failure);
 }
 
-function comment_submitted(success) { 
-  console.log('SUBMITTED : ' + success);
+function submit_success(data) { 
+  console.log('submit ' + data);
+  // TODO redirect to redirect page with page as argument
+}
+
+function submit_failure(error) {
+  console.log('submit failure');
+  // TODO redirect to error page
 }
 
 // --------------------------------------------------------------------------

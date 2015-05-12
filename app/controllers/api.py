@@ -61,43 +61,35 @@ def get_comments_count():
 @app.route("/comments", methods=['POST'])
 def new_comment():
 
-    logger.info("new comment !!!!")
-
     try:
-        token = request.form['token']
+        data = request.get_json()
+        logger.info(data)
+
+        # validate token: retrieve site entity
+        token = data.get('token', '')
         site = Site.select().where(Site.token == token).get()
+        if site is None:
+            logger.warn('Unknown site %s' % token)
+            abort(400)
 
-        # FOR DEBUG
-        return "OK"
+        # get values
+        url = data.get('url', '')
+        author_name = data.get('author', '')
+        author_email = data.get('email', '')
+        author_site = data.get('site', '')
+        message = data.get('message', '')
+        subscribe = data.get('subscribe', '')
 
-        source_url = request.headers.get('referer', '')
-        url = app.config["pecosys"]["post"]["redirect_url"]
-
-        if app.config["pecosys"]["post"]["redirect_referer"]:
-            url = app.config["pecosys"]["post"]["redirect_url"] + '?referer=' + request.headers.get('referer', '')
-        else:
-            url = request.headers.get('referer', app.config["pecosys"]["post"]["redirect_url"])
-
-        # get form values and create comment file
-        author = request.form['author']
-        email = request.form['email']
-        site = request.form['site']
-        article = request.form['article']
-        message = request.form['message']
-        subscribe = False
-        if "subscribe" in request.form and request.form['subscribe'] == "on":
-            subscribe = True
         # honeypot for spammers
-        captcha = ""
-        if "captcha" in request.form:
-            captcha = request.form['captcha']
+        captcha = data.get('captcha', '')
         if captcha:
-            logger.warn("discard spam: captcha %s author %s email %s site %s article %s message %s"
-                        % (captcha, author, email, site, article, message))
+            logger.warn('discard spam: captcha %s author %s email %s site %s url  %s message %s'
+                          % (captcha, author_name, author_email, author_site, url, message))
         else:
-            req = {'type': 'comment', 'author': author, 'email': email, 'site': site, 'article': article,
-                   'message': message, 'url': source_url, 'subscribe': subscribe}
-            processor.enqueue(req)
+            # TODO push new comment to backend service
+            logger.info('process: captcha %s author %s email %s site %s url  %s message %s subscribe %s'
+                          % (captcha, author_name, author_email, author_site,
+                              url, message, subscribe))
 
     except:
         logger.exception("new comment failure")
