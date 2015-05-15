@@ -7,6 +7,7 @@ from app import app
 from app.models.site import Site
 from app.models.comment import Comment
 from app.helpers.hashing import md5
+from app.services import processor
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ def query_comments():
         logger.info('retrieve comments for token %s, url %s' % (token, url))
         for comment in Comment.select(Comment).join(Site).where(
                (Comment.url == url) &
+               (Comment.published.is_null(False)) &
                (Site.token == token)).order_by(+Comment.published):
             d = {}
             d['author'] = comment.author_name
@@ -49,6 +51,7 @@ def get_comments_count():
         url = request.args.get('url', '')
         count = Comment.select(Comment).join(Site).where(
                   (Comment.url == url) & 
+                  (Comment.published.is_null(False)) & 
                   (Site.token == token)).count()
         r = jsonify({'count': count})
         r.status_code = 200
@@ -72,24 +75,13 @@ def new_comment():
             logger.warn('Unknown site %s' % token)
             abort(400)
 
-        # get values
-        url = data.get('url', '')
-        author_name = data.get('author', '')
-        author_email = data.get('email', '')
-        author_site = data.get('site', '')
-        message = data.get('message', '')
-        subscribe = data.get('subscribe', '')
-
         # honeypot for spammers
         captcha = data.get('captcha', '')
         if captcha:
-            logger.warn('discard spam: captcha %s author %s email %s site %s url  %s message %s'
-                          % (captcha, author_name, author_email, author_site, url, message))
-        else:
-            # TODO push new comment to backend service
-            logger.info('process: captcha %s author %s email %s site %s url  %s message %s subscribe %s'
-                          % (captcha, author_name, author_email, author_site,
-                              url, message, subscribe))
+            logger.warn('discard spam: data %s' % data)
+            abort(400)
+
+        processor.enqueue({'request': 'new_comment', 'data': data})
 
     except:
         logger.exception("new comment failure")

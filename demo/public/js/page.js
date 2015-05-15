@@ -65,9 +65,10 @@ function new_comment() {
   var email = document.getElementById('email').value;
   var site = document.getElementById('site').value;
   var captcha = document.getElementById('captcha').value;
-  //var subscribe = document.getElementById('subscribe').value;
+  var subscribe = document.getElementById('subscribe').value;
+  var message = document.getElementById('message').value;
   
-  stacosys_new_comment(author, email, site, captcha, submit_success, submit_failure);
+  stacosys_new_comment(author, email, site, captcha, subscribe, message, submit_success, submit_failure);
 }
 
 function submit_success(data) { 

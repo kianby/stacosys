@@ -2,6 +2,8 @@
 
 DEBUG = True
 
+LANG = "en" 
+
 #DB_URL = "mysql://stacosys_user:stacosys_password@localhost:3306/stacosys"
 DB_URL = "sqlite:///db.sqlite"
 
