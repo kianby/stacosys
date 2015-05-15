@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Yax">
+    <title>Le blog du Yax</title>
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="theme/css/pure/pure-0.5.0-min.css" type="text/css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="theme/css/pure/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="theme/css/pure/grids-responsive-min.css">
+    <!--<![endif]-->    
+    <link rel="stylesheet" href="theme/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="theme/css/font-awesome.min.css" type="text/css" />
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="theme/img/favicon.png">
+
+</head>
+
+<body onload="display()">
+
+    <div class="pure-g">
+        <div class="pure-u-1 l-box" id="banner">
+            <a href="http://blogduyax.madyanne.fr">Le blog du Yax&nbsp;<i class="fa fa-coffee"></i></a>
+            <p>GNU/Linux et autres libertés</p>
+        </div>
+    </div>
+    <p></p>
+
+    <div class="pure-g">
+        <div class="pure-u-lg-2-3 pure-u-1" id="content">
+            <div class="l-box">
+                <p><strong>Le commentaire a été envoyé à l'administrateur du site.</strong></p> 
+                <a id="linkurl" href="#">Cliquez sur ce lien pour retourner à l'article.</a>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript"><!--
+
+function gup( name )
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return null;
+  else
+    return results[1];
+}
+
+function display() {
+  var referer_param = gup( 'referer' );
+  document.getElementById('linkurl').href = referer_param;
+}
+
+--></script>
+
+</body>
+</html>

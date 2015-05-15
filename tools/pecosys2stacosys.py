@@ -35,7 +35,12 @@ logger.addHandler(ch)
 # regex
 regex = re.compile(r"(\w+):\s*(.*)")
 
-def convert_comment(db, site, filename):
+def remove_from_string(line, start):
+    if line[:len(start)] == start:
+        line = line[len(start):].strip()
+    return line
+
+def convert_comment(db, site, root_url, filename):
     logger.info('convert %s' % filename)
     d = {}
     content = ''
@@ -62,10 +67,10 @@ def convert_comment(db, site, filename):
     if 'site' in d:
         comment.author_site = d['site'].strip()
     if 'url' in d:
-        if d['url'][:7] == 'http://':
-            comment.url = d['url'][7:].strip()
-        elif d['url'][:8] == 'https://':
-            comment.url = d['url'][8:].strip()
+        url = remove_from_string(d['url'], 'https://')
+        url = remove_from_string(url, 'http://')
+        url = remove_from_string(url, root_url)
+        comment.url = remove_from_string(url, '/')
     # else:
     #    comment.url = d['article']
     if 'date' in d:
@@ -94,7 +99,7 @@ def convert(db, site_name, url, comment_dir):
         for filename in files:
             if filename.endswith(('.md',)):
                 comment_file = '/'.join([dirpath, filename])
-                convert_comment(db, site, comment_file)
+                convert_comment(db, site, url, comment_file)
             else:
                 logger.warn('ignore file %s' % filename)
 

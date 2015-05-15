@@ -1,3 +1,4 @@
+chardet==2.3.0
 clize==2.4
 Flask==0.10.1
 Flask-Cors==2.0.1

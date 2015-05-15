@@ -7,10 +7,10 @@ import logging
 from werkzeug.contrib.fixers import ProxyFix
 from flask.ext.cors import CORS
 
-# add current and parent path to syspath
-currentPath = os.path.dirname(__file__)
-parentPath = os.path.abspath(os.path.join(currentPath, os.path.pardir))
-paths = [currentPath, parentPath]
+# add current path and parent path to syspath
+current_path = os.path.dirname(__file__)
+parent_path = os.path.abspath(os.path.join(current_path, os.path.pardir))
+paths = [current_path, parent_path]
 for path in paths:
     if path not in sys.path:
         sys.path.insert(0, path)
@@ -18,6 +18,7 @@ for path in paths:
 # more imports
 import config
 from app.services import database
+from app.services import processor
 from app.controllers import api
 from app import app
 
@@ -41,6 +42,10 @@ logger = logging.getLogger(__name__)
 
 # initialize database
 database.setup()
+
+# start processor 
+template_path = os.path.abspath(os.path.join(current_path, 'templates'))
+processor.start(template_path)
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
 

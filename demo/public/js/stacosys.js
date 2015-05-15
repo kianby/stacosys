@@ -57,7 +57,7 @@ function stacosys_load_comments(callback, errback) {
   xdr(url, 'GET', null, {}, callback, errback);
 }
 
-function stacosys_new_comment(author, email, site, captcha, callback, errback) {
+function stacosys_new_comment(author, email, site, captcha, subscribe, message, callback, errback) {
   var url = STACOSYS_URL + '/comments';
   var data = {
     'token': STACOSYS_TOKEN,
@@ -65,7 +65,9 @@ function stacosys_new_comment(author, email, site, captcha, callback, errback) {
     'author': author,
     'email': email,
     'site': site,
-    'captcha': captcha
+    'captcha': captcha,
+    'subscribe': subscribe,
+    'message': message
   };
   var header = {
     'Content-type': 'application/json'
