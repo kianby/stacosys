@@ -10,6 +10,7 @@ class Site(Model):
     name = CharField(unique=True)
     url = CharField()
     token = CharField()
+    admin_email = CharField()
 
     class Meta:
         database = get_db()

@@ -81,7 +81,7 @@ def convert_comment(db, site, root_url, filename):
 
 
 @provide_db
-def convert(db, site_name, url, comment_dir):
+def convert(db, site_name, url, admin_email, comment_dir):
 
     # create DB tables if needed
     db.create_tables([Site, Comment], safe=True)
@@ -93,7 +93,8 @@ def convert(db, site_name, url, comment_dir):
     except Site.DoesNotExist:
         pass
 
-    site = Site.create(name=site_name, url=url, token=salt(url))
+    site = Site.create(name=site_name, url=url, token=salt(url), 
+                       admin_email=admin_email)
 
     for dirpath, dirs, files in os.walk(comment_dir):
         for filename in files:
@@ -105,8 +106,8 @@ def convert(db, site_name, url, comment_dir):
 
 
 @clize
-def pecosys2stacosys(site, url, comment_dir):
-    convert(site, url, comment_dir)
+def pecosys2stacosys(site, url, admin_email, comment_dir):
+    convert(site, url, admin_email, comment_dir)
 
 
 if __name__ == '__main__':

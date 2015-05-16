@@ -10,6 +10,9 @@ import chardet
 from jinja2 import Environment, FileSystemLoader
 from app.models.site import Site
 from app.models.comment import Comment
+import requests
+import json
+import config
 
 
 logger = logging.getLogger(__name__)
@@ -28,59 +31,71 @@ class Processor(Thread):
 
         self.is_running = True
         while self.is_running:
-            msg = queue.get()
-            if msg['request'] == 'new_comment':
-                new_comment(msg['data'])
-            #elif msg['type'] == 'reply_comment_email':
-            #    reply_comment_email(req['From'], req['Subject'], req['Body'])
-            #elif req['type'] == 'unsubscribe':
-            #    unsubscribe_reader(req['email'], req['article'])
-            else:
-                logger.info("Dequeue unknown request " + str(msg))
+            try:
+                msg = queue.get()
+                if msg['request'] == 'new_comment':
+                    new_comment(msg['data'])
+                #elif msg['type'] == 'reply_comment_email':
+                #    reply_comment_email(req['From'], req['Subject'], req['Body'])
+                #elif req['type'] == 'unsubscribe':
+                #    unsubscribe_reader(req['email'], req['article'])
+                else:
+                    logger.info("throw unknown request " + str(msg))
+            except:
+                logger.exception("processing failure")
 
 
 def new_comment(data):
 
-    try:
-        token = data.get('token', '')
-        url = data.get('url', '')
-        author_name = data.get('author', '')
-        author_email = data.get('email', '')
-        author_site = data.get('site', '')
-        message = data.get('message', '')
-        subscribe = data.get('subscribe', '')
+    logger.info('new comment received: %s' % data)
 
-        # create a new comment row
-        site = Site.select().where(Site.token == token).get()
-        
-        logger.info('new comment received: %s' % data)
+    token = data.get('token', '')
+    url = data.get('url', '')
+    author_name = data.get('author', '')
+    author_email = data.get('email', '')
+    author_site = data.get('site', '')
+    message = data.get('message', '')
+    subscribe = data.get('subscribe', '')
 
-        if author_site and author_site[:4] != 'http':
-            author_site = 'http://' + author_site
+    # create a new comment row
+    site = Site.select().where(Site.token == token).get()
 
-        created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if author_site and author_site[:4] != 'http':
+        author_site = 'http://' + author_site
 
-        comment = Comment(site=site, url=url, author_name=author_name,
-                author_site=author_site, author_email=author_email,
-                content=message, created=created, published=None)
-        comment.save()
+    created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        1 / 0 
-        # Render email body template
-        email_body = get_template('new_comment').render(url=url, comment=comment)
+    # add a row to Comment table
+    comment = Comment(site=site, url=url, author_name=author_name,
+            author_site=author_site, author_email=author_email,
+            content=message, created=created, published=None)
+    comment.save()
 
-        # Send email
-        mail(pecosys.get_config('post', 'from_email'),
-             pecosys.get_config('post', 'to_email'),
-             '[' + branch_name + '-' + article + ']',  email_body)
+    # render email body template
+    comment_list = (
+        'author: %s' % author_name,
+        'email: %s' % author_email,
+        'site: %s' % author_site,
+        'date: %s' % created,
+        'url: %s' % url,
+        '',
+        '%s' % message,
+        ''
+    )
+    comment_text = '\n'.join(comment_list)
+    email_body = get_template('new_comment').render(url=url, comment=comment_text)
 
-        # Reader subscribes to further comments
-        if subscribe and email:
-            subscribe_reader(email, article, url)
+    # send email
+    # TODO subject should embed a key 
+    subject = '%s: %d' % (site.name, 1) 
+    mail(site.admin_email, subject, email_body)
 
-        logger.debug("new comment processed ")
-    except:
-        logger.exception("new_comment failure")
+    # TODO support subscription
+    # Reader subscribes to further comments
+    #if subscribe and email:
+    #    subscribe_reader(email, article, url)
+
+    logger.debug("new comment processed ")
 
 
 def reply_comment_email(from_email, subject, message):
@@ -184,31 +199,23 @@ def decode_best_effort(string):
         return string.decode(info['encoding'], errors='replace')
 
 
-def mail(from_email, to_email, subject, *messages):
+def mail(to_email, subject, message):
 
-    # Create the container (outer) email message.
-    msg = MIMEMultipart()
-    msg['Subject'] = subject
-    msg['From'] = from_email
-    msg['To'] = to_email
-    msg.preamble = subject
-
-    for message in messages:
-        part = MIMEText(message, 'plain')
-        msg.attach(part)
-
-    s = smtplib.SMTP(pecosys.get_config('smtp', 'host'),
-                     pecosys.get_config('smtp', 'port'))
-    if(pecosys.get_config('smtp', 'starttls')):
-        s.starttls()
-    s.login(pecosys.get_config('smtp', 'login'),
-            pecosys.get_config('smtp', 'password'))
-    s.sendmail(from_email, to_email, msg.as_string())
-    s.quit()
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    msg = {
+        'to': to_email,
+        'subject': subject,
+        'content': message
+    }
+    r = requests.post(config.MAIL_URL, data=json.dumps(msg), headers=headers)
+    if r.status_code in (200, 201):
+        logger.debug('Email for %s posted' % to_email)
+    else:
+        logger.warn('Cannot post email for %s' % to_email)
 
 
 def get_template(name):
-    return env.get_template(pecosys.get_config('global', 'lang') + '/' + name + '.tpl')
+    return env.get_template(config.LANG + '/' + name + '.tpl')
 
 
 def enqueue(something):
