@@ -36,7 +36,7 @@ class Processor(Thread):
             #elif req['type'] == 'unsubscribe':
             #    unsubscribe_reader(req['email'], req['article'])
             else:
-                logger.info("Dequeue unknown request " + msg)
+                logger.info("Dequeue unknown request " + str(msg))
 
 
 def new_comment(data):
