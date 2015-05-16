@@ -35,8 +35,8 @@ class Processor(Thread):
                 msg = queue.get()
                 if msg['request'] == 'new_comment':
                     new_comment(msg['data'])
-                #elif msg['type'] == 'reply_comment_email':
-                #    reply_comment_email(req['From'], req['Subject'], req['Body'])
+                elif msg['request'] == 'new_mail':
+                    reply_comment_email(msg['data'])
                 #elif req['type'] == 'unsubscribe':
                 #    unsubscribe_reader(req['email'], req['article'])
                 else:
@@ -87,7 +87,7 @@ def new_comment(data):
 
     # send email
     # TODO subject should embed a key 
-    subject = '%s: [%d]' % (site.name, comment.id)
+    subject = '%s: [%s:%d]' % (site.name, token, comment.id)
     mail(site.admin_email, subject, email_body)
 
     # TODO support subscription
@@ -98,50 +98,57 @@ def new_comment(data):
     logger.debug("new comment processed ")
 
 
-def reply_comment_email(from_email, subject, message):
-    try:
-        m = re.search('\[(\d+)\-(\w+)\]', subject)
-        branch_name = m.group(1)
-        article = m.group(2)
+def reply_comment_email(data):
 
-        message = decode_best_effort(message)
+    email_address = data['from']
+    subject = data['subject']
+    message = ''
+    for part in data['parts']:
+        if part['content-type'] == 'text/plain':
+            message = part['content']
+            break
 
-        # safe logic: no answer or unknown answer is a go for publishing
-        if message[:2].upper() == 'NO':
-            logger.info('discard comment: %s' % branch_name)
-            email_body = get_template('drop_comment').render(original=message)
-            mail(pecosys.get_config('post', 'from_email'),
-                 pecosys.get_config('post', 'to_email'),
-                 'Re: ' + subject, email_body)
-        else:
-            if pecosys.get_config("git", "disabled"):
-                logger.debug("GIT usage disabled (debug mode)")
-            else:
-                git.merge(branch_name)
-                if pecosys.get_config("git", "remote"):
-                    git.push()
-                logger.info('commit comment: %s' % branch_name)
+    m = re.search('\[(\w+)\:(\d+)\]', subject)
+    token = m.group(1)
+    comment_id = int(m.group(2))
 
-            # send approval confirmation email to admin
-            email_body = get_template('approve_comment').render(original=message)
-            mail(pecosys.get_config('post', 'from_email'),
-                 pecosys.get_config('post', 'to_email'),
-                 'Re: ' + subject, email_body)
+    # retrieve site and comment rows
+    comment = Comment.select().where(Comment.id == comment_id).get()
+    if comment.site.token != token:
+        logger.warn('ignore corrupted email')
+        return
 
-            # notify reader once comment is published
-            reader_email, article_url = get_email_metadata(message)
-            if reader_email:
-                notify_reader(reader_email, article_url)
+    # TODO validate chardet decoding is no more needed
+    #message = decode_best_effort(message)
+    if not message:
+        logger.warn('ignore empty email')
+        return
 
-            # notify subscribers every time a new comment is published
-            notify_subscribers(article)
+    # safe logic: no answer or unknown answer is a go for publishing
+    if message[:2].upper() == 'NO':
+        logger.info('discard comment: %d' % comment_id)
+        comment.delete_instance()
+        email_body = get_template('drop_comment').render(original=message)
+        mail(email_address, 'Re: ' + subject, email_body)
+    else:
+        # update Comment row 
+        comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        comment.save()
 
-        if pecosys.get_config("git", "disabled"):
-            logger.debug("GIT usage disabled (debug mode)")
-        else:
-            git.branch("-D", branch_name)
-    except:
-        logger.exception("new email failure")
+        logger.info('commit comment: %d' % comment_id)
+
+        # send approval confirmation email to admin
+        email_body = get_template('approve_comment').render(original=message)
+        mail(email_address, 'Re: ' + subject, email_body)
+
+        # TODO manage subscriptions
+        # notify reader once comment is published
+        #reader_email, article_url = get_email_metadata(message)
+        #if reader_email:
+        #    notify_reader(reader_email, article_url)
+
+        # notify subscribers every time a new comment is published
+        #notify_subscribers(article)
 
 
 def get_email_metadata(message):
