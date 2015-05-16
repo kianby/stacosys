@@ -20,6 +20,7 @@ import config
 from app.services import database
 from app.services import processor
 from app.controllers import api
+from app.controllers import mail
 from app import app
 
 # configure logging
