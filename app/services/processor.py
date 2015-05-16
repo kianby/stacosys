@@ -87,7 +87,7 @@ def new_comment(data):
 
     # send email
     # TODO subject should embed a key 
-    subject = '%s: %d' % (site.name, 1) 
+    subject = '%s: [%d]' % (site.name, comment.id)
     mail(site.admin_email, subject, email_body)
 
     # TODO support subscription
