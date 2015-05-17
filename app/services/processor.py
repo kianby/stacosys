@@ -87,7 +87,7 @@ def new_comment(data):
 
     # send email
     # TODO subject should embed a key 
-    subject = '%s: [%s:%d]' % (site.name, token, comment.id)
+    subject = '%s: [%d:%s]' % (site.name, comment.id, token)
     mail(site.admin_email, subject, email_body)
 
     # TODO support subscription
@@ -108,9 +108,9 @@ def reply_comment_email(data):
             message = part['content']
             break
 
-    m = re.search('\[(\w+)\:(\d+)\]', subject)
-    token = m.group(1)
-    comment_id = int(m.group(2))
+    m = re.search('\[(\d+)\:(\w+)\]', subject)
+    comment_id = int(m.group(1))
+    token = m.group(2)
 
     # retrieve site and comment rows
     comment = Comment.select().where(Comment.id == comment_id).get()
