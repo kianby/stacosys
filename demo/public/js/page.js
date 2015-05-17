@@ -73,7 +73,7 @@ function new_comment() {
 
 function submit_success(data) { 
   console.log('submit ' + data);
-  // TODO redirect to redirect page with page as argument
+  window.location="redirect.html?p=" + STACOSYS_PAGE;
 }
 
 function submit_failure(error) {
