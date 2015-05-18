@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from flask import request, jsonify, abort
+from flask import request, abort
 from app import app
 from app.services import processor
 

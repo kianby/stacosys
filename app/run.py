@@ -23,6 +23,7 @@ from app.controllers import api
 from app.controllers import mail
 from app import app
 
+
 # configure logging
 def configure_logging(level):
     root_logger = logging.getLogger()
@@ -30,7 +31,8 @@ def configure_logging(level):
     ch = logging.StreamHandler()
     ch.setLevel(level)
     # create formatter
-    formatter = logging.Formatter('[%(asctime)s] %(name)s %(levelname)s %(message)s')
+    formatter = logging.Formatter(
+        '[%(asctime)s] %(name)s %(levelname)s %(message)s')
     # add formatter to ch
     ch.setFormatter(formatter)
     # add ch to logger
@@ -44,7 +46,11 @@ logger = logging.getLogger(__name__)
 # initialize database
 database.setup()
 
-# start processor 
+# routes
+logger.debug('imported: %s ' % api.__name__)
+logger.debug('imported: %s ' % mail.__name__)
+
+# start processor
 template_path = os.path.abspath(os.path.join(current_path, 'templates'))
 processor.start(template_path)
 

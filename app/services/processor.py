@@ -6,7 +6,6 @@ import re
 from datetime import datetime
 from threading import Thread
 from queue import Queue
-import chardet
 from jinja2 import Environment, FileSystemLoader
 from app.models.site import Site
 from app.models.comment import Comment
@@ -37,7 +36,7 @@ class Processor(Thread):
                     new_comment(msg['data'])
                 elif msg['request'] == 'new_mail':
                     reply_comment_email(msg['data'])
-                #elif req['type'] == 'unsubscribe':
+                # elif req['type'] == 'unsubscribe':
                 #    unsubscribe_reader(req['email'], req['article'])
                 else:
                     logger.info("throw unknown request " + str(msg))
@@ -67,8 +66,8 @@ def new_comment(data):
 
     # add a row to Comment table
     comment = Comment(site=site, url=url, author_name=author_name,
-            author_site=author_site, author_email=author_email,
-            content=message, created=created, published=None)
+                      author_site=author_site, author_email=author_email,
+                      content=message, created=created, published=None)
     comment.save()
 
     # render email body template
@@ -83,17 +82,18 @@ def new_comment(data):
         ''
     )
     comment_text = '\n'.join(comment_list)
-    email_body = get_template('new_comment').render(url=url, comment=comment_text)
+    email_body = get_template('new_comment').render(
+        url=url, comment=comment_text)
 
     # send email
-    # TODO subject should embed a key 
     subject = '%s: [%d:%s]' % (site.name, comment.id, token)
     mail(site.admin_email, subject, email_body)
 
-    # TODO support subscription
     # Reader subscribes to further comments
-    #if subscribe and email:
-    #    subscribe_reader(email, article, url)
+    if subscribe and author_email:
+        # TODO support subscription
+        #  subscribe_reader(email, article, url)
+        pass
 
     logger.debug("new comment processed ")
 
@@ -118,8 +118,6 @@ def reply_comment_email(data):
         logger.warn('ignore corrupted email')
         return
 
-    # TODO validate chardet decoding is no more needed
-    #message = decode_best_effort(message)
     if not message:
         logger.warn('ignore empty email')
         return
@@ -131,7 +129,7 @@ def reply_comment_email(data):
         email_body = get_template('drop_comment').render(original=message)
         mail(email_address, 'Re: ' + subject, email_body)
     else:
-        # update Comment row 
+        # update Comment row
         comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         comment.save()
 
@@ -143,12 +141,12 @@ def reply_comment_email(data):
 
         # TODO manage subscriptions
         # notify reader once comment is published
-        #reader_email, article_url = get_email_metadata(message)
-        #if reader_email:
+        # reader_email, article_url = get_email_metadata(message)
+        # if reader_email:
         #    notify_reader(reader_email, article_url)
 
         # notify subscribers every time a new comment is published
-        #notify_subscribers(article)
+        # notify_subscribers(article)
 
 
 def get_email_metadata(message):
@@ -196,14 +194,6 @@ def notify_reader(email, url):
     email_body = get_template('notify_reader').render(article_url=url)
     subject = get_template('notify_message').render()
     mail(pecosys.get_config('subscription', 'from_email'), email, subject, email_body)
-
-
-def decode_best_effort(string):
-    info = chardet.detect(string)
-    if info['confidence'] < 0.5:
-        return string.decode('utf8', errors='replace')
-    else:
-        return string.decode(info['encoding'], errors='replace')
 
 
 def mail(to_email, subject, message):

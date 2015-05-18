@@ -4,7 +4,7 @@ DEBUG = True
 
 LANG = "fr"
 
-#DB_URL = "mysql://stacosys_user:stacosys_password@localhost:3306/stacosys"
+# DB_URL = "mysql://stacosys_user:stacosys_password@localhost:3306/stacosys"
 DB_URL = "sqlite:///db.sqlite"
 
 MAIL_URL = "http://localhost:8025/mbox"
