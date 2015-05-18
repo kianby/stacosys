@@ -22,9 +22,9 @@ def query_comments():
 
         logger.info('retrieve comments for token %s, url %s' % (token, url))
         for comment in Comment.select(Comment).join(Site).where(
-               (Comment.url == url) &
-               (Comment.published.is_null(False)) &
-               (Site.token == token)).order_by(+Comment.published):
+                (Comment.url == url) &
+                (Comment.published.is_null(False)) &
+                (Site.token == token)).order_by(+Comment.published):
             d = {}
             d['author'] = comment.author_name
             d['content'] = comment.content
@@ -50,9 +50,9 @@ def get_comments_count():
         token = request.args.get('token', '')
         url = request.args.get('url', '')
         count = Comment.select(Comment).join(Site).where(
-                  (Comment.url == url) & 
-                  (Comment.published.is_null(False)) & 
-                  (Site.token == token)).count()
+            (Comment.url == url) &
+            (Comment.published.is_null(False)) &
+            (Site.token == token)).count()
         r = jsonify({'count': count})
         r.status_code = 200
     except:

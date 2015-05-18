@@ -13,7 +13,7 @@ from app.services.database import get_db
 class Comment(Model):
     url = CharField()
     created = DateTimeField()
-    published = DateTimeField(null=True,default=None)
+    published = DateTimeField(null=True, default=None)
     author_name = CharField()
     author_email = CharField(default='')
     author_site = CharField(default='')
