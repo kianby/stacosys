@@ -13,3 +13,5 @@ HTTP_ADDRESS = "0.0.0.0"
 HTTP_PORT = 8000
 
 SALT = "BRRJRqXgGpXWrgTidBPcixIThHpDuKc0"
+
+UNSUBSCRIBE_URL = 'http://localhost:8000/unsubscribe'
