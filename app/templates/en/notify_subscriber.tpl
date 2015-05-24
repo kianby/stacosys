@@ -9,5 +9,5 @@ You can unsubscribe at any time using this link:
    {{ unsubscribe_url }}
 
 --
-Pecosys
+Stacosys
 

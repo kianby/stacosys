@@ -13,4 +13,4 @@ Voici les détails concernant le commentaire :
 {{ comment }}
 
 --
-Pecosys
+Stacosys
