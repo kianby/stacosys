@@ -21,6 +21,7 @@ from app.services import database
 from app.services import processor
 from app.controllers import api
 from app.controllers import mail
+from app.controllers import reader
 from app import app
 
 
@@ -49,6 +50,7 @@ database.setup()
 # routes
 logger.debug('imported: %s ' % api.__name__)
 logger.debug('imported: %s ' % mail.__name__)
+logger.debug('imported: %s ' % reader.__name__)
 
 # start processor
 template_path = os.path.abspath(os.path.join(current_path, 'templates'))

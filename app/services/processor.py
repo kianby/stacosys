@@ -9,6 +9,7 @@ from queue import Queue
 from jinja2 import Environment, FileSystemLoader
 from app.models.site import Site
 from app.models.comment import Comment
+from app.models.reader import Reader
 import requests
 import json
 import config
@@ -36,8 +37,8 @@ class Processor(Thread):
                     new_comment(msg['data'])
                 elif msg['request'] == 'new_mail':
                     reply_comment_email(msg['data'])
-                # elif req['type'] == 'unsubscribe':
-                #    unsubscribe_reader(req['email'], req['article'])
+                elif msg['request'] == 'unsubscribe':
+                    unsubscribe_reader(msg['data'])
                 else:
                     logger.info("throw unknown request " + str(msg))
             except:
@@ -91,16 +92,14 @@ def new_comment(data):
 
     # Reader subscribes to further comments
     if subscribe and author_email:
-        # TODO support subscription
-        #  subscribe_reader(email, article, url)
-        pass
+        subscribe_reader(author_email, token, url)
 
     logger.debug("new comment processed ")
 
 
 def reply_comment_email(data):
 
-    email_address = data['from']
+    from_email = data['from']
     subject = data['subject']
     message = ''
     for part in data['parts']:
@@ -127,7 +126,7 @@ def reply_comment_email(data):
         logger.info('discard comment: %d' % comment_id)
         comment.delete_instance()
         email_body = get_template('drop_comment').render(original=message)
-        mail(email_address, 'Re: ' + subject, email_body)
+        mail(from_email, 'Re: ' + subject, email_body)
     else:
         # update Comment row
         comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -137,63 +136,71 @@ def reply_comment_email(data):
 
         # send approval confirmation email to admin
         email_body = get_template('approve_comment').render(original=message)
-        mail(email_address, 'Re: ' + subject, email_body)
+        mail(from_email, 'Re: ' + subject, email_body)
 
-        # TODO manage subscriptions
         # notify reader once comment is published
-        # reader_email, article_url = get_email_metadata(message)
-        # if reader_email:
-        #    notify_reader(reader_email, article_url)
+        reader_email = get_email_metadata(message)
+        if reader_email:
+            notify_reader(from_email, reader_email, comment.site.token,
+                          comment.url)
 
         # notify subscribers every time a new comment is published
-        # notify_subscribers(article)
+        notify_subscribed_readers(comment.site.token, comment.url)
 
 
 def get_email_metadata(message):
-    # retrieve metadata reader email and URL from email body sent by admin
+    # retrieve metadata reader email from email body sent by admin
     email = ""
-    url = ""
     m = re.search('email:\s(.+@.+\..+)', message)
     if m:
         email = m.group(1)
-
-    m = re.search('url:\s(.+)', message)
-    if m:
-        url = m.group(1)
-    return (email, url)
+    return email
 
 
-def subscribe_reader(email, article, url):
-    logger.info("subscribe reader %s to %s (%s)" % (email, article, url))
-    db = TinyDB(pecosys.get_config('global', 'cwd') + '/db.json')
-    db.insert({'email': email, 'article': article, 'url': url})
+def subscribe_reader(email, token, url):
+    logger.info('subscribe reader %s to %s [%s]' % (email, url, token))
+    recorded = Reader.select().join(Site).where(Site.token == token,
+                                                Reader.email == email,
+                                                Reader.url == url).count()
+    if recorded:
+        logger.debug('reader %s is already recorded' % email)
+    else:
+        site = Site.select().where(Site.token == token).get()
+        reader = Reader(site=site, email=email, url=url)
+        reader.save()
 
 
-def unsubscribe_reader(email, article):
-    logger.info("unsubscribe reader %s from %s" % (email, article))
-    db = TinyDB(pecosys.get_config('global', 'cwd') + '/db.json')
-    db.remove((where('email') == email) & (where('article') == article))
+def unsubscribe_reader(data):
+    token = data.get('token', '')
+    url = data.get('url', '')
+    email = data.get('email', '')
+    logger.info('unsubscribe reader %s from %s (%s)' % (email, url, token))
+    for reader in Reader.select().join(Site).where(Site.token == token,
+                                                   Reader.email == email,
+                                                   Reader.url == url):
+        reader.delete_instance()
 
 
-def notify_subscribers(article):
-    logger.info('notify subscribers for article %s' % article)
-    db = TinyDB(pecosys.get_config('global', 'cwd') + '/db.json')
-    for item in db.search(where('article') == article):
-        logger.info(item)
-        to_email = item['email']
-        logger.info("notify reader %s for article %s" % (to_email, article))
-        unsubscribe_url = pecosys.get_config('subscription', 'url') + '?email=' + to_email + '&article=' + article
-        email_body = get_template('notify_subscriber').render(article_url=item['url'],
-                                                              unsubscribe_url=unsubscribe_url)
+def notify_subscribed_readers(token, url):
+    logger.info('notify subscribers for %s (%s)' % (url, token))
+    for reader in Reader.select().join(Site).where(Site.token == token,
+                                                   Reader.url == url):
+        to_email = reader.email
+        logger.info('notify reader %s' % to_email)
+        unsubscribe_url = '%s?email=%s&token=%s&url=%s' % (
+                          config.UNSUBSCRIBE_URL, to_email, token, reader.url)
+        email_body = get_template(
+            'notify_subscriber').render(article_url=reader.url,
+                                        unsubscribe_url=unsubscribe_url)
         subject = get_template('notify_message').render()
-        mail(pecosys.get_config('subscription', 'from_email'), to_email, subject, email_body)
+        mail(to_email, subject, email_body)
 
 
-def notify_reader(email, url):
-    logger.info('notify reader: email %s about URL %s' % (email, url))
+def notify_reader(from_email, to_email, token, url):
+    logger.info('notify reader: email %s about URL %s' % (to_email, url))
     email_body = get_template('notify_reader').render(article_url=url)
     subject = get_template('notify_message').render()
-    mail(pecosys.get_config('subscription', 'from_email'), email, subject, email_body)
+    mail(to_email, subject, email_body)
 
 
 def mail(to_email, subject, message):

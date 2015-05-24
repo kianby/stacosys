@@ -14,7 +14,7 @@ def new_mail():
 
     try:
         data = request.get_json()
-        logger.info(data)
+        logger.debug(data)
 
         processor.enqueue({'request': 'new_mail', 'data': data})
 
