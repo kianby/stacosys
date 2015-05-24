@@ -9,5 +9,5 @@ Vous pouvez vous désinscrire à tout moment en suivant ce lien :
    {{ unsubscribe_url }}
 
 --
-Pecosys
+Stacosys
 
