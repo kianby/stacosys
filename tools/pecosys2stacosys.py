@@ -69,8 +69,8 @@ def convert_comment(db, site, root_url, filename):
     if 'url' in d:
         url = remove_from_string(d['url'], 'https://')
         url = remove_from_string(url, 'http://')
-        url = remove_from_string(url, root_url)
-        comment.url = remove_from_string(url, '/')
+        comment.url = remove_from_string(url, root_url)
+        # comment.url = remove_from_string(url, '/')
     # else:
     #    comment.url = d['article']
     if 'date' in d:
