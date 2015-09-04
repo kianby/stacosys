@@ -91,7 +91,7 @@ def new_comment(data):
     mail(site.admin_email, subject, email_body)
 
     # Reader subscribes to further comments
-    if subscribe = 'true' and author_email:
+    if subscribe == 'true' and author_email:
         subscribe_reader(author_email, token, url)
 
     logger.debug("new comment processed ")
