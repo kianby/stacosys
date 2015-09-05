@@ -51,9 +51,9 @@ def new_comment(data):
 
     token = data.get('token', '')
     url = data.get('url', '')
-    author_name = data.get('author', '')
-    author_email = data.get('email', '')
-    author_site = data.get('site', '')
+    author_name = data.get('author', '').strip()
+    author_email = data.get('email', '').strip()
+    author_site = data.get('site', '').strip()
     message = data.get('message', '')
     subscribe = data.get('subscribe', '')
 
