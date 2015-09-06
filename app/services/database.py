@@ -24,5 +24,6 @@ def setup(db):
     from app.models.site import Site
     from app.models.comment import Comment
     from app.models.reader import Reader
+    from app.models.report import Report
 
-    db.create_tables([Site, Comment, Reader], safe=True)
+    db.create_tables([Site, Comment, Reader, Report], safe=True)

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import config
 from flask import request, jsonify, abort
 from app import app
 from app.models.site import Site
@@ -86,5 +87,30 @@ def new_comment():
     except:
         logger.exception("new comment failure")
         abort(400)
+
+    return "OK"
+
+
+@app.route("/report", methods=['GET'])
+def report():
+
+    try:
+        token = request.args.get('token', '')
+        secret = request.args.get('secret', '')
+
+        if secret != config.SECRET:
+            logger.warn('Unauthorized request')
+            abort(401)
+
+        site = Site.select().where(Site.token == token).get()
+        if site is None:
+            logger.warn('Unknown site %s' % token)
+            abort(404)
+
+        processor.enqueue({'request': 'report', 'data': token})
+
+    except:
+        logger.exception("report failure")
+        abort(500)
 
     return "OK"

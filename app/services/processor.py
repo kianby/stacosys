@@ -39,6 +39,8 @@ class Processor(Thread):
                     reply_comment_email(msg['data'])
                 elif msg['request'] == 'unsubscribe':
                     unsubscribe_reader(msg['data'])
+                elif msg['request'] == 'report':
+                    report(msg['data'])
                 else:
                     logger.info("throw unknown request " + str(msg))
             except:
@@ -123,11 +125,17 @@ def reply_comment_email(data):
 
     # safe logic: no answer or unknown answer is a go for publishing
     if message[:2].upper() == 'NO':
+        # report event
+        report_rejected(comment)
+
         logger.info('discard comment: %d' % comment_id)
         comment.delete_instance()
         email_body = get_template('drop_comment').render(original=message)
         mail(from_email, 'Re: ' + subject, email_body)
     else:
+        # report event
+        report_published(comment)
+
         # update Comment row
         comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         comment.save()
@@ -169,6 +177,9 @@ def subscribe_reader(email, token, url):
         reader = Reader(site=site, email=email, url=url)
         reader.save()
 
+        # report event
+        report_subscribed(reader)
+
 
 def unsubscribe_reader(data):
     token = data.get('token', '')
@@ -178,6 +189,9 @@ def unsubscribe_reader(data):
     for reader in Reader.select().join(Site).where(Site.token == token,
                                                    Reader.email == email,
                                                    Reader.url == url):
+        # report event
+        report_unsubscribed(reader)
+
         reader.delete_instance()
 
 
@@ -201,6 +215,29 @@ def notify_reader(from_email, to_email, token, url):
     email_body = get_template('notify_reader').render(article_url=url)
     subject = get_template('notify_message').render()
     mail(to_email, subject, email_body)
+
+
+def report_rejected(comment):
+    pass
+
+
+def report_published(comment):
+    pass
+
+
+def report_subscribed(comment):
+    pass
+
+
+def report_unsubscribed(comment):
+    pass
+
+
+def report(token):
+    print('report requested for {}'.format(token))
+    standby_count = Comment.select().join(Site).where(
+        Site.token == token, Comment.published.is_null(True)).count()
+    print('standby {}'.format(standby_count))
 
 
 def mail(to_email, subject, message):
