@@ -9,7 +9,7 @@ from app.services.database import get_db
 from app.models.site import Site
 
 class Report(Model):
-    name = CharField(unique=True)
+    name = CharField()
     email = CharField()
     url = CharField()
     published = BooleanField(default=False)
