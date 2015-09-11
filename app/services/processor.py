@@ -154,7 +154,7 @@ def reply_comment_email(data):
                           comment.url)
 
         # notify subscribers every time a new comment is published
-        notify_subscribed_readers(comment.site.token, comment.url)
+        notify_subscribed_readers(comment.site.token, comment.site.url, comment.url)
 
 
 def get_email_metadata(message):
@@ -196,8 +196,9 @@ def unsubscribe_reader(data):
         reader.delete_instance()
 
 
-def notify_subscribed_readers(token, url):
+def notify_subscribed_readers(token, site_url, url):
     logger.info('notify subscribers for %s (%s)' % (url, token))
+    article_url = "http://" + site_url + url
     for reader in Reader.select().join(Site).where(Site.token == token,
                                                    Reader.url == url):
         to_email = reader.email
@@ -205,15 +206,16 @@ def notify_subscribed_readers(token, url):
         unsubscribe_url = '%s?email=%s&token=%s&url=%s' % (
                           config.UNSUBSCRIBE_URL, to_email, token, reader.url)
         email_body = get_template(
-            'notify_subscriber').render(article_url=reader.url,
+            'notify_subscriber').render(article_url=article_url,
                                         unsubscribe_url=unsubscribe_url)
         subject = get_template('notify_message').render()
         mail(to_email, subject, email_body)
 
 
-def notify_reader(from_email, to_email, token, url):
+def notify_reader(from_email, to_email, token, site_url, url):
     logger.info('notify reader: email %s about URL %s' % (to_email, url))
-    email_body = get_template('notify_reader').render(article_url=url)
+    article_url = "http://" + site_url + url
+    email_body = get_template('notify_reader').render(article_url=article_url)
     subject = get_template('notify_message').render()
     mail(to_email, subject, email_body)
 
