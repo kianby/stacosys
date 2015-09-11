@@ -153,10 +153,11 @@ def reply_comment_email(data):
         reader_email = get_email_metadata(message)
         if reader_email:
             notify_reader(from_email, reader_email, comment.site.token,
-                          comment.url)
+                          comment.site.url, comment.url)
 
         # notify subscribers every time a new comment is published
-        notify_subscribed_readers(comment.site.token, comment.site.url, comment.url)
+        notify_subscribed_readers(
+            comment.site.token, comment.site.url, comment.url)
 
 
 def get_email_metadata(message):
