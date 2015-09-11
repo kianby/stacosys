@@ -74,6 +74,8 @@ def new_comment(data):
                       content=message, created=created, published=None)
     comment.save()
 
+    article_url = = "http://" + site.url + url
+
     # render email body template
     comment_list = (
         'author: %s' % author_name,
@@ -87,7 +89,7 @@ def new_comment(data):
     )
     comment_text = '\n'.join(comment_list)
     email_body = get_template('new_comment').render(
-        url=url, comment=comment_text)
+        url=article_url, comment=comment_text)
 
     # send email
     subject = '%s: [%d:%s]' % (site.name, comment.id, token)
