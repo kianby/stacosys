@@ -1,0 +1,1 @@
+Rapport d'activité : {{ site }}

@@ -10,6 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 from app.models.site import Site
 from app.models.comment import Comment
 from app.models.reader import Reader
+from app.models.report import Report
 import requests
 import json
 import config
@@ -218,26 +219,52 @@ def notify_reader(from_email, to_email, token, url):
 
 
 def report_rejected(comment):
-    pass
+    report = Report(site=comment.site, url=comment.url,
+                    name=comment.author_name, email=comment.author_email,
+                    rejected=True)
+    report.save()
 
 
 def report_published(comment):
-    pass
+    report = Report(site=comment.site, url=comment.url,
+                    name=comment.author_name, email=comment.author_email,
+                    published=True)
+    report.save()
 
 
 def report_subscribed(comment):
-    pass
+    report = Report(site=comment.site, url=comment.url,
+                    name=comment.author_name, email=comment.author_email,
+                    subscribed=True)
+    report.save()
 
 
 def report_unsubscribed(comment):
-    pass
+    report = Report(site=comment.site, url=comment.url,
+                    name=comment.author_name, email=comment.author_email,
+                    unsubscribed=True)
+    report.save()
 
 
 def report(token):
-    print('report requested for {}'.format(token))
-    standby_count = Comment.select().join(Site).where(
+    site = Site.select().where(Site.token == token).get()
+    c_standby = Comment.select().join(Site).where(
         Site.token == token, Comment.published.is_null(True)).count()
-    print('standby {}'.format(standby_count))
+    c_published = Report.select().join(Site).where(
+        Site.token == token, Report.published).count()
+    c_rejected = Report.select().join(Site).where(
+        Site.token == token, Report.rejected).count()
+    c_subscribed = Report.select().join(Site).where(
+        Site.token == token, Report.subscribed).count()
+    c_unsubscribed = Report.select().join(Site).where(
+        Site.token == token, Report.unsubscribed).count()
+    email_body = get_template('report').render(standby=c_standby, published=c_published, rejected=c_rejected,
+        subscribed=c_subscribed,unsubscribed=c_unsubscribed)
+    subject = get_template('report_message').render(site=site.name)
+    mail(site.admin_email, subject, email_body)
+
+    # TODO: delete report table
+    #Report.delete().execute()
 
 
 def mail(to_email, subject, message):
