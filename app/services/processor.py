@@ -74,7 +74,7 @@ def new_comment(data):
                       content=message, created=created, published=None)
     comment.save()
 
-    article_url = = "http://" + site.url + url
+    article_url = "http://" + site.url + url
 
     # render email body template
     comment_list = (
