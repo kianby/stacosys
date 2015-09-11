@@ -12,10 +12,10 @@ class Report(Model):
     name = CharField(unique=True)
     email = CharField()
     url = CharField()
-    published = BooleanField()
-    rejected = BooleanField()
-    subscribed = BooleanField()
-    unsubscribed = BooleanField()
+    published = BooleanField(default=False)
+    rejected = BooleanField(default=False)
+    subscribed = BooleanField(default=False)
+    unsubscribed = BooleanField(default=False)
     site = ForeignKeyField(Site, related_name='report_site')
 
     class Meta:
