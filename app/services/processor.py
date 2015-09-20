@@ -330,8 +330,9 @@ def report(token):
 
     mail(site.admin_email, subject, email_body)
 
-    # TODO: delete report table
-    # Report.delete().execute()
+    # delete report table
+    Report.delete().execute()
+
 
 def mail(to_email, subject, message):
 
