@@ -175,7 +175,7 @@ def late_reject_comment(id):
     # delete Comment row
     comment.delete_instance()
 
-    logger.info('late reject comment: %d' % id)
+    logger.info('late reject comment: %s' % id)
 
 
 def late_accept_comment(id):
@@ -190,7 +190,7 @@ def late_accept_comment(id):
     comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     comment.save()
 
-    logger.info('late accept comment: %d' % id)
+    logger.info('late accept comment: %s' % id)
 
 
 def get_email_metadata(message):
