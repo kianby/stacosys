@@ -294,8 +294,8 @@ def report(token):
                                                subscribed=subscribed,
                                                unsubscribed=unsubscribed)
     subject = get_template('report_message').render(site=site.name)
-    print(email_body)
-    #mail(site.admin_email, subject, email_body)
+
+    mail(site.admin_email, subject, email_body)
 
     # TODO: delete report table
     # Report.delete().execute()
