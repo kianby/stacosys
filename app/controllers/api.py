@@ -109,8 +109,50 @@ def report():
 
         processor.enqueue({'request': 'report', 'data': token})
 
+
     except:
         logger.exception("report failure")
         abort(500)
 
     return "OK"
+
+
+@app.route("/accept", methods=['GET'])
+def accept_comment():
+
+    try:
+        id = request.args.get('id', '')
+        secret = request.args.get('secret', '')
+
+        if secret != config.SECRET:
+            logger.warn('Unauthorized request')
+            abort(401)
+
+        processor.enqueue({'request': 'late_accept', 'data': id})
+
+    except:
+        logger.exception("accept failure")
+        abort(500)
+
+    return "PUBLISHED"
+
+
+@app.route("/reject", methods=['GET'])
+def reject_comment():
+
+    try:
+        id = request.args.get('id', '')
+        secret = request.args.get('secret', '')
+
+        if secret != config.SECRET:
+            logger.warn('Unauthorized request')
+            abort(401)
+
+        processor.enqueue({'request': 'late_reject', 'data': id})
+
+    except:
+        logger.exception("reject failure")
+        abort(500)
+
+    return "REJECTED"
+
