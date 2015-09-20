@@ -42,6 +42,10 @@ class Processor(Thread):
                     unsubscribe_reader(msg['data'])
                 elif msg['request'] == 'report':
                     report(msg['data'])
+                elif msg['request'] == 'late_accept':
+                    late_accept_comment(msg['data'])
+                elif msg['request'] == 'late_reject':
+                    late_reject_comment(msg['data'])
                 else:
                     logger.info("throw unknown request " + str(msg))
             except:
@@ -158,6 +162,35 @@ def reply_comment_email(data):
         # notify subscribers every time a new comment is published
         notify_subscribed_readers(
             comment.site.token, comment.site.url, comment.url)
+
+
+def late_reject_comment(id):
+
+    # retrieve site and comment rows
+    comment = Comment.select().where(Comment.id == id).get()
+
+    # report event
+    report_rejected(comment)
+
+    # delete Comment row
+    comment.delete_instance()
+
+    logger.info('late reject comment: %d' % id)
+
+
+def late_accept_comment(id):
+
+    # retrieve site and comment rows
+    comment = Comment.select().where(Comment.id == id).get()
+
+    # report event
+    report_published(comment)
+
+    # update Comment row
+    comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    comment.save()
+
+    logger.info('late accept comment: %d' % id)
 
 
 def get_email_metadata(message):
