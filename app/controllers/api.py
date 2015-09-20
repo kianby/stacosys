@@ -121,7 +121,7 @@ def report():
 def accept_comment():
 
     try:
-        id = request.args.get('id', '')
+        id = request.args.get('comment', 0)
         secret = request.args.get('secret', '')
 
         if secret != config.SECRET:
@@ -141,7 +141,7 @@ def accept_comment():
 def reject_comment():
 
     try:
-        id = request.args.get('id', '')
+        id = request.args.get('comment', 0)
         secret = request.args.get('secret', '')
 
         if secret != config.SECRET:
