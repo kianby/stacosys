@@ -6,7 +6,8 @@ import re
 from datetime import datetime
 from threading import Thread
 from queue import Queue
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
 from app.models.site import Site
 from app.models.comment import Comment
 from app.models.reader import Reader
@@ -14,7 +15,6 @@ from app.models.report import Report
 import requests
 import json
 import config
-
 
 logger = logging.getLogger(__name__)
 queue = Queue()
@@ -206,8 +206,8 @@ def notify_subscribed_readers(token, site_url, url):
                                                    Reader.url == url):
         to_email = reader.email
         logger.info('notify reader %s' % to_email)
-        unsubscribe_url = '%s?email=%s&token=%s&url=%s' % (
-                          config.UNSUBSCRIBE_URL, to_email, token, reader.url)
+        unsubscribe_url = '%s/unsubscribe?email=%s&token=%s&url=%s' % (
+                          config.ROOT_URL, to_email, token, reader.url)
         email_body = get_template(
             'notify_subscriber').render(article_url=article_url,
                                         unsubscribe_url=unsubscribe_url)
@@ -253,24 +253,52 @@ def report_unsubscribed(comment):
 
 def report(token):
     site = Site.select().where(Site.token == token).get()
-    c_standby = Comment.select().join(Site).where(
-        Site.token == token, Comment.published.is_null(True)).count()
-    c_published = Report.select().join(Site).where(
-        Site.token == token, Report.published).count()
-    c_rejected = Report.select().join(Site).where(
-        Site.token == token, Report.rejected).count()
-    c_subscribed = Report.select().join(Site).where(
-        Site.token == token, Report.subscribed).count()
-    c_unsubscribed = Report.select().join(Site).where(
-        Site.token == token, Report.unsubscribed).count()
-    email_body = get_template('report').render(standby=c_standby, published=c_published, rejected=c_rejected,
-        subscribed=c_subscribed,unsubscribed=c_unsubscribed)
+
+    standbys = []
+    for row in Comment.select().join(Site).where(
+            Site.token == token, Comment.published.is_null(True)):
+        standbys.append({'url': "http://" + site.url + row.url,
+                         'created': row.created.strftime('%d/%m/%y %H:%M'),
+                         'name': row.author_name, 'content': row.content,
+                         'id': row.id})
+
+    published = []
+    for row in Report.select().join(Site).where(
+        Site.token == token, Report.published):
+        published.append({'url': "http://" + site.url + row.url,
+                         'name': row.name, 'email': row.email})
+
+    rejected = []
+    for row in Report.select().join(Site).where(
+        Site.token == token, Report.rejected):
+        rejected.append({'url': "http://" + site.url + row.url,
+                         'name': row.name, 'email': row.email})
+
+    subscribed = []
+    for row in Report.select().join(Site).where(
+        Site.token == token, Report.subscribed):
+        subscribed.append({'url': "http://" + site.url + row.url,
+                         'name': row.name, 'email': row.email})
+
+    unsubscribed = []
+    for row in Report.select().join(Site).where(
+        Site.token == token, Report.subscribed):
+        unsubscribed.append({'url': "http://" + site.url + row.url,
+                         'name': row.name, 'email': row.email})
+
+    email_body = get_template('report').render(secret=config.SECRET,
+                                               root_url=config.ROOT_URL,
+                                               standbys=standbys,
+                                               published=published,
+                                               rejected=rejected,
+                                               subscribed=subscribed,
+                                               unsubscribed=unsubscribed)
     subject = get_template('report_message').render(site=site.name)
-    mail(site.admin_email, subject, email_body)
+    print(email_body)
+    #mail(site.admin_email, subject, email_body)
 
     # TODO: delete report table
-    #Report.delete().execute()
-
+    # Report.delete().execute()
 
 def mail(to_email, subject, message):
 
