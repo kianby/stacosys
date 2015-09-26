@@ -1,6 +1,6 @@
 Hi,
 
-A new comment has been submitted for post {{ url }}.
+A new comment has been submitted for post {{ url }}
 
 You have two choices:
 - reject the comment by replying NO (or no),

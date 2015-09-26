@@ -1,6 +1,6 @@
 Bonjour,
 
-Un nouveau commentaire a été posté pour l'article {{ url }}.
+Un nouveau commentaire a été posté pour l'article {{ url }}
 
 Vous avez deux réponses possibles :
 - rejeter le commentaire en répondant NO (ou no),
