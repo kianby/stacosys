@@ -18,3 +18,4 @@ SECRET = "Uqca5Kc8xuU6THz9"
 
 ROOT_URL = 'http://localhost:8000'
 
+RSS_FILE = 'comments.xml'
