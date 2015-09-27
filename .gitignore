@@ -60,3 +60,4 @@ target/
 myconfig.json
 db.sqlite
 node_modules
+comments.xml
