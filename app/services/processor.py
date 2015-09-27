@@ -15,6 +15,8 @@ from app.models.report import Report
 import requests
 import json
 import config
+import PyRSS2Gen
+import markdown
 
 logger = logging.getLogger(__name__)
 queue = Queue()
@@ -146,8 +148,10 @@ def reply_comment_email(data):
         # update Comment row
         comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         comment.save()
-
         logger.info('commit comment: %d' % comment_id)
+
+        # rebuild RSS
+        rss(token)
 
         # send approval confirmation email to admin
         email_body = get_template('approve_comment').render(original=message)
@@ -297,27 +301,27 @@ def report(token):
 
     published = []
     for row in Report.select().join(Site).where(
-        Site.token == token, Report.published):
+            Site.token == token, Report.published):
         published.append({'url': "http://" + site.url + row.url,
-                         'name': row.name, 'email': row.email})
+                          'name': row.name, 'email': row.email})
 
     rejected = []
     for row in Report.select().join(Site).where(
-        Site.token == token, Report.rejected):
+            Site.token == token, Report.rejected):
         rejected.append({'url': "http://" + site.url + row.url,
                          'name': row.name, 'email': row.email})
 
     subscribed = []
     for row in Report.select().join(Site).where(
-        Site.token == token, Report.subscribed):
+            Site.token == token, Report.subscribed):
         subscribed.append({'url': "http://" + site.url + row.url,
-                         'name': row.name, 'email': row.email})
+                           'name': row.name, 'email': row.email})
 
     unsubscribed = []
     for row in Report.select().join(Site).where(
-        Site.token == token, Report.subscribed):
+            Site.token == token, Report.subscribed):
         unsubscribed.append({'url': "http://" + site.url + row.url,
-                         'name': row.name, 'email': row.email})
+                             'name': row.name, 'email': row.email})
 
     email_body = get_template('report').render(secret=config.SECRET,
                                                root_url=config.ROOT_URL,
@@ -332,6 +336,31 @@ def report(token):
 
     # delete report table
     Report.delete().execute()
+
+
+def rss(token):
+    site = Site.select().where(Site.token == token).get()
+    rss_title = get_template('rss_title_message').render(site=site.name)
+    md = markdown.Markdown()
+
+    items = []
+    for row in Comment.select().join(Site).where(
+            Site.token == token, Comment.published).order_by(-Comment.published).limit(10):
+        items.append(PyRSS2Gen.RSSItem(
+            title='%s - http://%s%s' % (row.author_name, site.url, row.url),
+            link="http://%s%s" % (site.url, row.url),
+            description=md.convert(row.content),
+            guid=PyRSS2Gen.Guid('%s%d' % (token, row.id)),
+            pubDate=row.published
+        ))
+
+    rss = PyRSS2Gen.RSS2(
+        title=rss_title,
+        link="http://" + site.url,
+        description="Commentaires du site '%s'" % site.name,
+        lastBuildDate=datetime.now(),
+        items=items)
+    rss.write_xml(open(config.RSS_FILE, "w"), encoding="utf-8")
 
 
 def mail(to_email, subject, message):
@@ -367,6 +396,10 @@ def start(template_dir):
     # initialize Jinja 2 templating
     logger.info("load templates from directory %s" % template_dir)
     env = Environment(loader=FileSystemLoader(template_dir))
+
+    # generate RSS for all sites
+    for site in Site.select():
+        rss(site.token)
 
     # start processor thread
     proc = Processor()
