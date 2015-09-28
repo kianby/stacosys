@@ -1,1 +1,1 @@
-Commentaires du site : {{ site }}
+{{ site }} : commentaires
