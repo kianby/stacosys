@@ -346,11 +346,12 @@ def rss(token):
     items = []
     for row in Comment.select().join(Site).where(
             Site.token == token, Comment.published).order_by(-Comment.published).limit(10):
+        item_link = "http://%s%s" % (site.url, row.url)
         items.append(PyRSS2Gen.RSSItem(
             title='%s - http://%s%s' % (row.author_name, site.url, row.url),
-            link="http://%s%s" % (site.url, row.url),
+            link= item_link,
             description=md.convert(row.content),
-            guid=PyRSS2Gen.Guid('%s%d' % (token, row.id)),
+            guid=PyRSS2Gen.Guid(item_link),
             pubDate=row.published
         ))
 
