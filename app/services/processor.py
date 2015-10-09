@@ -274,16 +274,16 @@ def report_published(comment):
     report.save()
 
 
-def report_subscribed(comment):
-    report = Report(site=comment.site, url=comment.url,
-                    name=comment.author_name, email=comment.author_email,
+def report_subscribed(reader):
+    report = Report(site=reader.site, url=reader.url,
+                    name='', email=reader.email,
                     subscribed=True)
     report.save()
 
 
-def report_unsubscribed(comment):
-    report = Report(site=comment.site, url=comment.url,
-                    name=comment.author_name, email=comment.author_email,
+def report_unsubscribed(reader):
+    report = Report(site=reader.site, url=reader.url,
+                    name='', email=reader.email,
                     unsubscribed=True)
     report.save()
 
