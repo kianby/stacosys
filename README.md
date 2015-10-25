@@ -29,10 +29,7 @@ Stacosys can be hosted on the same server or on a different server than the blog
 ### FAQ
 
 *So the blog needs a server-side language?*
-- Right! Stacosys is written in Python and it uses Flask Web framework. You
-  keeps on serving static pages for the blog but you have to link two URL with
-  Pecosys. If you use NginX or Apache2 (with Proxy modules), it's not a big
-  deal.
+- It depends on your hosting configuration. Stacosys can run on a different host than the blog and it can serve several blogs. You have to change JS code embedded in blog pages to point the right Stacosys API URL.
 
 *How do you block spammers?*
 - That's a huge topic. Current comment form is basic: no captcha support but a honey
@@ -49,3 +46,6 @@ Stacosys can be hosted on the same server or on a different server than the blog
 -    [Peewee ORM](http://docs.peewee-orm.com)
 -    [Markdown](http://daringfireball.net/projects/markdown)
 
+### Ways of improvement
+
+Current version of Stacosys fits my needs and it serves comments on [my blog](http://blogduyax.madyanne.fr) for 6 months. However Stacosys has been designed to serve several blogs and e-mail can be a constraint for some people. So an area of improvement would be to add an administration UI to configure sites, approve or reject comments, keep track of usage statistics and to make e-mail communication optional. I encourage you to fork the project and create such improvements if you need them. I'll be happy to see the project evolving and growing according to users needs.      
