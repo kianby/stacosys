@@ -34,7 +34,7 @@ def query_comments():
             if comment.author_email:
                 d['avatar'] = md5(comment.author_email.strip().lower())
             d['date'] = comment.published.strftime("%Y-%m-%d %H:%M:%S")
-            logger.info(d)
+            logger.debug(d)
             comments.append(d)
         r = jsonify({'data': comments})
         r.status_code = 200
@@ -155,4 +155,3 @@ def reject_comment():
         abort(500)
 
     return "REJECTED"
-
