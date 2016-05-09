@@ -119,13 +119,16 @@ def reply_comment_email(data):
             break
 
     m = re.search('\[(\d+)\:(\w+)\]', subject)
+    if not m:
+        logger.warn('ignore corrupted email. No token %s' % subject)
+        return
     comment_id = int(m.group(1))
     token = m.group(2)
 
     # retrieve site and comment rows
     comment = Comment.select().where(Comment.id == comment_id).get()
     if comment.site.token != token:
-        logger.warn('ignore corrupted email')
+        logger.warn('ignore corrupted email. Unknown token %d' % comment_id)
         return
 
     if not message:
@@ -334,7 +337,7 @@ def report(token):
 
     mail(site.admin_email, subject, email_body)
 
-    # delete report table
+    # delete report table
     Report.delete().execute()
 
 
@@ -345,11 +348,12 @@ def rss(token):
 
     items = []
     for row in Comment.select().join(Site).where(
-            Site.token == token, Comment.published).order_by(-Comment.published).limit(10):
+            Site.token == token, Comment.published).order_by(
+                -Comment.published).limit(10):
         item_link = "http://%s%s" % (site.url, row.url)
         items.append(PyRSS2Gen.RSSItem(
             title='%s - http://%s%s' % (row.author_name, site.url, row.url),
-            link= item_link,
+            link=item_link,
             description=md.convert(row.content),
             guid=PyRSS2Gen.Guid(item_link),
             pubDate=row.published
