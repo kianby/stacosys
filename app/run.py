@@ -65,7 +65,6 @@ cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
 
 # tune logging level
 if not config.DEBUG:
-    logging.getLogger('flask_cors').level = logging.WARNING
     logging.getLogger('app.cors').level = logging.WARNING
     logging.getLogger('werkzeug').level = logging.WARNING
 
