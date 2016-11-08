@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import logging
 import re
 from datetime import datetime
@@ -341,7 +342,11 @@ def report(token):
     Report.delete().execute()
 
 
-def rss(token):
+def rss(token, onstart=False):
+
+    if onstart and os.path.isfile(config.RSS_FILE):
+        return
+
     site = Site.select().where(Site.token == token).get()
     rss_title = get_template('rss_title_message').render(site=site.name)
     md = markdown.Markdown()
@@ -404,7 +409,7 @@ def start(template_dir):
 
     # generate RSS for all sites
     for site in Site.select():
-        rss(site.token)
+        rss(site.token, True)
 
     # start processor thread
     proc = Processor()
