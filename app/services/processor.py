@@ -360,7 +360,7 @@ def rss(token, onstart=False):
             title='%s - http://%s%s' % (row.author_name, site.url, row.url),
             link=item_link,
             description=md.convert(row.content),
-            guid=PyRSS2Gen.Guid(item_link),
+            guid=PyRSS2Gen.Guid('%s/%d' % (item_link, row.id)),
             pubDate=row.published
         ))
 
