@@ -33,6 +33,7 @@ class Processor(Thread):
 
     def run(self):
 
+        logger.info('processor thread started')
         self.is_running = True
         while self.is_running:
             try:

@@ -56,8 +56,6 @@ logger.debug('imported: %s ' % reader.__name__)
 template_path = os.path.abspath(os.path.join(current_path, 'templates'))
 processor.start(template_path)
 
-app.wsgi_app = ProxyFix(app.wsgi_app)
-
 logger.info("Start Stacosys application")
 
 # enable CORS
@@ -68,6 +66,8 @@ if not config.DEBUG:
     logging.getLogger('app.cors').level = logging.WARNING
     logging.getLogger('werkzeug').level = logging.WARNING
 
-app.run(host=config.HTTP_ADDRESS,
-        port=config.HTTP_PORT,
-        debug=config.DEBUG, use_reloader=False)
+if __name__ == '__main__':
+    app.wsgi_app = ProxyFix(app.wsgi_app)
+    app.run(host=config.HTTP_ADDRESS,
+            port=config.HTTP_PORT,
+            debug=config.DEBUG, use_reloader=False)
