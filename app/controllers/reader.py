@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from flask import request, abort
+from sanic import response
 from app import app
 from app.services import processor
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 @app.route("/unsubscribe", methods=['GET'])
-def unsubscribe():
+def unsubscribe(request):
 
     try:
         data = {
@@ -24,6 +24,6 @@ def unsubscribe():
 
     except:
         logger.exception("unsubscribe failure")
-        abort(400)
+        return response.text('BAD_REQUEST', status=400)
 
-    return "OK"
+    return response.text('OK')
