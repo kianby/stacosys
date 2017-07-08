@@ -1,5 +1,6 @@
 clize==2.4
 Flask==0.10.1
+Flask-Cache==0.13.1
 Flask-Cors==2.0.1
 itsdangerous==0.24
 Jinja2==2.7.3
@@ -11,4 +12,3 @@ PyRSS2Gen==1.1
 requests==2.7.0
 six==1.9.0
 Werkzeug==0.10.4
-wheel==0.24.0
