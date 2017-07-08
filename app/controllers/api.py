@@ -5,6 +5,7 @@ import logging
 import config
 from flask import request, jsonify, abort
 from app import app
+from app import cache
 from app.models.site import Site
 from app.models.comment import Comment
 from app.helpers.hashing import md5
@@ -45,6 +46,7 @@ def query_comments():
     return r
 
 
+@cache.cached(timeout=300)
 @app.route("/comments/count", methods=['GET'])
 def get_comments_count():
     try:
