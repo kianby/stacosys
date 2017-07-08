@@ -15,6 +15,8 @@ for path in paths:
 
 # more imports
 import config
+from sanic_cors import CORS, cross_origin
+
 from app.services import database
 from app.services import processor
 from app.controllers import api
@@ -57,7 +59,7 @@ processor.start(template_path)
 logger.info("Start Stacosys application")
 
 # enable CORS
-#cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
 
 # tune logging level
 if not config.DEBUG:
