@@ -66,8 +66,10 @@ if not config.DEBUG:
     logging.getLogger('app.cors').level = logging.WARNING
     logging.getLogger('werkzeug').level = logging.WARNING
 
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 if __name__ == '__main__':
-    app.wsgi_app = ProxyFix(app.wsgi_app)
+
     app.run(host=config.HTTP_ADDRESS,
             port=config.HTTP_PORT,
             debug=config.DEBUG, use_reloader=False)
