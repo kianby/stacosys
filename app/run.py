@@ -70,4 +70,5 @@ if __name__ == '__main__':
 
     app.run(host=config.HTTP_ADDRESS,
             port=config.HTTP_PORT,
-            debug=config.DEBUG)
+            debug=config.DEBUG,
+            workers=config.HTTP_WORKERS)
