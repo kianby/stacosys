@@ -11,6 +11,7 @@ MAIL_URL = "http://localhost:8025/mbox"
 
 HTTP_ADDRESS = "0.0.0.0"
 HTTP_PORT = 8000
+HTTP_WORKERS = 4
 
 SALT = "BRRJRqXgGpXWrgTidBPcixIThHpDuKc0"
 
