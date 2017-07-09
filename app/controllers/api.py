@@ -64,7 +64,7 @@ def get_comments_count(request):
 def new_comment(request):
 
     try:
-        data = request.get_json()
+        data = request.json
         logger.info(data)
 
         # validate token: retrieve site entity
