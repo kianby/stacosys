@@ -4,13 +4,13 @@
 import logging
 import config
 from sanic import response
-from aiocache import cached, SimpleMemoryCache
-from aiocache.serializers import JsonSerializer
 from app import app
 from app.models.site import Site
 from app.models.comment import Comment
 from app.helpers.hashing import md5
 from app.services import processor
+from app import get_cached
+from app import set_cached
 
 logger = logging.getLogger(__name__)
 
@@ -45,17 +45,21 @@ def query_comments(request):
     return r
 
 
-@cached(ttl=300, serializer=JsonSerializer())
 async def get_cached_comments_count(request):
     try:
         token = request.args.get('token', '')
         url = request.args.get('url', '')
-        count = Comment.select(Comment).join(Site).where(
-            (Comment.url == url) &
-            (Comment.published.is_null(False)) &
-            (Site.token == token)).count()
+        key = '%s:%s' % (token, url)
+        count = get_cached(key)
+        if count is None:
+            count = Comment.select(Comment).join(Site).where(
+                (Comment.url == url) &
+                (Comment.published.is_null(False)) &
+                (Site.token == token)).count()
+            set_cached(key, count)
         r = {'count': count}
     except:
+        logger.exception("cache exception")
         r = {'count': 0}
     return r
 
