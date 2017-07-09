@@ -19,7 +19,7 @@ def get_cached(key):
     global cache
     global cache_time
     value = cache.get(key,None)
-    if (time.time() - cache_time) > 10:
+    if (time.time() - cache_time) > 120:
         cache = {}
         cache_time = time.time()
     return value
