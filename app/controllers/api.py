@@ -60,7 +60,12 @@ def get_comments_count(request):
     return r
 
 
-@app.route("/comments", methods=['POST','OPTIONS'])
+@app.route("/comments", methods=['OPTIONS'])
+def option_comments(request):
+    return response.text('OK')
+
+
+@app.route("/comments", methods=['POST'])
 def new_comment(request):
 
     try:
