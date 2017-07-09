@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import time
 import logging
 import config
 from sanic import response
@@ -9,10 +10,23 @@ from app.models.site import Site
 from app.models.comment import Comment
 from app.helpers.hashing import md5
 from app.services import processor
-from app import get_cached
-from app import set_cached
 
 logger = logging.getLogger(__name__)
+cache = {}
+cache_time = 0
+
+def get_cached(key):
+    global cache
+    global cache_time
+    value = cache.get(key,None)
+    if (time.time() - cache_time) > 10:
+        cache = {}
+        cache_time = time.time()
+    return value
+
+def set_cached(key, value):
+    global cache
+    cache[key] = value
 
 
 @app.route("/comments", methods=['GET'])
