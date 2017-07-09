@@ -4,6 +4,7 @@
 import logging
 import config
 from sanic import response
+from aiocache import cached
 from app import app
 from app import cache
 from app.models.site import Site
@@ -44,7 +45,7 @@ def query_comments(request):
     return r
 
 
-#@cache.cached(timeout=300)
+@cached(ttl=300)
 @app.route("/comments/count", methods=['GET'])
 def get_comments_count(request):
     try:
