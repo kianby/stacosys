@@ -20,6 +20,6 @@ def new_mail(request):
 
     except:
         logger.exception("new mail failure")
-        abort(400)
+        return response.text('BAD_REQUEST', status=400)
 
-    return "OK"
+    return response.text('OK')
