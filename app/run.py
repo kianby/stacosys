@@ -67,7 +67,6 @@ if not config.DEBUG:
     logging.getLogger('werkzeug').level = logging.WARNING
 
 if __name__ == '__main__':
-
     app.run(host=config.HTTP_ADDRESS,
             port=config.HTTP_PORT,
             debug=config.DEBUG,

@@ -4,9 +4,9 @@
 import logging
 import config
 from sanic import response
-from aiocache import cached
+from aiocache import cached, SimpleMemoryCache
+from aiocache.serializers import JsonSerializer
 from app import app
-from app import cache
 from app.models.site import Site
 from app.models.comment import Comment
 from app.helpers.hashing import md5
@@ -45,20 +45,25 @@ def query_comments(request):
     return r
 
 
-@cached(ttl=300)
-@app.route("/comments/count", methods=['GET'])
-def get_comments_count(request):
+@cached(ttl=300, serializer=JsonSerializer())
+async def get_cached_comments_count(request):
     try:
+        print('GET COUNT FROM DB')
         token = request.args.get('token', '')
         url = request.args.get('url', '')
         count = Comment.select(Comment).join(Site).where(
             (Comment.url == url) &
             (Comment.published.is_null(False)) &
             (Site.token == token)).count()
-        r = response.json({'count': count})
+        r = {'count': count}
     except:
-        r = response.json({'count': 0})
+        r = {'count': 0}
     return r
+
+
+@app.route("/comments/count", methods=['GET'])
+async def get_comments_count(request):
+    return response.json(await get_cached_comments_count(request))
 
 
 @app.route("/comments", methods=['OPTIONS'])
