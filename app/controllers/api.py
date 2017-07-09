@@ -48,7 +48,6 @@ def query_comments(request):
 @cached(ttl=300, serializer=JsonSerializer())
 async def get_cached_comments_count(request):
     try:
-        print('GET COUNT FROM DB')
         token = request.args.get('token', '')
         url = request.args.get('url', '')
         count = Comment.select(Comment).join(Site).where(
