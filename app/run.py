@@ -59,7 +59,7 @@ processor.start(template_path)
 logger.info("Start Stacosys application")
 
 # enable CORS
-cors = CORS(app, resources={r"/comments/*": {"origins": config.CORS_ORIGIN}})
+cors = CORS(app, resources=r'/comments/*')
 
 # tune logging level
 if not config.DEBUG:
