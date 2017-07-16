@@ -1,17 +1,31 @@
 package main
 
 import (
+	"encoding/json"
+	"flag"
+	"fmt"
 	"github.com/patrickmn/go-cache"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
-const stacoURL string = "http://127.0.0.1:8100"
+// ConfigType represents config info
+type ConfigType struct {
+	HostPort   string
+	Stacosys   string
+	CorsOrigin string
+}
 
+var config ConfigType
 var countCache = cache.New(5*time.Minute, 10*time.Minute)
+
+func die(format string, v ...interface{}) {
+	fmt.Fprintln(os.Stderr, fmt.Sprintf(format, v...))
+	os.Exit(1)
+}
 
 func commentsCount(w http.ResponseWriter, r *http.Request) {
 
@@ -23,7 +37,7 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 
 	// set header
 	w.Header().Add("Content-Type", "application/json")
-	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Origin", config.CorsOrigin)
 
 	// get cached value
 	cachedBody, found := countCache.Get(r.URL.String())
@@ -34,7 +48,7 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// relay request to stacosys
-	response, err := http.Get(stacoURL + r.URL.String())
+	response, err := http.Get(config.Stacosys + r.URL.String())
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -52,12 +66,22 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 	w.Write(body)
 }
 
-func comments(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello world!")
-}
-
 func main() {
+	pathname := flag.String("config", "", "config pathname")
+	flag.Parse()
+	if *pathname == "" {
+		die("%s --config <pathname>", os.Args[0])
+	}
+	// read config File
+	file, e := ioutil.ReadFile(*pathname)
+	if e != nil {
+		die("File error: %v", e)
+	}
+	fmt.Printf("config: %s\n", string(file))
+
+	config := ConfigType{}
+	json.Unmarshal(file, &config)
+
 	http.HandleFunc("/comments/count", commentsCount)
-	http.HandleFunc("/comments", comments)
-	http.ListenAndServe(":8200", nil)
+	http.ListenAndServe(config.HostPort, nil)
 }
