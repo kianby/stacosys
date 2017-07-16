@@ -47,7 +47,6 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// relay request to stacosys
-	fmt.Println("QUERY: " + config.Stacosys + r.URL.String())
 	response, err := http.Get(config.Stacosys + r.URL.String())
 	if err != nil {
 		http.NotFound(w, r)
@@ -62,7 +61,7 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 
 	// cache body and return response
 	countCache.Set(r.URL.String(), string(body), cache.DefaultExpiration)
-	fmt.Printf(string(body))
+	//fmt.Printf(string(body))
 	w.Write(body)
 }
 
@@ -80,7 +79,7 @@ func main() {
 	json.Unmarshal(file, &config)
 	fmt.Printf("config: %s\n", string(file))
 
-	http.HandleFunc("/comments/count/", commentsCount)
+	//http.HandleFunc("/comments/count/", commentsCount)
 	http.HandleFunc("/comments/count", commentsCount)
 	http.ListenAndServe(config.HostPort, nil)
 }
