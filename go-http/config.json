@@ -1,0 +1,5 @@
+{
+  "HostPort":"127.0.0.1:8101",
+  "Stacosys":"http://127.0.0.1:8100",
+  "CorsOrigin":"blogduyax.madyanne.fr"
+}
