@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/patrickmn/go-cache"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -42,12 +41,13 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 	// get cached value
 	cachedBody, found := countCache.Get(r.URL.String())
 	if found {
-		//log.Printf("return cached value")
+		//fmt.Printf("return cached value")
 		w.Write([]byte(cachedBody.(string)))
 		return
 	}
 
 	// relay request to stacosys
+	//fmt.Println("QUERY: " + config.Stacosys + r.URL.String())
 	response, err := http.Get(config.Stacosys + r.URL.String())
 	if err != nil {
 		http.NotFound(w, r)
@@ -62,7 +62,7 @@ func commentsCount(w http.ResponseWriter, r *http.Request) {
 
 	// cache body and return response
 	countCache.Set(r.URL.String(), string(body), cache.DefaultExpiration)
-	log.Printf(string(body))
+	fmt.Printf(string(body))
 	w.Write(body)
 }
 
@@ -77,10 +77,8 @@ func main() {
 	if e != nil {
 		die("File error: %v", e)
 	}
-	fmt.Printf("config: %s\n", string(file))
-
-	config := ConfigType{}
 	json.Unmarshal(file, &config)
+	fmt.Printf("config: %s\n", string(file))
 
 	http.HandleFunc("/comments/count", commentsCount)
 	http.ListenAndServe(config.HostPort, nil)
