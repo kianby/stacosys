@@ -356,9 +356,9 @@ def rss(token, onstart=False):
     for row in Comment.select().join(Site).where(
             Site.token == token, Comment.published).order_by(
                 -Comment.published).limit(10):
-        item_link = "http://%s%s" % (site.url, row.url)
+        item_link = "%s://%s%s" % (config.RSS_URL_PROTO, site.url, row.url)
         items.append(PyRSS2Gen.RSSItem(
-            title='%s - http://%s%s' % (row.author_name, site.url, row.url),
+            title='%s - %s://%s%s' % (config.RSS_URL_PROTO, row.author_name, site.url, row.url),
             link=item_link,
             description=md.convert(row.content),
             guid=PyRSS2Gen.Guid('%s/%d' % (item_link, row.id)),
@@ -367,7 +367,7 @@ def rss(token, onstart=False):
 
     rss = PyRSS2Gen.RSS2(
         title=rss_title,
-        link="http://" + site.url,
+        link='%s://%s' % (config.RSS_URL_PROTO, site.url),
         description="Commentaires du site '%s'" % site.name,
         lastBuildDate=datetime.now(),
         items=items)
