@@ -10,7 +10,7 @@ DB_URL = "sqlite:///db.sqlite"
 MAIL_URL = "http://localhost:8025/mbox"
 
 HTTP_ADDRESS = "0.0.0.0"
-HTTP_PORT = 8000
+HTTP_PORT = 8100
 HTTP_WORKERS = 1
 CORS_ORIGIN = "*"
 
@@ -20,4 +20,5 @@ SECRET = "Uqca5Kc8xuU6THz9"
 
 ROOT_URL = 'http://localhost:8000'
 
+RSS_URL_PROTO = 'http'
 RSS_FILE = 'comments.xml'

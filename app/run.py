@@ -4,6 +4,8 @@
 import os
 import sys
 import logging
+from werkzeug.contrib.fixers import ProxyFix
+from flask.ext.cors import CORS
 
 # add current path and parent path to syspath
 current_path = os.path.dirname(__file__)
@@ -15,8 +17,6 @@ for path in paths:
 
 # more imports
 import config
-from sanic_cors import CORS, cross_origin
-
 from app.services import database
 from app.services import processor
 from app.controllers import api
@@ -59,16 +59,17 @@ processor.start(template_path)
 logger.info("Start Stacosys application")
 
 # enable CORS
-cors = CORS(app, resources=r'/comments/*')
+cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
 
 # tune logging level
 if not config.DEBUG:
     logging.getLogger('app.cors').level = logging.WARNING
     logging.getLogger('werkzeug').level = logging.WARNING
 
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 if __name__ == '__main__':
+
     app.run(host=config.HTTP_ADDRESS,
             port=config.HTTP_PORT,
-            debug=config.DEBUG,
-            log_config=None,
-            workers=config.HTTP_WORKERS)
+            debug=config.DEBUG, use_reloader=False)

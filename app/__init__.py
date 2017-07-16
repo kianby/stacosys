@@ -1,3 +1,3 @@
-from sanic import Sanic
+from flask import Flask
 
-app = Sanic()
+app = Flask(__name__)
