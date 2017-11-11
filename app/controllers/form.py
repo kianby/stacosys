@@ -3,7 +3,7 @@
 
 import logging
 import config
-from flask import request, jsonify, abort
+from flask import request, jsonify, abort, redirect
 from app import app
 from app.models.site import Site
 from app.models.comment import Comment
@@ -38,4 +38,4 @@ def new_form_comment():
         logger.exception("new comment failure")
         abort(400)
 
-    return "OK"
+    return redirect('/redirect', code=302)
