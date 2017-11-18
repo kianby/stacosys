@@ -38,4 +38,4 @@ def new_form_comment():
         logger.exception("new comment failure")
         abort(400)
 
-    return redirect('/redirect/', code=302)
+    return redirect('/redirect', code=302)
