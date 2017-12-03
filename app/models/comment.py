@@ -17,6 +17,7 @@ class Comment(Model):
     author_name = CharField()
     author_email = CharField(default='')
     author_site = CharField(default='')
+    author_gravatar = CharField(default='')
     content = TextField()
     site = ForeignKeyField(Site, related_name='site')
 

@@ -7,7 +7,6 @@ from flask import request, jsonify, abort
 from app import app
 from app.models.site import Site
 from app.models.comment import Comment
-from app.helpers.hashing import md5
 from app.services import processor
 
 logger = logging.getLogger(__name__)
@@ -31,8 +30,7 @@ def query_comments():
             d['content'] = comment.content
             if comment.author_site:
                 d['site'] = comment.author_site
-            if comment.author_email:
-                d['avatar'] = md5(comment.author_email.strip().lower())
+            d['avatar'] = comment.author_gravatar
             d['date'] = comment.published.strftime("%Y-%m-%d %H:%M:%S")
             logger.debug(d)
             comments.append(d)

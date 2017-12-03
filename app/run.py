@@ -4,7 +4,6 @@
 import os
 import sys
 import logging
-from werkzeug.contrib.fixers import ProxyFix
 from flask.ext.cors import CORS
 
 # add current path and parent path to syspath
@@ -23,7 +22,6 @@ from app.controllers import api
 from app.controllers import form
 from app.controllers import report
 from app.controllers import mail
-from app.controllers import reader
 from app import app
 
 
@@ -49,26 +47,36 @@ logger = logging.getLogger(__name__)
 # initialize database
 database.setup()
 
+#from app.helpers.hashing import md5
+#from app.models.comment import Comment
+#for comment in Comment.select():
+#    email = comment.author_email.strip().lower()
+#    if email:
+#        comment.author_gravatar = md5(email)
+#    comment.author_email = ''
+#    comment.save()   
+
 # routes
 logger.debug('imported: %s ' % api.__name__)
 logger.debug('imported: %s ' % mail.__name__)
-logger.debug('imported: %s ' % reader.__name__)
 
 # start processor
 template_path = os.path.abspath(os.path.join(current_path, 'templates'))
 processor.start(template_path)
 
-logger.info("Start Stacosys application")
-
-# enable CORS
-cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
+# less feature in private mode
+if not config.PRIVATE:
+    # enable CORS
+    cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
+    from app.controllers import reader
+    logger.debug('imported: %s ' % reader.__name__)
 
 # tune logging level
 if not config.DEBUG:
     logging.getLogger('app.cors').level = logging.WARNING
     logging.getLogger('werkzeug').level = logging.WARNING
 
-app.wsgi_app = ProxyFix(app.wsgi_app)
+logger.info("Start Stacosys application")
 
 if __name__ == '__main__':
 

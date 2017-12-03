@@ -10,9 +10,9 @@ from queue import Queue
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from app.models.site import Site
-from app.models.comment import Comment
 from app.models.reader import Reader
 from app.models.report import Report
+from app.helpers.hashing import md5
 import requests
 import json
 import config
@@ -68,6 +68,13 @@ def new_comment(data):
     message = data.get('message', '')
     subscribe = data.get('subscribe', '')
 
+    # private mode: email contains gravar md5 hash
+    if config.PRIVATE:
+        author_gravatar = author_email
+        author_email = ''
+    else:        
+        author_gravatar = md5(author_email.lower())
+
     # create a new comment row
     site = Site.select().where(Site.token == token).get()
 
@@ -79,6 +86,7 @@ def new_comment(data):
     # add a row to Comment table
     comment = Comment(site=site, url=url, author_name=author_name,
                       author_site=author_site, author_email=author_email,
+                      author_gravatar=author_gravatar,
                       content=message, created=created, published=None)
     comment.save()
 
@@ -104,7 +112,7 @@ def new_comment(data):
     mail(site.admin_email, subject, email_body)
 
     # Reader subscribes to further comments
-    if subscribe and author_email:
+    if not config.PRIVATE and subscribe and author_email:
         subscribe_reader(author_email, token, url)
 
     logger.debug("new comment processed ")
@@ -163,14 +171,15 @@ def reply_comment_email(data):
         mail(from_email, 'Re: ' + subject, email_body)
 
         # notify reader once comment is published
-        reader_email = get_email_metadata(message)
-        if reader_email:
-            notify_reader(from_email, reader_email, comment.site.token,
-                          comment.site.url, comment.url)
+        if not config.PRIVATE:
+            reader_email = get_email_metadata(message)
+            if reader_email:
+                notify_reader(from_email, reader_email, comment.site.token,
+                              comment.site.url, comment.url)
 
-        # notify subscribers every time a new comment is published
-        notify_subscribed_readers(
-            comment.site.token, comment.site.url, comment.url)
+            # notify subscribers every time a new comment is published
+            notify_subscribed_readers(
+                comment.site.token, comment.site.url, comment.url)
 
 
 def late_reject_comment(id):
