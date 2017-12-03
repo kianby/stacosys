@@ -12,7 +12,7 @@ from jinja2 import FileSystemLoader
 from app.models.site import Site
 from app.models.reader import Reader
 from app.models.report import Report
-from app.models.report import Comment
+from app.models.comment import Comment
 from app.helpers.hashing import md5
 import requests
 import json
