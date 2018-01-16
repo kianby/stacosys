@@ -18,10 +18,11 @@ for path in paths:
 import config
 from app.services import database
 from app.services import processor
-from app.controllers import api
-from app.controllers import form
-from app.controllers import report
-from app.controllers import mail
+from app.interface import api
+from app.interface import form
+from app.interface import report
+#from app.controllers import mail
+from app.interface import zclient
 from app import app
 
 
@@ -45,20 +46,10 @@ configure_logging(logging_level)
 logger = logging.getLogger(__name__)
 
 # initialize database
-database.setup()
+database.setup()  
 
-#from app.helpers.hashing import md5
-#from app.models.comment import Comment
-#for comment in Comment.select():
-#    email = comment.author_email.strip().lower()
-#    if email:
-#        comment.author_gravatar = md5(email)
-#    comment.author_email = ''
-#    comment.save()   
-
-# routes
-logger.debug('imported: %s ' % api.__name__)
-logger.debug('imported: %s ' % mail.__name__)
+# start broker client
+zclient.start()
 
 # start processor
 template_path = os.path.abspath(os.path.join(current_path, 'templates'))

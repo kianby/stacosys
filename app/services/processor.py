@@ -14,7 +14,6 @@ from app.models.reader import Reader
 from app.models.report import Report
 from app.models.comment import Comment
 from app.helpers.hashing import md5
-import requests
 import json
 import config
 import PyRSS2Gen
@@ -392,7 +391,8 @@ def mail(to_email, subject, message):
         'subject': subject,
         'content': message
     }
-    r = requests.post(config.MAIL_URL, data=json.dumps(msg), headers=headers)
+    # do something smart here
+    # r = requests.post(config.MAIL_URL, data=json.dumps(msg), headers=headers)
     if r.status_code in (200, 201):
         logger.debug('Email for %s posted' % to_email)
     else:
