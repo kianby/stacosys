@@ -2,11 +2,11 @@
 # -*- coding: UTF-8 -*-
 
 import hashlib
-import config
+from conf import config
 
 
 def salt(value):
-    string = '%s%s' % (value, config.SALT)
+    string = '%s%s' % (value, config.security['salt'])
     dk = hashlib.sha256(string.encode())
     return dk.hexdigest()
 

@@ -3,7 +3,7 @@
 
 from peewee import Model
 from peewee import CharField
-from app.services.database import get_db
+from core.database import get_db
 
 
 class Site(Model):

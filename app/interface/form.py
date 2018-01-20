@@ -2,13 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import config
 from flask import request, jsonify, abort, redirect
-from app import app
-from app.models.site import Site
-from app.models.comment import Comment
-from app.helpers.hashing import md5
-from app.services import processor
+from core import app
+from models.site import Site
+from models.comment import Comment
+from helpers.hashing import md5
+from core import processor
 
 logger = logging.getLogger(__name__)
 
