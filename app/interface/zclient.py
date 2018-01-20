@@ -15,7 +15,7 @@ context = zmq.Context()
 
 def process(message):
     data = json.loads(message)
-    if data['topic'] == 'email:newmail':
+    if data['topic'] == 'email:mail':
         logger.info('newmail => {}'.format(data))
         processor.enqueue({'request': 'new_mail', 'data': data})
 

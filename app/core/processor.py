@@ -397,7 +397,7 @@ def rss(token, onstart=False):
 def mail(to_email, subject, message):
 
     zmsg = {
-        'topic': 'email:sendmail',
+        'topic': 'email:send',
         'to': to_email,
         'subject': subject,
         'content': message
