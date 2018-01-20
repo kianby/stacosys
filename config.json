@@ -19,7 +19,6 @@
         "file": "comments.xml"
     },
     "zmq": {
-        "active": true,
         "host": "127.0.0.1",
         "pub_port": 7701,
         "sub_port": 7702

@@ -39,5 +39,6 @@ class Consumer(Thread):
 
 
 def start():
+    logger.info('start zclient')
     c = Consumer()
     c.start()

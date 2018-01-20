@@ -25,10 +25,10 @@ queue = Queue()
 proc = None
 env = None
 
-if config.zmq['active']:
-    context = zmq.Context()
-    zpub = context.socket(zmq.PUB)
-    zpub.connect('tcp://127.0.0.1:{}'.format(config.zmq['sub_port']))
+
+context = zmq.Context()
+zpub = context.socket(zmq.PUB)
+zpub.connect('tcp://127.0.0.1:{}'.format(config.zmq['sub_port']))
 
 
 class Processor(Thread):
@@ -78,7 +78,7 @@ def new_comment(data):
     if config.security['private']:
         author_gravatar = author_email
         author_email = ''
-    else:        
+    else:
         author_gravatar = md5(author_email.lower())
 
     # create a new comment row
@@ -150,6 +150,9 @@ def reply_comment_email(data):
     if not message:
         logger.warn('ignore empty email')
         return
+
+    # accept email: request to delete
+    send_deletion_order(data)
 
     # safe logic: no answer or unknown answer is a go for publishing
     if message[:2].upper() == 'NO':
@@ -344,7 +347,8 @@ def report(token):
                              'name': row.name, 'email': row.email})
 
     email_body = get_template('report').render(secret=config.security['secret'],
-                                               root_url=config.http['root_url'],
+                                               root_url=config.http[
+                                                   'root_url'],
                                                standbys=standbys,
                                                published=published,
                                                rejected=rejected,
@@ -373,7 +377,8 @@ def rss(token, onstart=False):
                 -Comment.published).limit(10):
         item_link = "%s://%s%s" % (config.rss['proto'], site.url, row.url)
         items.append(PyRSS2Gen.RSSItem(
-            title='%s - %s://%s%s' % (config.rss['proto'], row.author_name, site.url, row.url),
+            title='%s - %s://%s%s' % (config.rss['proto'],
+                                      row.author_name, site.url, row.url),
             link=item_link,
             description=md.convert(row.content),
             guid=PyRSS2Gen.Guid('%s/%d' % (item_link, row.id)),
@@ -391,18 +396,24 @@ def rss(token, onstart=False):
 
 def mail(to_email, subject, message):
 
-    headers = {'Content-Type': 'application/json; charset=utf-8'}
-    msg = {
+    zmsg = {
+        'topic': 'email:sendmail',
         'to': to_email,
         'subject': subject,
         'content': message
     }
-    # do something smart here
-    # r = requests.post(config.MAIL_URL, data=json.dumps(msg), headers=headers)
-    if r.status_code in (200, 201):
-        logger.debug('Email for %s posted' % to_email)
-    else:
-        logger.warn('Cannot post email for %s' % to_email)
+
+    # TODO test broker failure and find alternative
+    zpub.send_string(json.dumps(zmsg, indent=False, sort_keys=False))
+    logger.debug('Email for %s posted' % to_email)
+
+    #logger.warn('Cannot post email for %s' % to_email)
+
+
+def send_deletion_order(zmsg):
+    zmsg['topic'] = 'email:delete'
+    zpub.send_string(json.dumps(zmsg, indent=False, sort_keys=False))
+    logger.debug('Email accepted. Deletion request sent for %s' % zmsg)
 
 
 def get_template(name):

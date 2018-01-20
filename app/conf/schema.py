@@ -121,9 +121,6 @@ json_schema = """
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "active": {
-                    "type": "boolean"
-                },
                 "host": {
                     "type": "string"
                 },
@@ -135,7 +132,6 @@ json_schema = """
                 }
             },
             "required": [
-                "active",
                 "host",
                 "pub_port",
                 "sub_port"
