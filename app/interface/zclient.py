@@ -6,7 +6,7 @@ from conf import config
 from threading import Thread
 import logging
 import json
-from app.services import processor
+from core import processor
 
 logger = logging.getLogger(__name__)
 

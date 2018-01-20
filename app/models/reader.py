@@ -4,8 +4,8 @@
 from peewee import Model
 from peewee import CharField
 from peewee import ForeignKeyField
-from app.services.database import get_db
-from app.models.site import Site
+from core.database import get_db
+from models.site import Site
 
 
 class Reader(Model):

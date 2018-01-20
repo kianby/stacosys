@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import config
+from conf import config
 from flask import request, jsonify, abort
-from app import app
-from app.models.site import Site
-from app.models.comment import Comment
-from app.helpers.hashing import md5
-from app.services import processor
+from core import app
+from models.site import Site
+from models.comment import Comment
+from helpers.hashing import md5
+from core import processor
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ def report():
         token = request.args.get('token', '')
         secret = request.args.get('secret', '')
 
-        if secret != config.SECRET:
+        if secret != config.security['secret']:
             logger.warn('Unauthorized request')
             abort(401)
 
@@ -45,7 +45,7 @@ def accept_comment():
         id = request.args.get('comment', '')
         secret = request.args.get('secret', '')
 
-        if secret != config.SECRET:
+        if secret != config.security['secret']:
             logger.warn('Unauthorized request')
             abort(401)
 
@@ -65,7 +65,7 @@ def reject_comment():
         id = request.args.get('comment', '')
         secret = request.args.get('secret', '')
 
-        if secret != config.SECRET:
+        if secret != config.security['secret']:
             logger.warn('Unauthorized request')
             abort(401)
 

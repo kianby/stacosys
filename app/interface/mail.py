@@ -3,8 +3,8 @@
 
 import logging
 from flask import request, abort
-from app import app
-from app.services import processor
+from core import app
+from core import processor
 
 logger = logging.getLogger(__name__)
 

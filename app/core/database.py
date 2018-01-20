@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import config
+from conf import config
 import functools
 from playhouse.db_url import connect
 
 
 def get_db():
-    return connect(config.DB_URL)
+    return connect(config.general['db_url'])
 
 
 def provide_db(func):
@@ -21,9 +21,9 @@ def provide_db(func):
 
 @provide_db
 def setup(db):
-    from app.models.site import Site
-    from app.models.comment import Comment
-    from app.models.reader import Reader
-    from app.models.report import Report
+    from models.site import Site
+    from models.comment import Comment
+    from models.reader import Reader
+    from models.report import Report
 
     db.create_tables([Site, Comment, Reader, Report], safe=True)

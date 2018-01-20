@@ -6,8 +6,8 @@ from peewee import CharField
 from peewee import TextField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
-from app.models.site import Site
-from app.services.database import get_db
+from models.site import Site
+from core.database import get_db
 
 
 class Comment(Model):

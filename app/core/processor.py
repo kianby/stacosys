@@ -9,20 +9,26 @@ from threading import Thread
 from queue import Queue
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
-from app.models.site import Site
-from app.models.reader import Reader
-from app.models.report import Report
-from app.models.comment import Comment
-from app.helpers.hashing import md5
+from models.site import Site
+from models.reader import Reader
+from models.report import Report
+from models.comment import Comment
+from helpers.hashing import md5
 import json
-import config
+from conf import config
 import PyRSS2Gen
 import markdown
+import zmq
 
 logger = logging.getLogger(__name__)
 queue = Queue()
 proc = None
 env = None
+
+if config.zmq['active']:
+    context = zmq.Context()
+    zpub = context.socket(zmq.PUB)
+    zpub.connect('tcp://127.0.0.1:{}'.format(config.zmq['sub_port']))
 
 
 class Processor(Thread):
@@ -69,7 +75,7 @@ def new_comment(data):
     subscribe = data.get('subscribe', '')
 
     # private mode: email contains gravar md5 hash
-    if config.PRIVATE:
+    if config.security['private']:
         author_gravatar = author_email
         author_email = ''
     else:        
@@ -112,7 +118,7 @@ def new_comment(data):
     mail(site.admin_email, subject, email_body)
 
     # Reader subscribes to further comments
-    if not config.PRIVATE and subscribe and author_email:
+    if not config.security['private'] and subscribe and author_email:
         subscribe_reader(author_email, token, url)
 
     logger.debug("new comment processed ")
@@ -171,7 +177,7 @@ def reply_comment_email(data):
         mail(from_email, 'Re: ' + subject, email_body)
 
         # notify reader once comment is published
-        if not config.PRIVATE:
+        if not config.security['private']:
             reader_email = get_email_metadata(message)
             if reader_email:
                 notify_reader(from_email, reader_email, comment.site.token,
@@ -258,7 +264,7 @@ def notify_subscribed_readers(token, site_url, url):
         to_email = reader.email
         logger.info('notify reader %s' % to_email)
         unsubscribe_url = '%s/unsubscribe?email=%s&token=%s&url=%s' % (
-                          config.ROOT_URL, to_email, token, reader.url)
+                          config.http['root_url'], to_email, token, reader.url)
         email_body = get_template(
             'notify_subscriber').render(article_url=article_url,
                                         unsubscribe_url=unsubscribe_url)
@@ -337,8 +343,8 @@ def report(token):
         unsubscribed.append({'url': "http://" + site.url + row.url,
                              'name': row.name, 'email': row.email})
 
-    email_body = get_template('report').render(secret=config.SECRET,
-                                               root_url=config.ROOT_URL,
+    email_body = get_template('report').render(secret=config.security['secret'],
+                                               root_url=config.http['root_url'],
                                                standbys=standbys,
                                                published=published,
                                                rejected=rejected,
@@ -354,7 +360,7 @@ def report(token):
 
 def rss(token, onstart=False):
 
-    if onstart and os.path.isfile(config.RSS_FILE):
+    if onstart and os.path.isfile(config.rss['file']):
         return
 
     site = Site.select().where(Site.token == token).get()
@@ -365,9 +371,9 @@ def rss(token, onstart=False):
     for row in Comment.select().join(Site).where(
             Site.token == token, Comment.published).order_by(
                 -Comment.published).limit(10):
-        item_link = "%s://%s%s" % (config.RSS_URL_PROTO, site.url, row.url)
+        item_link = "%s://%s%s" % (config.rss['proto'], site.url, row.url)
         items.append(PyRSS2Gen.RSSItem(
-            title='%s - %s://%s%s' % (config.RSS_URL_PROTO, row.author_name, site.url, row.url),
+            title='%s - %s://%s%s' % (config.rss['proto'], row.author_name, site.url, row.url),
             link=item_link,
             description=md.convert(row.content),
             guid=PyRSS2Gen.Guid('%s/%d' % (item_link, row.id)),
@@ -376,11 +382,11 @@ def rss(token, onstart=False):
 
     rss = PyRSS2Gen.RSS2(
         title=rss_title,
-        link='%s://%s' % (config.RSS_URL_PROTO, site.url),
+        link='%s://%s' % (config.rss['proto'], site.url),
         description="Commentaires du site '%s'" % site.name,
         lastBuildDate=datetime.now(),
         items=items)
-    rss.write_xml(open(config.RSS_FILE, "w"), encoding="utf-8")
+    rss.write_xml(open(config.rss['file'], 'w'), encoding='utf-8')
 
 
 def mail(to_email, subject, message):
@@ -400,7 +406,7 @@ def mail(to_email, subject, message):
 
 
 def get_template(name):
-    return env.get_template(config.LANG + '/' + name + '.tpl')
+    return env.get_template(config.general['lang'] + '/' + name + '.tpl')
 
 
 def enqueue(something):
