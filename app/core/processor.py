@@ -18,17 +18,12 @@ import json
 from conf import config
 import PyRSS2Gen
 import markdown
-import zmq
+import pika
 
 logger = logging.getLogger(__name__)
 queue = Queue()
 proc = None
 env = None
-
-
-context = zmq.Context()
-zpub = context.socket(zmq.PUB)
-zpub.connect('tcp://127.0.0.1:{}'.format(config.zmq['sub_port']))
 
 
 class Processor(Thread):
@@ -142,7 +137,13 @@ def reply_comment_email(data):
     token = m.group(2)
 
     # retrieve site and comment rows
-    comment = Comment.select().where(Comment.id == comment_id).get()
+    try:
+        comment = Comment.select().where(Comment.id == comment_id).get()
+    except:
+        logger.warn('unknown comment %d' % comment_id)
+        send_delete_command(data)
+        return
+
     if comment.site.token != token:
         logger.warn('ignore corrupted email. Unknown token %d' % comment_id)
         return
@@ -152,7 +153,7 @@ def reply_comment_email(data):
         return
 
     # accept email: request to delete
-    send_deletion_order(data)
+    send_delete_command(data)
 
     # safe logic: no answer or unknown answer is a go for publishing
     if message[:2].upper() == 'NO':
@@ -394,26 +395,37 @@ def rss(token, onstart=False):
     rss.write_xml(open(config.rss['file'], 'w'), encoding='utf-8')
 
 
+def get_rmq_channel():
+    credentials = pika.PlainCredentials(
+        config.rabbitmq['username'], config.rabbitmq['password'])
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.rabbitmq['host'], port=config.rabbitmq[
+                                         'port'], credentials=credentials, virtual_host=config.rabbitmq['vhost']))
+    channel = connection.channel()
+    return channel
+
+
 def mail(to_email, subject, message):
 
-    zmsg = {
-        'topic': 'email:send',
+    body = {
         'to': to_email,
         'subject': subject,
         'content': message
     }
-
-    # TODO test broker failure and find alternative
-    zpub.send_string(json.dumps(zmsg, indent=False, sort_keys=False))
+    channel = get_rmq_channel()
+    channel.basic_publish(exchange=config.rabbitmq['exchange'],
+                          routing_key='mail.command.send',
+                          body=json.dumps(body, indent=False, sort_keys=False))
     logger.debug('Email for %s posted' % to_email)
-
     #logger.warn('Cannot post email for %s' % to_email)
 
 
-def send_deletion_order(zmsg):
-    zmsg['topic'] = 'email:delete'
-    zpub.send_string(json.dumps(zmsg, indent=False, sort_keys=False))
-    logger.debug('Email accepted. Deletion request sent for %s' % zmsg)
+def send_delete_command(content):
+
+    channel = get_rmq_channel()
+    channel.basic_publish(exchange=config.rabbitmq['exchange'],
+                          routing_key='mail.command.delete',
+                          body=json.dumps(content, indent=False, sort_keys=False))
+    logger.debug('Email accepted. Delete request sent for %s' % content)
 
 
 def get_template(name):

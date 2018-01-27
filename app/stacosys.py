@@ -28,7 +28,7 @@ def stacosys_server(config_pathname):
     config.http = conf['http']
     config.security = conf['security']
     config.rss = conf['rss']
-    config.zmq = conf['zmq']
+    config.rabbitmq = conf['rabbitmq']
 
     # start application
     from core import app
