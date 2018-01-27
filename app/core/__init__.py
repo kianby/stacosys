@@ -25,7 +25,7 @@ import processor
 from interface import api
 from interface import form
 from interface import report
-from interface import zclient
+from interface import rmqclient
 
 # configure logging
 def configure_logging(level):
@@ -50,7 +50,7 @@ logger = logging.getLogger(__name__)
 database.setup()  
 
 # start broker client
-zclient.start()
+rmqclient.start()
 
 # start processor
 template_path = os.path.abspath(os.path.join(current_path, '../templates'))

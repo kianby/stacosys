@@ -12,8 +12,8 @@ Markdown==2.6.11
 MarkupSafe==1.0
 od==1.0
 peewee==2.10.2
+pika==0.11.2
 PyRSS2Gen==1.1
-pyzmq==16.0.3
 sigtools==2.0.1
 six==1.11.0
 Werkzeug==0.14.1

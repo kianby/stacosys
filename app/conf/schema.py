@@ -24,16 +24,16 @@ json_schema = """
                 "rss": {
                     "$ref": "#/definitions/RSS"
                 },
-                "zmq": {
-                    "$ref": "#/definitions/Zmq"
+                "rabbitmq": {
+                    "$ref": "#/definitions/Rabbitmq"
                 }
             },
             "required": [
                 "general",
                 "http",
+                "rabbitmq",
                 "rss",
-                "security",
-                "zmq"
+                "security"
             ],
             "title": "stacosys"
         },
@@ -79,6 +79,43 @@ json_schema = """
             ],
             "title": "http"
         },
+        "Rabbitmq": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "vhost": {
+                    "type": "string"
+                },
+                "exchange": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "active",
+                "exchange",
+                "host",
+                "password",
+                "port",
+                "username",
+                "vhost"
+            ],
+            "title": "rabbitmq"
+        },
         "RSS": {
             "type": "object",
             "additionalProperties": false,
@@ -116,27 +153,6 @@ json_schema = """
                 "secret"
             ],
             "title": "security"
-        },
-        "Zmq": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "host": {
-                    "type": "string"
-                },
-                "pub_port": {
-                    "type": "integer"
-                },
-                "sub_port": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "host",
-                "pub_port",
-                "sub_port"
-            ],
-            "title": "zmq"
         }
     }
 }
