@@ -395,13 +395,12 @@ def rss(token, onstart=False):
     rss.write_xml(open(config.rss['file'], 'w'), encoding='utf-8')
 
 
-def get_rmq_channel():
+def get_rabbitmq_connection():
     credentials = pika.PlainCredentials(
         config.rabbitmq['username'], config.rabbitmq['password'])
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.rabbitmq['host'], port=config.rabbitmq[
                                          'port'], credentials=credentials, virtual_host=config.rabbitmq['vhost']))
-    channel = connection.channel()
-    return channel
+    return connection
 
 
 def mail(to_email, subject, message):
@@ -411,20 +410,23 @@ def mail(to_email, subject, message):
         'subject': subject,
         'content': message
     }
-    channel = get_rmq_channel()
+    connection = get_rabbitmq_connection()
+    channel = connection.channel()
     channel.basic_publish(exchange=config.rabbitmq['exchange'],
                           routing_key='mail.command.send',
                           body=json.dumps(body, indent=False, sort_keys=False))
+    connection.close()
     logger.debug('Email for %s posted' % to_email)
-    #logger.warn('Cannot post email for %s' % to_email)
 
 
 def send_delete_command(content):
 
-    channel = get_rmq_channel()
+    connection = get_rabbitmq_connection()
+    channel = connection.channel()
     channel.basic_publish(exchange=config.rabbitmq['exchange'],
                           routing_key='mail.command.delete',
                           body=json.dumps(content, indent=False, sort_keys=False))
+    connection.close()
     logger.debug('Email accepted. Delete request sent for %s' % content)
 
 
