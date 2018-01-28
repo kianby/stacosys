@@ -16,6 +16,7 @@ def new_form_comment():
 
     try:
         data = request.form
+        logger.info('headers: {}'.format(request.headers))
         logger.info(data)
 
         # validate token: retrieve site entity
