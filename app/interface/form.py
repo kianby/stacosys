@@ -18,9 +18,9 @@ def new_form_comment():
         data = request.form
 
         # add client IP if provided by HTTP proxy
-        logger.info('headers: {}'.format(request.headers))
+        clientip = ''
         if 'X-Forwarded-For' in request.headers:
-            data['clientip'] = request.headers['X-Forwarded-For']
+            clientip = request.headers['X-Forwarded-For']
         
         # log 
         logger.info(data)
@@ -38,7 +38,7 @@ def new_form_comment():
             logger.warn('discard spam: data %s' % data)
             abort(400)
 
-        processor.enqueue({'request': 'new_comment', 'data': data})
+        processor.enqueue({'request': 'new_comment', 'data': data, 'clientip': clientip})
 
     except:
         logger.exception("new comment failure")

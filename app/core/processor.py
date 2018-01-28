@@ -42,7 +42,7 @@ class Processor(Thread):
             try:
                 msg = queue.get()
                 if msg['request'] == 'new_comment':
-                    new_comment(msg['data'])
+                    new_comment(msg['data'], msg.get('clientip', ''))
                 elif msg['request'] == 'new_mail':
                     reply_comment_email(msg['data'])
                 elif msg['request'] == 'unsubscribe':
@@ -59,7 +59,7 @@ class Processor(Thread):
                 logger.exception("processing failure")
 
 
-def new_comment(data):
+def new_comment(data, clientip):
 
     logger.info('new comment received: %s' % data)
 
@@ -70,7 +70,6 @@ def new_comment(data):
     author_site = data.get('site', '').strip()
     message = data.get('message', '')
     subscribe = data.get('subscribe', '')
-    clientip = data.get('clientip', '')
 
     # private mode: email contains gravar md5 hash
     if config.security['private']:
