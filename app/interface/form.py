@@ -16,7 +16,13 @@ def new_form_comment():
 
     try:
         data = request.form
+
+        # add client IP if provided by HTTP proxy
         logger.info('headers: {}'.format(request.headers))
+        if 'X-Forwarded-For' in request.headers:
+            data['clientip'] = request.headers['X-Forwarded-For']
+        
+        # log 
         logger.info(data)
 
         # validate token: retrieve site entity

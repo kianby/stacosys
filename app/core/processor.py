@@ -25,6 +25,8 @@ queue = Queue()
 proc = None
 env = None
 
+# store client IP in memory until classification 
+client_ips = {}
 
 class Processor(Thread):
 
@@ -68,6 +70,7 @@ def new_comment(data):
     author_site = data.get('site', '').strip()
     message = data.get('message', '')
     subscribe = data.get('subscribe', '')
+    clientip = data.get('clientip', '')
 
     # private mode: email contains gravar md5 hash
     if config.security['private']:
@@ -107,6 +110,9 @@ def new_comment(data):
     comment_text = '\n'.join(comment_list)
     email_body = get_template('new_comment').render(
         url=article_url, comment=comment_text)
+
+    if clientip:
+        client_ips[comment.ip] = clientip
 
     # send email
     subject = '%s: [%d:%s]' % (site.name, comment.id, token)
@@ -156,7 +162,19 @@ def reply_comment_email(data):
     send_delete_command(data)
 
     # safe logic: no answer or unknown answer is a go for publishing
-    if message[:2].upper() == 'NO':
+    if message[:2].upper() in ('NO','SP'):
+
+        # put a log to help fail2ban 
+        if message[:2].upper() == 'SP': # SPAM
+            if comment_id in client_ips:
+                logger.info('SPAM comment from %s: %d' % (client_ips[comment_id], comment_id))
+            else:
+                logger.info('cannot identify SPAM source: %d' % comment_id)
+            
+        # forget client IP
+        if comment_id in client_ips:
+            del client_ips[comment_id]
+
         # report event
         report_rejected(comment)
 
