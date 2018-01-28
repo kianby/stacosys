@@ -111,7 +111,7 @@ def new_comment(data, clientip):
         url=article_url, comment=comment_text)
 
     if clientip:
-        client_ips[comment.ip] = clientip
+        client_ips[comment.id] = clientip
 
     # send email
     subject = '%s: [%d:%s]' % (site.name, comment.id, token)
