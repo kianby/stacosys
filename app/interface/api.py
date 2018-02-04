@@ -11,6 +11,11 @@ from core import processor
 logger = logging.getLogger(__name__)
 
 
+@app.route("/ping", methods=['GET'])
+def ping():
+    return "OK"
+
+
 @app.route("/comments", methods=['GET'])
 def query_comments():
 
