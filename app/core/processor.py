@@ -45,6 +45,7 @@ class Processor(Thread):
                     new_comment(msg['data'], msg.get('clientip', ''))
                 elif msg['request'] == 'new_mail':
                     reply_comment_email(msg['data'])
+                    send_delete_command(msg['data'])
                 elif msg['request'] == 'unsubscribe':
                     unsubscribe_reader(msg['data'])
                 elif msg['request'] == 'report':
@@ -114,7 +115,7 @@ def new_comment(data, clientip):
         client_ips[comment.id] = clientip
 
     # send email
-    subject = '%s: [%d:%s]' % (site.name, comment.id, token)
+    subject = 'STACOSYS %s: [%d:%s]' % (site.name, comment.id, token)
     mail(site.admin_email, subject, email_body)
 
     # Reader subscribes to further comments
@@ -146,7 +147,10 @@ def reply_comment_email(data):
         comment = Comment.select().where(Comment.id == comment_id).get()
     except:
         logger.warn('unknown comment %d' % comment_id)
-        send_delete_command(data)
+        return
+
+    if comment.published:
+        logger.warn('ignore already published email. token %d' % comment_id)
         return
 
     if comment.site.token != token:
@@ -156,9 +160,6 @@ def reply_comment_email(data):
     if not message:
         logger.warn('ignore empty email')
         return
-
-    # accept email: request to delete
-    send_delete_command(data)
 
     # safe logic: no answer or unknown answer is a go for publishing
     if message[:2].upper() in ('NO','SP'):
