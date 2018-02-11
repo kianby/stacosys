@@ -12,14 +12,21 @@ logger = logging.getLogger(__name__)
 
 
 def process_message(chan, method, properties, body):
-    topic = method.routing_key
-    data = json.loads(body)
 
-    if topic == 'mail.message':
-        logger.info('new message => {}'.format(data))
-        processor.enqueue({'request': 'new_mail', 'data': data})
-    else:
-        logger.warn('unsupported message [topic={}]'.format(topic))
+    try:
+        topic = method.routing_key
+        data = json.loads(body)
+
+        if topic == 'mail.message':
+            if "STACOSYS" in data['subject']:
+                logger.info('new message => {}'.format(data))
+                processor.enqueue({'request': 'new_mail', 'data': data})
+            else:
+                logger.info('ignore message => {}'.format(data))
+        else:
+            logger.warn('unsupported message [topic={}]'.format(topic))
+    except:
+        logger.exception('cannot process message')
 
 
 class MessageConsumer(Thread):
