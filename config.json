@@ -20,7 +20,7 @@
     },
     "rabbitmq": {
         "active": true,
-        "host": "127.0.0.1",
+        "host": "rabbit",
         "port": 5672,
         "username": "techuser",
         "password": "tech",
