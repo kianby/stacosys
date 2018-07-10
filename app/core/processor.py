@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 import os
 import logging
 import re
@@ -209,6 +210,8 @@ def reply_comment_email(data):
             notify_subscribed_readers(
                 comment.site.token, comment.site.url, comment.url)
 
+        # system quit
+        system_quit()
 
 def late_reject_comment(id):
 
@@ -458,6 +461,10 @@ def enqueue(something):
 
 def get_processor():
     return proc
+
+
+def system_quit():
+    sys.exit(0)
 
 
 def start(template_dir):
