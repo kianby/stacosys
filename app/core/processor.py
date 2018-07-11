@@ -26,8 +26,9 @@ queue = Queue()
 proc = None
 env = None
 
-# store client IP in memory until classification 
+# store client IP in memory until classification
 client_ips = {}
+
 
 class Processor(Thread):
 
@@ -163,15 +164,16 @@ def reply_comment_email(data):
         return
 
     # safe logic: no answer or unknown answer is a go for publishing
-    if message[:2].upper() in ('NO','SP'):
+    if message[:2].upper() in ('NO', 'SP'):
 
-        # put a log to help fail2ban 
-        if message[:2].upper() == 'SP': # SPAM
+        # put a log to help fail2ban
+        if message[:2].upper() == 'SP':  # SPAM
             if comment_id in client_ips:
-                logger.info('SPAM comment from %s: %d' % (client_ips[comment_id], comment_id))
+                logger.info('SPAM comment from %s: %d' %
+                            (client_ips[comment_id], comment_id))
             else:
                 logger.info('cannot identify SPAM source: %d' % comment_id)
-            
+
         # forget client IP
         if comment_id in client_ips:
             del client_ips[comment_id]
@@ -210,8 +212,6 @@ def reply_comment_email(data):
             notify_subscribed_readers(
                 comment.site.token, comment.site.url, comment.url)
 
-        # system quit
-        system_quit()
 
 def late_reject_comment(id):
 
@@ -461,10 +461,6 @@ def enqueue(something):
 
 def get_processor():
     return proc
-
-
-def system_quit():
-    sys.exit(0)
 
 
 def start(template_dir):
