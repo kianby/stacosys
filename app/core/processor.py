@@ -16,6 +16,7 @@ from models.comment import Comment
 from helpers.hashing import md5
 import json
 from conf import config
+from util import rabbit
 import PyRSS2Gen
 import markdown
 import pika
@@ -416,12 +417,16 @@ def rss(token, onstart=False):
 
 
 def get_rabbitmq_connection():
+
     credentials = pika.PlainCredentials(
         config.rabbitmq['username'], config.rabbitmq['password'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.rabbitmq['host'], port=config.rabbitmq[
-                                         'port'], credentials=credentials, virtual_host=config.rabbitmq['vhost']))
-    return connection
-
+    parameters = pika.ConnectionParameters(
+        host=config.rabbitmq['host'],
+        port=config.rabbitmq['port'],
+        credentials=credentials,
+        virtual_host=config.rabbitmq['vhost']
+    )
+    return rabbit.Connection(parameters)
 
 def mail(to_email, subject, message):
 
@@ -430,23 +435,25 @@ def mail(to_email, subject, message):
         'subject': subject,
         'content': message
     }
-    connection = get_rabbitmq_connection()
+    connector = get_rabbitmq_connection()
+    connection = connector.open()
     channel = connection.channel()
     channel.basic_publish(exchange=config.rabbitmq['exchange'],
                           routing_key='mail.command.send',
                           body=json.dumps(body, indent=False, sort_keys=False))
-    connection.close()
+    connector.close()
     logger.debug('Email for %s posted' % to_email)
 
 
 def send_delete_command(content):
 
-    connection = get_rabbitmq_connection()
+    connector = get_rabbitmq_connection()
+    connection = connector.open()
     channel = connection.channel()
     channel.basic_publish(exchange=config.rabbitmq['exchange'],
                           routing_key='mail.command.delete',
                           body=json.dumps(content, indent=False, sort_keys=False))
-    connection.close()
+    connector.close()
     logger.debug('Email accepted. Delete request sent for %s' % content)
 
 

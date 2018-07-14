@@ -11,6 +11,7 @@ from util import rabbit
 
 logger = logging.getLogger(__name__)
 
+
 class MailConsumer(rabbit.Consumer):
 
     def process(self, channel, method, properties, body):
@@ -31,20 +32,18 @@ class MailConsumer(rabbit.Consumer):
 
 
 def start():
+
     logger.info('start rmqclient')
-    #c = MessageConsumer()
-    #c.start()
 
-    credentials = pika.PlainCredentials(config.rabbitmq['username'], config.rabbitmq['password'])
-
+    credentials = pika.PlainCredentials(
+        config.rabbitmq['username'], config.rabbitmq['password'])
     parameters = pika.ConnectionParameters(
-        host=config.rabbitmq['host'], 
-        port=config.rabbitmq['port'], 
-        credentials=credentials, 
+        host=config.rabbitmq['host'],
+        port=config.rabbitmq['port'],
+        credentials=credentials,
         virtual_host=config.rabbitmq['vhost']
     )
 
     connection = rabbit.Connection(parameters)
     c = MailConsumer(connection, config.rabbitmq['exchange'], 'mail.message')
     c.start()
-    #print('exit rmqclient ' + str(c))

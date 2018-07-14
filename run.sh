@@ -1,3 +1,3 @@
 #!/bin/sh
-python app/stacosys.py "$@"
+python app/run.py "$@"
 
