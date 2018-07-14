@@ -26,7 +26,8 @@ class Connection:
                 break
             except:
                 time.sleep(CONNECT_DELAY)
-                logger.warn("rabbitmq connection failure. try again...")
+                logger.exception('rabbitmq connection failure. try again...')
+        return self._connection
 
     def close(self):
         self._connection.close()
@@ -38,24 +39,23 @@ class Connection:
 
 class Consumer(Thread):
 
-    _connection = None
+    _connector = None
     _channel = None
     _queue_name = None
 
-    def __init__(self, connection, exchange_name, routing_key):
+    def __init__(self, connector, exchange_name, routing_key):
         Thread.__init__(self)
-        self._connection = connection
+        self._connector = connector
         self._exchange_name = exchange_name
         self._routing_key = routing_key
 
-    def configure(self):
+    def configure(self, connection):
 
-        self._connection = None
         self._channel = None
         while True:
             try:
 
-                self._channel = self._connection.channel()
+                self._channel = connection.channel()
                 self._channel.exchange_declare(
                     exchange=self._exchange_name, exchange_type=EXCHANGE_TYPE
                 )
@@ -69,12 +69,13 @@ class Consumer(Thread):
                 )
                 break
             except:
+                logger.exception('configuration failure. try again...')
                 time.sleep(CONNECT_DELAY)
-                logger.warn("connection failure. try again...")
 
     def run(self):
 
-        self.configure()
+        self._connector.open()
+        self.configure(self._connector.get())
         self._channel.basic_consume(
             self.process, queue=self._queue_name, no_ack=True)
         self._channel.start_consuming()
