@@ -61,3 +61,7 @@ myconfig.json
 db.sqlite
 node_modules
 comments.xml
+stacosys/bin/
+stacosys/pyvenv.cfg
+stacosys/lib64
+.vscode/

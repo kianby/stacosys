@@ -6,9 +6,10 @@
 
 json_schema = """
 {
-    "$ref": "#/definitions/Stacosys",
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome",
     "definitions": {
-        "Stacosys": {
+        "Welcome": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
@@ -23,19 +24,15 @@ json_schema = """
                 },
                 "rss": {
                     "$ref": "#/definitions/RSS"
-                },
-                "rabbitmq": {
-                    "$ref": "#/definitions/Rabbitmq"
                 }
             },
             "required": [
                 "general",
                 "http",
-                "rabbitmq",
                 "rss",
                 "security"
             ],
-            "title": "stacosys"
+            "title": "Welcome"
         },
         "General": {
             "type": "object",
@@ -56,7 +53,7 @@ json_schema = """
                 "debug",
                 "lang"
             ],
-            "title": "general"
+            "title": "General"
         },
         "HTTP": {
             "type": "object",
@@ -77,44 +74,7 @@ json_schema = """
                 "port",
                 "root_url"
             ],
-            "title": "http"
-        },
-        "Rabbitmq": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "integer"
-                },
-                "username": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "vhost": {
-                    "type": "string"
-                },
-                "exchange": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "active",
-                "exchange",
-                "host",
-                "password",
-                "port",
-                "username",
-                "vhost"
-            ],
-            "title": "rabbitmq"
+            "title": "HTTP"
         },
         "RSS": {
             "type": "object",
@@ -131,7 +91,7 @@ json_schema = """
                 "file",
                 "proto"
             ],
-            "title": "rss"
+            "title": "RSS"
         },
         "Security": {
             "type": "object",
@@ -142,17 +102,13 @@ json_schema = """
                 },
                 "secret": {
                     "type": "string"
-                },
-                "private": {
-                    "type": "boolean"
                 }
             },
             "required": [
-                "private",
                 "salt",
                 "secret"
             ],
-            "title": "security"
+            "title": "Security"
         }
     }
 }

@@ -11,20 +11,10 @@
     },
     "security": {
         "salt": "BRRJRqXgGpXWrgTidBPcixIThHpDuKc0",
-        "secret": "Uqca5Kc8xuU6THz9",
-        "private": true
+        "secret": "Uqca5Kc8xuU6THz9"
     },
     "rss": {
         "proto": "http",
         "file": "comments.xml"
-    },
-    "rabbitmq": {
-        "active": true,
-        "host": "rabbit",
-        "port": 5672,
-        "username": "techuser",
-        "password": "tech",
-        "vhost": "devhub",
-        "exchange": "hub.topic"
     }
 }

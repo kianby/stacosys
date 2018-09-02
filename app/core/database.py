@@ -23,7 +23,5 @@ def provide_db(func):
 def setup(db):
     from models.site import Site
     from models.comment import Comment
-    from models.reader import Reader
-    from models.report import Report
 
-    db.create_tables([Site, Comment, Reader, Report], safe=True)
+    db.create_tables([Site, Comment], safe=True)

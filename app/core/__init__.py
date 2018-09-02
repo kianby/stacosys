@@ -5,9 +5,9 @@ import os
 import sys
 import logging
 from flask import Flask
-from flask.ext.cors import CORS
 from conf import config
 from jsonschema import validate
+from flask_apscheduler import APScheduler
 
 app = Flask(__name__)
 
@@ -24,8 +24,6 @@ import database
 import processor
 from interface import api
 from interface import form
-from interface import report
-from interface import rmqclient
 
 # configure logging
 def configure_logging(level):
@@ -46,26 +44,37 @@ configure_logging(logging_level)
 
 logger = logging.getLogger(__name__)
 
+class Config(object):
+    JOBS = [
+        {
+            'id': 'fetch_mail',
+            'func': 'core.cron:fetch_mail_answers',
+            'trigger': 'interval',
+            'seconds': 120
+        },
+        {
+            'id': 'submit_new_comment',
+            'func': 'core.cron:submit_new_comment',
+            'trigger': 'interval',
+            'seconds': 60
+        },
+    ]
+
 # initialize database
 database.setup()  
-
-# start broker client
-rmqclient.start()
 
 # start processor
 template_path = os.path.abspath(os.path.join(current_path, '../templates'))
 processor.start(template_path)
 
-# less feature in private mode
-if not config.security['private']:
-    # enable CORS
-    cors = CORS(app, resources={r"/comments/*": {"origins": "*"}})
-    from app.controllers import reader
-    logger.debug('imported: %s ' % reader.__name__)
+# cron
+app.config.from_object(Config())
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
 
 # tune logging level
 if not config.general['debug']:
-    logging.getLogger('app.cors').level = logging.WARNING
     logging.getLogger('werkzeug').level = logging.WARNING
 
 logger.info("Start Stacosys application")
