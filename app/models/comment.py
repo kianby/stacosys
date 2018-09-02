@@ -13,11 +13,12 @@ from core.database import get_db
 class Comment(Model):
     url = CharField()
     created = DateTimeField()
+    notified = DateTimeField(null=True,default=None)
     published = DateTimeField(null=True, default=None)
     author_name = CharField()
-    author_email = CharField(default='')
     author_site = CharField(default='')
     author_gravatar = CharField(default='')
+    ip = CharField(default='')
     content = TextField()
     site = ForeignKeyField(Site, related_name='site')
 
