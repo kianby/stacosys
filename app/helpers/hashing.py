@@ -6,7 +6,7 @@ from conf import config
 
 
 def salt(value):
-    string = '%s%s' % (value, config.security['salt'])
+    string = "%s%s" % (value, config.get(config.SECURITY_SALT))
     dk = hashlib.sha256(string.encode())
     return dk.hexdigest()
 

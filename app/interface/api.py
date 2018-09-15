@@ -3,13 +3,13 @@
 
 import logging
 from flask import request, jsonify, abort
-from core import app
-from models.site import Site
-from models.comment import Comment
+from model.site import Site
+from model.comment import Comment
+from conf import config
 from core import processor
 
 logger = logging.getLogger(__name__)
-
+app = config.flaskapp()
 
 @app.route("/ping", methods=['GET'])
 def ping():
