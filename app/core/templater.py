@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -13,4 +12,4 @@ env = Environment(loader=FileSystemLoader(template_path))
 
 
 def get_template(name):
-    return env.get_template(config.general["lang"] + "/" + name + ".tpl")
+    return env.get_template(config.get(config.LANG) + "/" + name + ".tpl")
