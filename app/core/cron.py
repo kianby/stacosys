@@ -13,12 +13,10 @@ from model.comment import Site
 
 logger = logging.getLogger(__name__)
 
-client_ips = {}
-
 
 def cron(func):
     def wrapper():
-        logger.debug("execute fun " + func)
+        logger.debug("execute CRON " + func.__name__)
         func()
 
     return wrapper
@@ -27,16 +25,13 @@ def cron(func):
 @cron
 def fetch_mail_answers():
 
-    msg = {}
-
-    if msg["request"] == "new_mail":
-        reply_comment_email(msg["data"])
-        mailer.delete(msg["data"])
-
-    # data = request.get_json()
-    # logger.debug(data)
-
-    # processor.enqueue({'request': 'new_mail', 'data': data})
+    for msg in mailer.fetch():
+        m = re.search(r"\[(\d+)\:(\w+)\]", msg["subject"])
+        if m:
+            full_msg = mailer.get(msg["id"])
+            if full_msg:
+                reply_comment_email(full_msg)
+                mailer.delete(msg["id"])
 
 
 @cron
@@ -58,8 +53,8 @@ def submit_new_comment():
             url=comment.url, comment=comment_text
         )
 
-        site = Site.select().where(Site.id == Comment.site).get()
         # send email
+        site = Site.select().where(Site.id == Comment.site).get()
         subject = "STACOSYS %s: [%d:%s]" % (site.name, comment.id, site.token)
         mailer.send(site.admin_email, subject, email_body)
         logger.debug("new comment processed ")
@@ -106,16 +101,12 @@ def reply_comment_email(data):
 
         # put a log to help fail2ban
         if message[:2].upper() == "SP":  # SPAM
-            if comment_id in client_ips:
+            if comment.ip:
                 logger.info(
                     "SPAM comment from %s: %d" % (client_ips[comment_id], comment_id)
                 )
             else:
                 logger.info("cannot identify SPAM source: %d" % comment_id)
-
-        # forget client IP
-        if comment_id in client_ips:
-            del client_ips[comment_id]
 
         logger.info("discard comment: %d" % comment_id)
         comment.delete_instance()
@@ -124,6 +115,7 @@ def reply_comment_email(data):
     else:
         # update Comment row
         comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        comment.ip = None
         comment.save()
         logger.info("commit comment: %d" % comment_id)
 
