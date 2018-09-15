@@ -42,7 +42,7 @@ def new_form_comment():
         url = data.get("url", "")
         author_name = data.get("author", "").strip()
         author_gravatar = data.get("email", "").strip()
-        author_site = data.get("site", "").to_lower().strip()
+        author_site = data.get("site", "").lower().strip()
         if author_site and author_site[:4] != "http":
             author_site = "http://" + author_site
         message = data.get("message", "")
