@@ -42,7 +42,7 @@ Stacosys can be hosted on the same server or on a different server than the blog
 
 Python 3.7
 
-pip libs: flask peewee pyrss2gen markdown clize flask-apscheduler profig
+pip libs: flask peewee pyrss2gen markdown clize flask-apscheduler profig requests
 
 ### Ways of improvement
 

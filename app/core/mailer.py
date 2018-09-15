@@ -22,7 +22,7 @@ def fetch():
 
 def get(id):
     payload = None
-    r = requests.get(config.get(config.MAILER_URL) + "/mbox/" + id)
+    r = requests.get(config.get(config.MAILER_URL) + "/mbox/" + str(id))
     if r.status_code == 200:
         payload = r.json()
     return payload
@@ -41,4 +41,4 @@ def send(to_email, subject, message):
 
 
 def delete(id):
-    requests.delete(config.get(config.MAILER_URL) + "/mbox/" + id)
+    requests.delete(config.get(config.MAILER_URL) + "/mbox/" + str(id))

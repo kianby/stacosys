@@ -26,13 +26,10 @@ def cron(func):
 def fetch_mail_answers():
 
     for msg in mailer.fetch():
-        m = re.search(r"\[(\d+)\:(\w+)\]", msg["subject"])
-        if m:
+        if re.search(r".*STACOSYS.*\[(\d+)\:(\w+)\]", msg["subject"], re.DOTALL):
             full_msg = mailer.get(msg["id"])
-            if full_msg:
-                reply_comment_email(full_msg)
+            if full_msg and reply_comment_email(full_msg['email']):
                 mailer.delete(msg["id"])
-
 
 @cron
 def submit_new_comment():
@@ -42,10 +39,10 @@ def submit_new_comment():
         comment_list = (
             "author: %s" % comment.author_name,
             "site: %s" % comment.author_site,
-            "date: %s" % comment.create,
+            "date: %s" % comment.created,
             "url: %s" % comment.url,
             "",
-            "%s" % comment.message,
+            "%s" % comment.content,
             "",
         )
         comment_text = "\n".join(comment_list)
@@ -54,10 +51,14 @@ def submit_new_comment():
         )
 
         # send email
-        site = Site.select().where(Site.id == Comment.site).get()
+        site = Site.get(Site.id == comment.site)
         subject = "STACOSYS %s: [%d:%s]" % (site.name, comment.id, site.token)
         mailer.send(site.admin_email, subject, email_body)
         logger.debug("new comment processed ")
+
+        # update comment
+        comment.notified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        comment.save()
 
 
 def reply_comment_email(data):
@@ -82,7 +83,7 @@ def reply_comment_email(data):
         comment = Comment.select().where(Comment.id == comment_id).get()
     except:
         logger.warn("unknown comment %d" % comment_id)
-        return
+        return True
 
     if comment.published:
         logger.warn("ignore already published email. token %d" % comment_id)
@@ -103,7 +104,7 @@ def reply_comment_email(data):
         if message[:2].upper() == "SP":  # SPAM
             if comment.ip:
                 logger.info(
-                    "SPAM comment from %s: %d" % (client_ips[comment_id], comment_id)
+                    "SPAM comment from %s: %d" % (comment.ip, comment_id)
                 )
             else:
                 logger.info("cannot identify SPAM source: %d" % comment_id)
@@ -126,3 +127,4 @@ def reply_comment_email(data):
         email_body = get_template("approve_comment").render(original=message)
         mailer.send(from_email, "Re: " + subject, email_body)
 
+    return True

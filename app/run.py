@@ -26,6 +26,10 @@ class JobConfig(object):
 
     JOBS = []
 
+    SCHEDULER_EXECUTORS = {
+        'default': {'type': 'threadpool', 'max_workers': 20}
+    }
+
     def __init__(self, mail_polling_seconds, new_comment_polling_seconds):
         self.JOBS = [
             {
