@@ -38,6 +38,12 @@ Stacosys can be hosted on the same server or on a different server than the blog
 -    [Peewee ORM](http://docs.peewee-orm.com)
 -    [Markdown](http://daringfireball.net/projects/markdown)
 
+### Installation
+
+Python 3.7
+
+pip libs: flask peewee pyrss2gen markdown clize flask-apscheduler profig
+
 ### Ways of improvement
 
 Current version of Stacosys fits my needs and it serves comments on [my blog](https://blogduyax.madyanne.fr). However Stacosys has been designed to serve several blogs and e-mail can be a constraint for some people. So an area of improvement would be to add an administration UI to configure sites, approve or reject comments, keep track of usage statistics and get rid of e-mails. I encourage you to fork the project and create such improvements if you need them.

@@ -2,26 +2,15 @@
 # -*- coding: UTF-8 -*-
 
 from conf import config
-import functools
 from playhouse.db_url import connect
 
 
 def get_db():
-    return connect(config.general['db_url'])
+    return connect(config.get(config.DB_URL))
 
 
-def provide_db(func):
+def setup():
+    from model.site import Site
+    from model.comment import Comment
 
-    @functools.wraps(func)
-    def new_function(*args, **kwargs):
-        return func(get_db(), *args, **kwargs)
-
-    return new_function
-
-
-@provide_db
-def setup(db):
-    from models.site import Site
-    from models.comment import Comment
-
-    db.create_tables([Site, Comment], safe=True)
+    get_db().create_tables([Site, Comment], safe=True)

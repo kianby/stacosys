@@ -4,13 +4,13 @@
 import logging
 from datetime import datetime
 from flask import request, abort, redirect
-from core import app
-from models.site import Site
-from models.comment import Comment
+from model.site import Site
+from model.comment import Comment
+from conf import config
 from helpers.hashing import md5
 
 logger = logging.getLogger(__name__)
-
+app = config.flaskapp()
 
 @app.route("/newcomment", methods=["POST"])
 def new_form_comment():

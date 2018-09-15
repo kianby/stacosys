@@ -10,10 +10,8 @@ import json
 from datetime import datetime
 from threading import Thread
 from queue import Queue
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
-from models.site import Site
-from models.comment import Comment
+from model.site import Site
+from model.comment import Comment
 from helpers.hashing import md5
 from conf import config
 from core import mailer
