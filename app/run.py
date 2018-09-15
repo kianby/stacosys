@@ -59,9 +59,6 @@ def stacosys_server(config_pathname):
 
     database.setup()
 
-    # start processor
-    from core import processor
-
     # cron email fetcher
     app.config.from_object(
         JobConfig(
@@ -74,9 +71,17 @@ def stacosys_server(config_pathname):
 
     logger.info("Start Stacosys application")
 
+    # generate RSS for all sites
+    from core import rss
+
+    rss.generate_all()
+
     # start Flask
     from interface import api
     from interface import form
+
+    logger.debug("Load interface %s" % api)
+    logger.debug("Load interface %s" % form)
 
     app.run(
         host=config.get(config.HTTP_HOST),

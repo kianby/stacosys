@@ -7,7 +7,7 @@ from flask import request, abort, redirect
 from model.site import Site
 from model.comment import Comment
 from conf import config
-from helpers.hashing import md5
+from helper.hashing import md5
 
 logger = logging.getLogger(__name__)
 app = config.flaskapp()

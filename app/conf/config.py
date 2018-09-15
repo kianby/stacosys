@@ -7,6 +7,7 @@ import profig
 FLASK_APP = "flask.app"
 
 DB_URL = "main.db_url"
+LANG = "main.lang"
 
 HTTP_HOST = "http.host"
 HTTP_PORT = "http.port"
@@ -14,8 +15,13 @@ HTTP_PORT = "http.port"
 SECURITY_SALT = "security.salt"
 SECURITY_SECRET = "security.secret"
 
-MAIL_POLLING = "polling.newmail"
-COMMENT_POLLING = "polling.newcomment"
+RSS_PROTO = "rss.proto"
+RSS_FILE = "rss.file"
+
+MAIL_POLLING = "mail.fetch_polling"
+COMMENT_POLLING = "main.newcomment_polling"
+MAILER_URL = "mail.mailer_url"
+
 
 # variable
 params = dict()
