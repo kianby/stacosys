@@ -57,6 +57,7 @@ def stacosys_server(config_pathname):
     logger = logging.getLogger(__name__)
     configure_logging(logging.INFO)
     logging.getLogger("werkzeug").level = logging.WARNING
+    logging.getLogger("apscheduler.executors").level = logging.WARNING
 
     # initialize database
     from core import database
