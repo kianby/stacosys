@@ -13,7 +13,6 @@ def fetch():
     mails = []
     r = requests.get(config.get(config.MAILER_URL) + "/mbox")
     if r.status_code == 200:
-        logger.info("MAILER => " + str(r.json()))
         payload = r.json()
         if payload["count"] > 0:
             mails = payload["emails"]
