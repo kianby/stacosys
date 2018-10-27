@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+import argparse
 import os
 import logging
-from clize import Clize, run
 from flask import Flask
 from flask_apscheduler import APScheduler
 from conf import config
@@ -26,9 +26,7 @@ class JobConfig(object):
 
     JOBS = []
 
-    SCHEDULER_EXECUTORS = {
-        'default': {'type': 'threadpool', 'max_workers': 20}
-    }
+    SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 20}}
 
     def __init__(self, mail_polling_seconds, new_comment_polling_seconds):
         self.JOBS = [
@@ -47,7 +45,6 @@ class JobConfig(object):
         ]
 
 
-@Clize
 def stacosys_server(config_pathname):
 
     app = Flask(__name__)
@@ -97,4 +94,7 @@ def stacosys_server(config_pathname):
 
 
 if __name__ == "__main__":
-    run(stacosys_server)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("config", help="config path name")
+    args = parser.parse_args()
+    stacosys_server(args.config)
