@@ -19,6 +19,7 @@ MarkupSafe==1.0
 mccabe==0.6.1
 od==1.0
 peewee==3.6.4
+profig==0.4.1
 pylint==2.1.1
 PyRSS2Gen==1.1
 python-dateutil==2.7.3
