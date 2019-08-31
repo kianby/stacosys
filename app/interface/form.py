@@ -34,7 +34,7 @@ def new_form_comment():
             abort(400)
 
         # honeypot for spammers
-        captcha = data.get("captcha", "")
+        captcha = data.get("remarque", "")        
         if captcha:
             logger.warn("discard spam: data %s" % data)
             abort(400)
