@@ -17,14 +17,12 @@ def new_form_comment():
 
     try:
         data = request.form
+        logger.info("form data " + str(data))
 
         # add client IP if provided by HTTP proxy
         ip = ""
         if "X-Forwarded-For" in request.headers:
             ip = request.headers["X-Forwarded-For"]
-
-        # log
-        logger.info("form data " + str(data))
 
         # validate token: retrieve site entity
         token = data.get("token", "")
@@ -39,7 +37,7 @@ def new_form_comment():
             logger.warn("discard spam: data %s" % data)
             abort(400)
 
-        url = data.get("url", "")
+        url = data.get("url", "") 
         author_name = data.get("author", "").strip()
         author_gravatar = data.get("email", "").strip()
         author_site = data.get("site", "").lower().strip()
@@ -47,9 +45,14 @@ def new_form_comment():
             author_site = "http://" + author_site
         message = data.get("message", "")
 
-        created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # anti-spam again
+        if not url or not author_name or not message:
+            logger.warn("empty field: data %s" % data)
+            abort(400)
+        check_form_data(data)
 
         # add a row to Comment table
+        created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         comment = Comment(
             site=site,
             url=url,
@@ -69,3 +72,13 @@ def new_form_comment():
         abort(400)
 
     return redirect("/redirect/", code=302)
+
+def check_form_data(data):
+    fields = ['url', 'message', 'site', 'remarque', 'author', 'token', 'email']
+    d = data.to_dict()
+    for field in fields:
+        if field in d:
+            del d[field]
+    if d: 
+        logger.warn("additional field: data %s" % data)
+        abort(400)
