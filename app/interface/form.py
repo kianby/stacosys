@@ -24,7 +24,7 @@ def new_form_comment():
             ip = request.headers["X-Forwarded-For"]
 
         # log
-        logger.info(data)
+        logger.info("form data " + str(data))
 
         # validate token: retrieve site entity
         token = data.get("token", "")
