@@ -56,9 +56,8 @@ def submit_new_comment():
         mailer.send(site.admin_email, subject, email_body)
         logger.debug("new comment processed ")
 
-        # update comment
-        comment.notified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        comment.save()
+        # notify site admin and save notification datetime
+        comment.notify_site_admin()
 
 
 def reply_comment_email(data):
@@ -98,26 +97,14 @@ def reply_comment_email(data):
         return
 
     # safe logic: no answer or unknown answer is a go for publishing
-    if message[:2].upper() in ("NO", "SP"):
-
-        # put a log to help fail2ban
-        if message[:2].upper() == "SP":  # SPAM
-            if comment.ip:
-                logger.info(
-                    "SPAM comment from %s: %d" % (comment.ip, comment_id)
-                )
-            else:
-                logger.info("cannot identify SPAM source: %d" % comment_id)
-
+    if message[:2].upper() in ("NO"):
         logger.info("discard comment: %d" % comment_id)
         comment.delete_instance()
         email_body = get_template("drop_comment").render(original=message)
         mailer.send(from_email, "Re: " + subject, email_body)
     else:
-        # update Comment row
-        comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        comment.ip = None
-        comment.save()
+        # save publishing datetime
+        comment.publish()
         logger.info("commit comment: %d" % comment_id)
 
         # rebuild RSS
