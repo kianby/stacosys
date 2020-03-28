@@ -12,17 +12,13 @@ from helper.hashing import md5
 logger = logging.getLogger(__name__)
 app = config.flaskapp()
 
+
 @app.route("/newcomment", methods=["POST"])
 def new_form_comment():
 
     try:
         data = request.form
         logger.info("form data " + str(data))
-
-        # add client IP if provided by HTTP proxy
-        ip = ""
-        if "X-Forwarded-For" in request.headers:
-            ip = request.headers["X-Forwarded-For"]
 
         # validate token: retrieve site entity
         token = data.get("token", "")
@@ -32,12 +28,12 @@ def new_form_comment():
             abort(400)
 
         # honeypot for spammers
-        captcha = data.get("remarque", "")        
+        captcha = data.get("remarque", "")
         if captcha:
             logger.warn("discard spam: data %s" % data)
             abort(400)
 
-        url = data.get("url", "") 
+        url = data.get("url", "")
         author_name = data.get("author", "").strip()
         author_gravatar = data.get("email", "").strip()
         author_site = data.get("site", "").lower().strip()
@@ -63,7 +59,6 @@ def new_form_comment():
             created=created,
             notified=None,
             published=None,
-            ip=ip,
         )
         comment.save()
 
@@ -73,12 +68,13 @@ def new_form_comment():
 
     return redirect("/redirect/", code=302)
 
+
 def check_form_data(data):
-    fields = ['url', 'message', 'site', 'remarque', 'author', 'token', 'email']
+    fields = ["url", "message", "site", "remarque", "author", "token", "email"]
     d = data.to_dict()
     for field in fields:
         if field in d:
             del d[field]
-    if d: 
+    if d:
         logger.warn("additional field: data %s" % data)
         abort(400)
