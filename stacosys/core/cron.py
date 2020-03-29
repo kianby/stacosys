@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from datetime import datetime
-import time
 import re
-from core import mailer
+import time
+from datetime import datetime
+
+from core import mailer, rss
 from core.templater import get_template
-from core import rss
-from model.comment import Comment
-from model.comment import Site
+from model.comment import Comment, Site
+from model.email import Email
 
 logger = logging.getLogger(__name__)
 
 
 def cron(func):
     def wrapper():
-        logger.debug("execute CRON " + func.__name__)
+        logger.debug('execute CRON ' + func.__name__)
         func()
 
     return wrapper
@@ -26,10 +26,10 @@ def cron(func):
 def fetch_mail_answers():
 
     for msg in mailer.fetch():
-        if re.search(r".*STACOSYS.*\[(\d+)\:(\w+)\]", msg["subject"], re.DOTALL):
-            full_msg = mailer.get(msg["id"])
-            if full_msg and reply_comment_email(full_msg['email']):
-                mailer.delete(msg["id"])
+        if re.search(r'.*STACOSYS.*\[(\d+)\:(\w+)\]', msg.subject, re.DOTALL):
+            if full_msg and _reply_comment_email(msg):
+                mailer.delete(msg.id)
+
 
 @cron
 def submit_new_comment():
@@ -37,42 +37,36 @@ def submit_new_comment():
     for comment in Comment.select().where(Comment.notified.is_null()):
 
         comment_list = (
-            "author: %s" % comment.author_name,
-            "site: %s" % comment.author_site,
-            "date: %s" % comment.created,
-            "url: %s" % comment.url,
-            "",
-            "%s" % comment.content,
-            "",
+            'author: %s' % comment.author_name,
+            'site: %s' % comment.author_site,
+            'date: %s' % comment.created,
+            'url: %s' % comment.url,
+            '',
+            '%s' % comment.content,
+            '',
         )
-        comment_text = "\n".join(comment_list)
-        email_body = get_template("new_comment").render(
+        comment_text = '\n'.join(comment_list)
+        email_body = get_template('new_comment').render(
             url=comment.url, comment=comment_text
         )
 
         # send email
         site = Site.get(Site.id == comment.site)
-        subject = "STACOSYS %s: [%d:%s]" % (site.name, comment.id, site.token)
-        mailer.send(site.admin_email, subject, email_body)
-        logger.debug("new comment processed ")
+        subject = 'STACOSYS %s: [%d:%s]' % (site.name, comment.id, site.token)
+        if mailer.send(site.admin_email, subject, email_body):
+            logger.debug('new comment processed ')
 
-        # notify site admin and save notification datetime
-        comment.notify_site_admin()
+            # notify site admin and save notification datetime
+            comment.notify_site_admin()
+        else:
+            logger.warn('rescheduled. send mail failure ' + subject)
 
 
-def reply_comment_email(data):
+def _reply_comment_email(email):
 
-    from_email = data["from"]
-    subject = data["subject"]
-    message = ""
-    for part in data["parts"]:
-        if part["content-type"] == "text/plain":
-            message = part["content"]
-            break
-
-    m = re.search(r"\[(\d+)\:(\w+)\]", subject)
+    m = re.search(r'\[(\d+)\:(\w+)\]', email.subject)
     if not m:
-        logger.warn("ignore corrupted email. No token %s" % subject)
+        logger.warn('ignore corrupted email. No token %s' % email.subject)
         return
     comment_id = int(m.group(1))
     token = m.group(2)
@@ -81,37 +75,39 @@ def reply_comment_email(data):
     try:
         comment = Comment.select().where(Comment.id == comment_id).get()
     except:
-        logger.warn("unknown comment %d" % comment_id)
+        logger.warn('unknown comment %d' % comment_id)
         return True
 
     if comment.published:
-        logger.warn("ignore already published email. token %d" % comment_id)
+        logger.warn('ignore already published email. token %d' % comment_id)
         return
 
     if comment.site.token != token:
-        logger.warn("ignore corrupted email. Unknown token %d" % comment_id)
+        logger.warn('ignore corrupted email. Unknown token %d' % comment_id)
         return
 
-    if not message:
-        logger.warn("ignore empty email")
+    if not email.content:
+        logger.warn('ignore empty email')
         return
 
     # safe logic: no answer or unknown answer is a go for publishing
-    if message[:2].upper() in ("NO"):
-        logger.info("discard comment: %d" % comment_id)
+    if email.content[:2].upper() in ('NO'):
+        logger.info('discard comment: %d' % comment_id)
         comment.delete_instance()
-        email_body = get_template("drop_comment").render(original=message)
-        mailer.send(from_email, "Re: " + subject, email_body)
+        new_email_body = get_template('drop_comment').render(original=email.content)
+        if not mailer.send(email.from_addr, 'Re: ' + email.subject, new_email_body):
+            logger.warn('minor failure. cannot send rejection mail ' + email.subject)
     else:
         # save publishing datetime
         comment.publish()
-        logger.info("commit comment: %d" % comment_id)
+        logger.info('commit comment: %d' % comment_id)
 
         # rebuild RSS
         rss.generate_site(token)
 
         # send approval confirmation email to admin
-        email_body = get_template("approve_comment").render(original=message)
-        mailer.send(from_email, "Re: " + subject, email_body)
+        new_email_body = get_template('approve_comment').render(original=email.content)
+        if not mailer.send(email.from_addr, 'Re: ' + email.subject, new_email_body):
+            logger.warn('minor failure. cannot send approval email ' + email.subject)
 
     return True

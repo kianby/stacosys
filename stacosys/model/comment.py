@@ -17,18 +17,18 @@ class Comment(Model):
     notified = DateTimeField(null=True, default=None)
     published = DateTimeField(null=True, default=None)
     author_name = CharField()
-    author_site = CharField(default="")
-    author_gravatar = CharField(default="")
+    author_site = CharField(default='')
+    author_gravatar = CharField(default='')
     content = TextField()
-    site = ForeignKeyField(Site, related_name="site")
+    site = ForeignKeyField(Site, related_name='site')
 
     class Meta:
         database = get_db()
 
     def notify_site_admin(self):
-        self.notified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.notified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.save()
 
     def publish(self):
-        self.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.published = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.save()

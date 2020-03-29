@@ -1,43 +1,85 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import logging
 import json
+import logging
+import smtplib
+from email.mime.text import MIMEText
+
 import requests
+
 from conf import config
+from core import imap
+from model.email import Email
 
 logger = logging.getLogger(__name__)
 
 
+def _open_mailbox():
+    return imap.Mailbox(
+        config.get(config.IMAP_HOST),
+        config.get_int(config.IMAP_PORT),
+        config.get_bool(config.IMAP_SSL),
+        config.get(config.IMAP_LOGIN),
+        config.get(config.IMAP_PASSWORD),
+    )
+
+
+def _to_dto(msg):
+    content = 'no plain-text part found in email'
+    for part in msg['parts']:
+        if part['content-type'] == 'text/plain':
+            content = part['content']
+            break
+    return Email(
+        id=msg['index'],
+        encoding=msg['encoding'],
+        date=msg['datetime'],
+        from_addr=msg['from'],
+        to_addr=msg['to'],
+        subject=msg['subject'],
+        content=content,
+    )
+
+
 def fetch():
-    mails = []
-    r = requests.get(config.get(config.MAILER_URL) + "/mbox")
-    if r.status_code == 200:
-        payload = r.json()
-        if payload["count"] > 0:
-            mails = payload["emails"]
-    return mails
-
-
-def get(id):
-    payload = None
-    r = requests.get(config.get(config.MAILER_URL) + "/mbox/" + str(id))
-    if r.status_code == 200:
-        payload = r.json()
-    return payload
+    msgs = []
+    try:
+        with _open_mailbox() as mbox:
+            count = mbox.get_count()
+            for num in range(count):
+                msg = _to_dto(mbox.fetch_message(num + 1))
+                msgs.append(msg)
+    except:
+        logger.exception('fetch mail exception')
+    return msgs
 
 
 def send(to_email, subject, message):
-    headers = {"Content-Type": "application/json; charset=utf-8"}
-    msg = {"to": to_email, "subject": subject, "content": message}
-    r = requests.post(
-        config.get(config.MAILER_URL) + "/mbox", data=json.dumps(msg), headers=headers
-    )
-    if r.status_code in (200, 201):
-        logger.debug("Email for %s posted" % to_email)
-    else:
-        logger.warn("Cannot post email for %s" % to_email)
+
+    # Create the container (outer) email message.
+    msg = MIMEText(message)
+    msg['Subject'] = subject
+    msg['To'] = to_email
+    msg['From'] = config.get(config.SMTP_LOGIN)
+
+    success = True
+    try:
+        s = smtplib.SMTP(config.get(config.SMTP_HOST), config.getInt(config.SMTP_PORT))
+        if config.get_bool(config.SMTP_STARTTLS):
+            s.starttls()
+        s.login(config.get(config.SMTP_LOGIN), config.get(config.SMTP_PASSWORD))
+        s.send_message(msg)
+        s.quit()
+    except:
+        logger.exception('send mail exception')
+        success = False
+    return success
 
 
 def delete(id):
-    requests.delete(config.get(config.MAILER_URL) + "/mbox/" + str(id))
+    try:
+        with _open_mailbox() as mbox:
+            mbox.delete_message(id)
+    except:
+        logger.exception('delete mail exception')

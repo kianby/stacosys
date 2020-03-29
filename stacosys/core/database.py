@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from conf import config
 from playhouse.db_url import connect
+
+from conf import config
 
 
 def get_db():
