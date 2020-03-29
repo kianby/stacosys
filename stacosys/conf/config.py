@@ -4,23 +4,30 @@
 import profig
 
 # constants
-FLASK_APP = "flask.app"
+FLASK_APP = 'flask.app'
 
-DB_URL = "main.db_url"
-LANG = "main.lang"
+DB_URL = 'main.db_url'
+LANG = 'main.lang'
+COMMENT_POLLING = 'main.newcomment_polling'
 
-HTTP_HOST = "http.host"
-HTTP_PORT = "http.port"
+HTTP_HOST = 'http.host'
+HTTP_PORT = 'http.port'
 
-SECURITY_SALT = "security.salt"
-SECURITY_SECRET = "security.secret"
+RSS_PROTO = 'rss.proto'
+RSS_FILE = 'rss.file'
 
-RSS_PROTO = "rss.proto"
-RSS_FILE = "rss.file"
+IMAP_POLLING = 'imap.polling'
+IMAP_SSL = 'imap.ssl'
+IMAP_HOST = 'imap.host'
+IMAP_PORT = 'imap.port'
+IMAP_LOGIN = 'imap.login'
+IMAP_PASSWORD = 'imap.password'
 
-MAIL_POLLING = "mail.fetch_polling"
-COMMENT_POLLING = "main.newcomment_polling"
-MAILER_URL = "mail.mailer_url"
+SMTP_STARTTLS = 'smtp.starttls'
+SMTP_HOST = 'smtp.host'
+SMTP_PORT = 'smtp.port'
+SMTP_LOGIN = 'smtp.login'
+SMTP_PASSWORD = 'smtp.password'
 
 
 # variable
@@ -38,16 +45,12 @@ def get(key):
     return params[key]
 
 
-def getInt(key):
+def get_int(key):
     return int(params[key])
 
 
-def _str2bool(v):
-    return v.lower() in ("yes", "true", "t", "1")
-
-
-def getBool(key):
-    return _str2bool(params[key])
+def get_bool(key):
+    return params[key].lower() in ('yes', 'true', '1')
 
 
 def flaskapp():
