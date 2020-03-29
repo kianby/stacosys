@@ -27,7 +27,7 @@ def fetch_mail_answers():
 
     for msg in mailer.fetch():
         if re.search(r'.*STACOSYS.*\[(\d+)\:(\w+)\]', msg.subject, re.DOTALL):
-            if full_msg and _reply_comment_email(msg):
+            if _reply_comment_email(msg):
                 mailer.delete(msg.id)
 
 
