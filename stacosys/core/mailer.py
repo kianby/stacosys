@@ -65,7 +65,7 @@ def send(to_email, subject, message):
 
     success = True
     try:
-        s = smtplib.SMTP(config.get(config.SMTP_HOST), config.getInt(config.SMTP_PORT))
+        s = smtplib.SMTP(config.get(config.SMTP_HOST), config.get_int(config.SMTP_PORT))
         if config.get_bool(config.SMTP_STARTTLS):
             s.starttls()
         s.login(config.get(config.SMTP_LOGIN), config.get(config.SMTP_PASSWORD))
