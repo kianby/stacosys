@@ -50,6 +50,7 @@ class Mailbox(object):
 
         parts = []
         attachments = []
+        plain_text_content: 'no plain-text part'
         for part in raw_msg.walk():
             if part.is_multipart():
                 continue
@@ -90,7 +91,7 @@ class Mailbox(object):
                 )
 
                 if part.get_content_type() == "text/plain":
-                    msg.plain_text_content = content
+                    plain_text_content = content
 
         return Email(
             id=num,
@@ -100,7 +101,8 @@ class Mailbox(object):
             to_addr=raw_msg["To"],
             subject=email_nonascii_to_uft8(raw_msg["Subject"]),
             parts=parts,
-            attachments=attachments
+            attachments=attachments,
+            plain_text_content = plain_text_content
         )
 
     def delete_message(self, num):
