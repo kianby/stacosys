@@ -26,4 +26,4 @@ class Email(NamedTuple):
     subject: str
     parts: List[Part]
     attachments: List[Attachment]
-    plain_text_content: str = 'no plain-text part'
+    plain_text_content: str
