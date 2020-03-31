@@ -48,15 +48,6 @@ class Mailbox(object):
     def fetch_message(self, num):
         raw_msg = self.fetch_raw_message(num)
 
-        msg = Email(
-            id=num,
-            encoding="UTF-8",
-            date=parse_date(raw_msg["Date"]).strftime("%Y-%m-%d %H:%M:%S"),
-            from_addr=raw_msg["From"],
-            to_addr=raw_msg["To"],
-            subject=email_nonascii_to_uft8(raw_msg["Subject"]),
-        )
-
         parts = []
         attachments = []
         for part in raw_msg.walk():
@@ -100,9 +91,17 @@ class Mailbox(object):
 
                 if part.get_content_type() == "text/plain":
                     msg.plain_text_content = content
-        msg.parts = parts
-        msg.attachments = attachments
-        return msg
+
+        return Email(
+            id=num,
+            encoding="UTF-8",
+            date=parse_date(raw_msg["Date"]).strftime("%Y-%m-%d %H:%M:%S"),
+            from_addr=raw_msg["From"],
+            to_addr=raw_msg["To"],
+            subject=email_nonascii_to_uft8(raw_msg["Subject"]),
+            parts=parts,
+            attachments=attachments
+        )
 
     def delete_message(self, num):
         self.imap.select("Inbox")
