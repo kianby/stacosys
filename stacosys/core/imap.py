@@ -8,6 +8,8 @@ import imaplib
 import logging
 import re
 
+from model.email import Attachment, Email, Part
+
 filename_re = re.compile('filename="(.+)"|filename=([^;\n\r"\']+)', re.I | re.S)
 
 
@@ -33,90 +35,93 @@ class Mailbox(object):
         self.imap.logout()
 
     def get_count(self):
-        self.imap.select('Inbox')
-        _, data = self.imap.search(None, 'ALL')
+        self.imap.select("Inbox")
+        _, data = self.imap.search(None, "ALL")
         return sum(1 for num in data[0].split())
 
     def fetch_raw_message(self, num):
-        self.imap.select('Inbox')
-        _, data = self.imap.fetch(str(num), '(RFC822)')
+        self.imap.select("Inbox")
+        _, data = self.imap.fetch(str(num), "(RFC822)")
         email_msg = email.message_from_bytes(data[0][1])
         return email_msg
 
     def fetch_message(self, num):
         raw_msg = self.fetch_raw_message(num)
-        msg = {}
-        msg['encoding'] = 'UTF-8'
-        msg['index'] = num
-        dt = parse_date(raw_msg['Date']).strftime('%Y-%m-%d %H:%M:%S')
-        msg['datetime'] = dt
-        msg['from'] = raw_msg['From']
-        msg['to'] = raw_msg['To']
-        subject = email_nonascii_to_uft8(raw_msg['Subject'])
-        msg['subject'] = subject
+
+        msg = Email(
+            id=num,
+            encoding="UTF-8",
+            date=parse_date(raw_msg["Date"]).strftime("%Y-%m-%d %H:%M:%S"),
+            from_addr=raw_msg["From"],
+            to_addr=raw_msg["To"],
+            subject=email_nonascii_to_uft8(raw_msg["Subject"]),
+        )
+
         parts = []
         attachments = []
         for part in raw_msg.walk():
             if part.is_multipart():
                 continue
 
-            content_disposition = part.get('Content-Disposition', None)
+            content_disposition = part.get("Content-Disposition", None)
             if content_disposition:
                 # we have attachment
                 r = filename_re.findall(content_disposition)
                 if r:
                     filename = sorted(r[0])[1]
                 else:
-                    filename = 'undefined'
+                    filename = "undefined"
                 content = base64.b64encode(part.get_payload(decode=True))
                 content = content.decode()
-                a = {
-                    'filename': email_nonascii_to_uft8(filename),
-                    'content': content,
-                    'content-type': part.get_content_type(),
-                }
-                attachments.append(a)
+                attachments.append(
+                    Attachment(
+                        filename=email_nonascii_to_uft8(filename),
+                        content=content,
+                        content_type=part.get_content_type(),
+                    )
+                )
             else:
                 part_item = {}
                 content = part.get_payload(decode=True)
-                content_type = part.get_content_type()
                 try:
-                    charset = part.get_param('charset', None)
+                    charset = part.get_param("charset", None)
                     if charset:
                         content = to_utf8(content, charset)
                     elif type(content) == bytes:
-                        content = content.decode('utf8')
+                        content = content.decode("utf8")
                 except:
                     self.logger.exception()
                 # RFC 3676: remove automatic word-wrapping
-                content = content.replace(' \r\n', ' ')
-                part_item['content'] = content
-                part_item['content-type'] = content_type
-                parts.append(part_item)
-        if parts:
-            msg['parts'] = parts
-        if attachments:
-            msg['attachments'] = attachments
+                content = content.replace(" \r\n", " ")
+
+                parts.append(
+                    Part(content=content, content_type=part.get_content_type())
+                )
+
+                if part.get_content_type() == "text/plain":
+                    msg.plain_text_content = content
+        msg.parts = parts
+        msg.attachments = attachments
         return msg
 
     def delete_message(self, num):
-        self.imap.select('Inbox')
-        self.imap.store(str(num), '+FLAGS', r'\Deleted')
+        self.imap.select("Inbox")
+        self.imap.store(str(num), "+FLAGS", r"\Deleted")
         self.imap.expunge()
 
     def delete_all(self):
-        self.imap.select('Inbox')
-        _, data = self.imap.search(None, 'ALL')
+        self.imap.select("Inbox")
+        _, data = self.imap.search(None, "ALL")
         for num in data[0].split():
-            self.imap.store(num, '+FLAGS', r'\Deleted')
+            self.imap.store(num, "+FLAGS", r"\Deleted")
             self.imap.expunge()
 
     def print_msgs(self):
-        self.imap.select('Inbox')
-        _, data = self.imap.search(None, 'ALL')
+        self.imap.select("Inbox")
+        _, data = self.imap.search(None, "ALL")
         for num in reversed(data[0].split()):
-            status, data = self.imap.fetch(num, '(RFC822)')
-            self.logger.debug('Message %s\n%s\n' % (num, data[0][1]))
+            status, data = self.imap.fetch(num, "(RFC822)")
+            self.logger.debug("Message %s\n%s\n" % (num, data[0][1]))
 
 
 def parse_date(v):
@@ -134,14 +139,14 @@ def parse_date(v):
 
 
 def to_utf8(string, charset):
-    return string.decode(charset).encode('UTF-8').decode('UTF-8')
+    return string.decode(charset).encode("UTF-8").decode("UTF-8")
 
 
 def email_nonascii_to_uft8(string):
 
     # RFC 1342 is a recommendation that provides a way to represent non ASCII
     # characters inside e-mail in a way that won’t confuse e-mail servers
-    subject = ''
+    subject = ""
     for v, charset in email.header.decode_header(string):
         if charset is None:
             if type(v) is bytes:

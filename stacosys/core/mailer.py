@@ -25,33 +25,15 @@ def _open_mailbox():
     )
 
 
-def _to_dto(msg):
-    content = 'no plain-text part found in email'
-    for part in msg['parts']:
-        if part['content-type'] == 'text/plain':
-            content = part['content']
-            break
-    return Email(
-        id=msg['index'],
-        encoding=msg['encoding'],
-        date=msg['datetime'],
-        from_addr=msg['from'],
-        to_addr=msg['to'],
-        subject=msg['subject'],
-        content=content,
-    )
-
-
 def fetch():
     msgs = []
     try:
         with _open_mailbox() as mbox:
             count = mbox.get_count()
             for num in range(count):
-                msg = _to_dto(mbox.fetch_message(num + 1))
-                msgs.append(msg)
+                msgs.append(mbox.fetch_message(num + 1))
     except:
-        logger.exception('fetch mail exception')
+        logger.exception("fetch mail exception")
     return msgs
 
 
@@ -59,9 +41,9 @@ def send(to_email, subject, message):
 
     # Create the container (outer) email message.
     msg = MIMEText(message)
-    msg['Subject'] = subject
-    msg['To'] = to_email
-    msg['From'] = config.get(config.SMTP_LOGIN)
+    msg["Subject"] = subject
+    msg["To"] = to_email
+    msg["From"] = config.get(config.SMTP_LOGIN)
 
     success = True
     try:
@@ -72,7 +54,7 @@ def send(to_email, subject, message):
         s.send_message(msg)
         s.quit()
     except:
-        logger.exception('send mail exception')
+        logger.exception("send mail exception")
         success = False
     return success
 
@@ -82,4 +64,4 @@ def delete(id):
         with _open_mailbox() as mbox:
             mbox.delete_message(id)
     except:
-        logger.exception('delete mail exception')
+        logger.exception("delete mail exception")
