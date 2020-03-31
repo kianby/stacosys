@@ -62,7 +62,7 @@ def submit_new_comment():
             logger.warn('rescheduled. send mail failure ' + subject)
 
 
-def _reply_comment_email(email):
+def _reply_comment_email(email : Email):
 
     m = re.search(r'\[(\d+)\:(\w+)\]', email.subject)
     if not m:
@@ -86,15 +86,15 @@ def _reply_comment_email(email):
         logger.warn('ignore corrupted email. Unknown token %d' % comment_id)
         return
 
-    if not email.content:
+    if not email.plain_text_content:
         logger.warn('ignore empty email')
         return
 
     # safe logic: no answer or unknown answer is a go for publishing
-    if email.content[:2].upper() in ('NO'):
+    if email.plain_text_content[:2].upper() in ('NO'):
         logger.info('discard comment: %d' % comment_id)
         comment.delete_instance()
-        new_email_body = get_template('drop_comment').render(original=email.content)
+        new_email_body = get_template('drop_comment').render(original=email.plain_text_content)
         if not mailer.send(email.from_addr, 'Re: ' + email.subject, new_email_body):
             logger.warn('minor failure. cannot send rejection mail ' + email.subject)
     else:
@@ -106,7 +106,7 @@ def _reply_comment_email(email):
         rss.generate_site(token)
 
         # send approval confirmation email to admin
-        new_email_body = get_template('approve_comment').render(original=email.content)
+        new_email_body = get_template('approve_comment').render(original=email.plain_text_content)
         if not mailer.send(email.from_addr, 'Re: ' + email.subject, new_email_body):
             logger.warn('minor failure. cannot send approval email ' + email.subject)
 
