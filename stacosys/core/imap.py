@@ -8,7 +8,7 @@ import imaplib
 import logging
 import re
 
-from model.email import Attachment, Email, Part
+from stacosys.model.email import Attachment, Email, Part
 
 filename_re = re.compile('filename="(.+)"|filename=([^;\n\r"\']+)', re.I | re.S)
 

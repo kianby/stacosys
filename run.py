@@ -8,7 +8,7 @@ import os
 from flask import Flask
 from flask_apscheduler import APScheduler
 
-from conf import config
+from stacosys.conf import config
 
 
 # configure logging
@@ -35,13 +35,13 @@ class JobConfig(object):
         self.JOBS = [
             {
                 'id': 'fetch_mail',
-                'func': 'core.cron:fetch_mail_answers',
+                'func': 'stacosys.core.cron:fetch_mail_answers',
                 'trigger': 'interval',
                 'seconds': imap_polling_seconds,
             },
             {
                 'id': 'submit_new_comment',
-                'func': 'core.cron:submit_new_comment',
+                'func': 'stacosys.core.cron:submit_new_comment',
                 'trigger': 'interval',
                 'seconds': new_comment_polling_seconds,
             },
@@ -60,7 +60,7 @@ def stacosys_server(config_pathname):
     logging.getLogger('apscheduler.executors').level = logging.WARNING
 
     # initialize database
-    from core import database
+    from stacosys.core import database
 
     database.setup()
 
@@ -77,16 +77,16 @@ def stacosys_server(config_pathname):
     logger.info('Start Stacosys application')
 
     # generate RSS for all sites
-    from core import rss
+    from stacosys.core import rss
 
     rss.generate_all()
 
     # start Flask
-    from interface import api
+    from stacosys.interface import api
 
     logger.info('Load interface %s' % api)
 
-    from interface import form
+    from stacosys.interface import form
 
     logger.info('Load interface %s' % form)
 

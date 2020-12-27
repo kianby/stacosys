@@ -5,7 +5,7 @@ import os
 
 from jinja2 import Environment, FileSystemLoader
 
-from conf import config
+from stacosys.conf import config
 
 current_path = os.path.dirname(__file__)
 template_path = os.path.abspath(os.path.join(current_path, '../templates'))
