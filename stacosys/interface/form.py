@@ -6,9 +6,9 @@ from datetime import datetime
 
 from flask import abort, redirect, request
 
-from conf import config
-from model.comment import Comment
-from model.site import Site
+from stacosys.conf import config
+from stacosys.model.comment import Comment
+from stacosys.model.site import Site
 
 logger = logging.getLogger(__name__)
 app = config.flaskapp()

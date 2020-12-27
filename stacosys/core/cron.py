@@ -6,10 +6,10 @@ import re
 import time
 from datetime import datetime
 
-from core import mailer, rss
-from core.templater import get_template
-from model.comment import Comment, Site
-from model.email import Email
+from stacosys.core import mailer, rss
+from stacosys.core.templater import get_template
+from stacosys.model.comment import Comment, Site
+from stacosys.model.email import Email
 
 logger = logging.getLogger(__name__)
 

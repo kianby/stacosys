@@ -6,10 +6,10 @@ from datetime import datetime
 import markdown
 import PyRSS2Gen
 
-from conf import config
-from core.templater import get_template
-from model.comment import Comment
-from model.site import Site
+from stacosys.conf import config
+from stacosys.core.templater import get_template
+from stacosys.model.comment import Comment
+from stacosys.model.site import Site
 
 
 def generate_all():

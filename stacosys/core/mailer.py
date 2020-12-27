@@ -8,9 +8,9 @@ from email.mime.text import MIMEText
 
 import requests
 
-from conf import config
-from core import imap
-from model.email import Email
+from stacosys.conf import config
+from stacosys.core import imap
+from stacosys.model.email import Email
 
 logger = logging.getLogger(__name__)
 

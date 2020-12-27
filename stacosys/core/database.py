@@ -3,7 +3,7 @@
 
 from playhouse.db_url import connect
 
-from conf import config
+from stacosys.conf import config
 
 
 def get_db():
@@ -11,7 +11,7 @@ def get_db():
 
 
 def setup():
-    from model.site import Site
-    from model.comment import Comment
+    from stacosys.model.site import Site
+    from stacosys.model.comment import Comment
 
     get_db().create_tables([Site, Comment], safe=True)

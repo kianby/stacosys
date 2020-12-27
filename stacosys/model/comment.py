@@ -6,8 +6,8 @@ from peewee import CharField
 from peewee import TextField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
-from model.site import Site
-from core.database import get_db
+from stacosys.model.site import Site
+from stacosys.core.database import get_db
 from datetime import datetime
 
 
