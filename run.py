@@ -63,7 +63,8 @@ def stacosys_server(config_pathname):
     from stacosys.core import database
 
     database.setup()
-
+    database.dump_db()
+    
     # cron email fetcher
     app.config.from_object(
         JobConfig(
