@@ -7,6 +7,7 @@ import profig
 FLASK_APP = 'flask.app'
 
 DB_URL = 'main.db_url'
+DB_FILE = 'main.db_file'
 LANG = 'main.lang'
 COMMENT_POLLING = 'main.newcomment_polling'
 
@@ -29,6 +30,10 @@ SMTP_PORT = 'smtp.port'
 SMTP_LOGIN = 'smtp.login'
 SMTP_PASSWORD = 'smtp.password'
 
+SITE_NAME = 'site.name'
+SITE_URL = 'site.url'
+SITE_TOKEN = 'site.token'
+SITE_ADMIN_EMAIL = 'site.admin_email'
 
 # variable
 params = dict()
