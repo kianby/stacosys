@@ -2,23 +2,37 @@
 # -*- coding: UTF-8 -*-
 
 import json
-from playhouse.db_url import connect
+from peewee import DatabaseProxy, Model
+from playhouse.db_url import connect, SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 from tinydb import TinyDB
 from stacosys.conf import config
 
-
-def get_db():
-    return connect(config.get(config.DB_URL))
+db = SqliteDatabase(None)
 
 
-def setup():
-    from stacosys.model.site import Site
-    from stacosys.model.comment import Comment
+class BaseModel(Model):
+    class Meta:
+        database = db
 
-    get_db().create_tables([Site, Comment], safe=True)
-    if config.exists(config.DB_BACKUP_JSON_FILE):
-        _backup_db(config.DB_BACKUP_JSON_FILE, Comment)
+
+class Database:
+    def get_db(self):
+        return db
+
+    def setup(self, db_url):
+
+        db.init(db_url)
+        db.connect()
+
+        from stacosys.model.site import Site
+        from stacosys.model.comment import Comment
+
+        db.create_tables([Site, Comment], safe=True)
+
+
+#        if config.exists(config.DB_BACKUP_JSON_FILE):
+#            _backup_db(config.DB_BACKUP_JSON_FILE, Comment)
 
 
 def _tojson_model(comment):
@@ -35,3 +49,4 @@ def _backup_db(db_file, Comment):
     for comment in Comment.select():
         cc = _tojson_model(comment)
         table.insert(cc)
+
