@@ -3,14 +3,11 @@
 
 from peewee import Model
 from peewee import CharField
-from stacosys.core.database import get_db
+from stacosys.core.database import BaseModel
 
 
-class Site(Model):
+class Site(BaseModel):
     name = CharField(unique=True)
     url = CharField()
     token = CharField()
     admin_email = CharField()
-
-    class Meta:
-        database = get_db()
