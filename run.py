@@ -1,19 +1,21 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+import sys
+import os
 import argparse
 import logging
-import os
-import sys
-
 from flask import Flask
-from flask_apscheduler import APScheduler
 
 import stacosys.conf.config as config
 from stacosys.core import database
-from stacosys.core import rss
-#from stacosys.interface import api
-#from stacosys.interface import form
+from stacosys.core.rss import Rss
+from stacosys.core.mailer import Mailer
+from stacosys.interface import app
+from stacosys.interface import api
+from stacosys.interface import form
+from stacosys.interface import scheduler
+
 
 # configure logging
 def configure_logging(level):
@@ -29,32 +31,7 @@ def configure_logging(level):
     root_logger.addHandler(ch)
 
 
-class JobConfig(object):
-
-    JOBS = []
-
-    SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 4}}
-
-    def __init__(self, imap_polling_seconds, new_comment_polling_seconds):
-        self.JOBS = [
-            {
-                "id": "fetch_mail",
-                "func": "stacosys.core.cron:fetch_mail_answers",
-                "trigger": "interval",
-                "seconds": imap_polling_seconds,
-            },
-            {
-                "id": "submit_new_comment",
-                "func": "stacosys.core.cron:submit_new_comment",
-                "trigger": "interval",
-                "seconds": new_comment_polling_seconds,
-            },
-        ]
-
-
 def stacosys_server(config_pathname):
-
-    app = Flask(__name__)
 
     conf = config.Config.load(config_pathname)
 
@@ -68,26 +45,38 @@ def stacosys_server(config_pathname):
     db = database.Database()
     db.setup(conf.get(config.DB_URL))
 
-    # cron email fetcher
-    app.config.from_object(
-        JobConfig(
-            conf.get_int(config.IMAP_POLLING), conf.get_int(config.COMMENT_POLLING)
-        )
-    )
-    scheduler = APScheduler()
-    scheduler.init_app(app)
-    scheduler.start()
-
     logger.info("Start Stacosys application")
 
     # generate RSS for all sites
-    rss_manager = rss.Rss(conf.get(config.LANG), conf.get(config.RSS_FILE), conf.get(config.RSS_PROTO))
-    rss_manager.generate_all()
+    rss = Rss(
+        conf.get(config.LANG), conf.get(config.RSS_FILE), conf.get(config.RSS_PROTO)
+    )
+    rss.generate_all()
+
+    # configure mailer
+    mailer = Mailer(
+        conf.get(config.IMAP_HOST),
+        conf.get_int(config.IMAP_PORT),
+        conf.get_bool(config.IMAP_SSL),
+        conf.get(config.IMAP_LOGIN),
+        conf.get(config.IMAP_PASSWORD),
+        conf.get(config.SMTP_HOST),
+        conf.get_int(config.SMTP_PORT),
+        conf.get_bool(config.SMTP_STARTTLS),
+        conf.get(config.SMTP_LOGIN),
+        conf.get(config.SMTP_PASSWORD),
+    )
+
+    # configure scheduler
+    scheduler.configure(
+        conf.get_int(config.IMAP_POLLING),
+        conf.get_int(config.COMMENT_POLLING),
+        conf.get(config.LANG),
+        mailer,
+        rss,
+    )
 
     # start Flask
-    #logger.info("Load interface %s" % api)
-    #logger.info("Load interface %s" % form)
-
     app.run(
         host=conf.get(config.HTTP_HOST),
         port=conf.get(config.HTTP_PORT),
