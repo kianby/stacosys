@@ -13,17 +13,19 @@ env = Environment(loader=FileSystemLoader(template_path))
 TEMPLATE_DROP_COMMENT = "drop_comment"
 TEMPLATE_APPROVE_COMMENT = "approve_comment"
 TEMPLATE_NEW_COMMENT = "new_comment"
+TEMPLATE_NOTIFY_MESSAGE = "notify_message"
+TEMPLATE_RSS_TITLE_MESSAGE = "rss_title_message"
+
 
 def get_template(lang, name):
     return env.get_template(lang + "/" + name + ".tpl")
 
-class Templater:
 
+class Templater:
     def __init__(self, lang, template_path):
         self._env = Environment(loader=FileSystemLoader(template_path))
         self._lang = lang
 
     def get_template(self, name):
         return self._env.get_template(self._lang + "/" + name + ".tpl")
-
 
