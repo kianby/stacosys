@@ -6,7 +6,6 @@ from peewee import DatabaseProxy, Model
 from playhouse.db_url import connect, SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 from tinydb import TinyDB
-from stacosys.conf import config
 
 db = SqliteDatabase(None)
 
@@ -25,10 +24,9 @@ class Database:
         db.init(db_url)
         db.connect()
 
-        from stacosys.model.site import Site
         from stacosys.model.comment import Comment
 
-        db.create_tables([Site, Comment], safe=True)
+        db.create_tables([Comment], safe=True)
 
 
 #        if config.exists(config.DB_BACKUP_JSON_FILE):

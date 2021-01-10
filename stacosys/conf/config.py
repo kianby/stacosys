@@ -4,7 +4,7 @@
 import profig
 
 
-class Parameter:
+class ConfigParameter:
     DB_URL = "main.db_url"
     DB_BACKUP_JSON_FILE = "main.db_backup_json_file"
     LANG = "main.lang"

@@ -9,7 +9,7 @@ from datetime import datetime
 
 from stacosys.core import rss
 from stacosys.core.templater import Templater, Template
-from stacosys.model.comment import Comment, Site
+from stacosys.model.comment import Comment
 from stacosys.model.email import Email
 
 logger = logging.getLogger(__name__)
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 current_path = os.path.dirname(__file__)
 template_path = os.path.abspath(os.path.join(current_path, "../templates"))
 templater = Templater(template_path)
+
 
 def fetch_mail_answers(lang, mailer, rss):
     for msg in mailer.fetch():
@@ -36,7 +37,7 @@ def _reply_comment_email(lang, mailer, rss, email: Email):
 
     # retrieve site and comment rows
     try:
-        comment = Comment.select().where(Comment.id == comment_id).get()
+        comment = Comment.get_by_id(comment_id)
     except:
         logger.warn("unknown comment %d" % comment_id)
         return True
@@ -80,7 +81,7 @@ def _reply_comment_email(lang, mailer, rss, email: Email):
     return True
 
 
-def submit_new_comment(lang, mailer):
+def submit_new_comment(lang, site_name, site_token, site_admin_email, mailer):
 
     for comment in Comment.select().where(Comment.notified.is_null()):
 
@@ -99,9 +100,8 @@ def submit_new_comment(lang, mailer):
         )
 
         # send email
-        site = Site.get(Site.id == comment.site)
-        subject = "STACOSYS %s: [%d:%s]" % (site.name, comment.id, site.token)
-        if mailer.send(site.admin_email, subject, email_body):
+        subject = "STACOSYS %s: [%d:%s]" % (site_name, comment.id, site_token)
+        if mailer.send(site_admin_email, subject, email_body):
             logger.debug("new comment processed ")
 
             # notify site admin and save notification datetime
