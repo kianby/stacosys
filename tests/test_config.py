@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import pytest
-import stacosys.conf.config as config
+from stacosys.conf.config import Config, Parameter
 
 EXPECTED_DB_URL = "sqlite:///db.sqlite"
 EXPECTED_HTTP_PORT = 8080
@@ -12,38 +12,38 @@ EXPECTED_IMAP_LOGIN = "user"
 
 @pytest.fixture
 def conf():
-    conf = config.Config()
-    conf.put(config.DB_URL, EXPECTED_DB_URL)
-    conf.put(config.HTTP_PORT, EXPECTED_HTTP_PORT)
-    conf.put(config.IMAP_PORT, EXPECTED_IMAP_PORT)
-    conf.put(config.SMTP_STARTTLS, "yes")
-    conf.put(config.IMAP_SSL, "false")
+    conf = Config()
+    conf.put(Parameter.DB_URL, EXPECTED_DB_URL)
+    conf.put(Parameter.HTTP_PORT, EXPECTED_HTTP_PORT)
+    conf.put(Parameter.IMAP_PORT, EXPECTED_IMAP_PORT)
+    conf.put(Parameter.SMTP_STARTTLS, "yes")
+    conf.put(Parameter.IMAP_SSL, "false")
     return conf
 
 
 def test_exists(conf):
     assert conf is not None
-    assert conf.exists(config.DB_URL)
-    assert not conf.exists(config.IMAP_HOST)
+    assert conf.exists(Parameter.DB_URL)
+    assert not conf.exists(Parameter.IMAP_HOST)
 
 
 def test_get(conf):
     assert conf is not None
-    assert conf.get(config.DB_URL) == EXPECTED_DB_URL
-    assert conf.get(config.HTTP_PORT) == EXPECTED_HTTP_PORT
-    assert conf.get(config.HTTP_HOST) is None
-    assert conf.get(config.HTTP_PORT) == EXPECTED_HTTP_PORT
-    assert conf.get(config.IMAP_PORT) == EXPECTED_IMAP_PORT
-    assert conf.get_int(config.IMAP_PORT) == int(EXPECTED_IMAP_PORT)
+    assert conf.get(Parameter.DB_URL) == EXPECTED_DB_URL
+    assert conf.get(Parameter.HTTP_PORT) == EXPECTED_HTTP_PORT
+    assert conf.get(Parameter.HTTP_HOST) is None
+    assert conf.get(Parameter.HTTP_PORT) == EXPECTED_HTTP_PORT
+    assert conf.get(Parameter.IMAP_PORT) == EXPECTED_IMAP_PORT
+    assert conf.get_int(Parameter.IMAP_PORT) == int(EXPECTED_IMAP_PORT)
     try:
-        conf.get_int(config.HTTP_PORT)
+        conf.get_int(Parameter.HTTP_PORT)
         assert False
     except:
         pass
-    assert conf.get_bool(config.SMTP_STARTTLS)
-    assert not conf.get_bool(config.IMAP_SSL)
+    assert conf.get_bool(Parameter.SMTP_STARTTLS)
+    assert not conf.get_bool(Parameter.IMAP_SSL)
     try:
-        conf.get_bool(config.DB_URL)
+        conf.get_bool(Parameter.DB_URL)
         assert False
     except:
         pass
@@ -51,7 +51,7 @@ def test_get(conf):
 
 def test_put(conf):
     assert conf is not None
-    assert not conf.exists(config.IMAP_LOGIN)
-    conf.put(config.IMAP_LOGIN, EXPECTED_IMAP_LOGIN)
-    assert conf.exists(config.IMAP_LOGIN)
-    assert conf.get(config.IMAP_LOGIN) == EXPECTED_IMAP_LOGIN
+    assert not conf.exists(Parameter.IMAP_LOGIN)
+    conf.put(Parameter.IMAP_LOGIN, EXPECTED_IMAP_LOGIN)
+    assert conf.exists(Parameter.IMAP_LOGIN)
+    assert conf.get(Parameter.IMAP_LOGIN) == EXPECTED_IMAP_LOGIN

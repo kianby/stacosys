@@ -7,7 +7,7 @@ import argparse
 import logging
 from flask import Flask
 
-import stacosys.conf.config as config
+from stacosys.conf.config import Config, Parameter
 from stacosys.core import database
 from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
@@ -33,7 +33,7 @@ def configure_logging(level):
 
 def stacosys_server(config_pathname):
 
-    conf = config.Config.load(config_pathname)
+    conf = Config.load(config_pathname)
 
     # configure logging
     logger = logging.getLogger(__name__)
@@ -43,43 +43,45 @@ def stacosys_server(config_pathname):
 
     # initialize database
     db = database.Database()
-    db.setup(conf.get(config.DB_URL))
+    db.setup(conf.get(Parameter.DB_URL))
 
     logger.info("Start Stacosys application")
 
     # generate RSS for all sites
     rss = Rss(
-        conf.get(config.LANG), conf.get(config.RSS_FILE), conf.get(config.RSS_PROTO)
+        conf.get(Parameter.LANG),
+        conf.get(Parameter.RSS_FILE),
+        conf.get(Parameter.RSS_PROTO),
     )
     rss.generate_all()
 
     # configure mailer
     mailer = Mailer(
-        conf.get(config.IMAP_HOST),
-        conf.get_int(config.IMAP_PORT),
-        conf.get_bool(config.IMAP_SSL),
-        conf.get(config.IMAP_LOGIN),
-        conf.get(config.IMAP_PASSWORD),
-        conf.get(config.SMTP_HOST),
-        conf.get_int(config.SMTP_PORT),
-        conf.get_bool(config.SMTP_STARTTLS),
-        conf.get(config.SMTP_LOGIN),
-        conf.get(config.SMTP_PASSWORD),
+        conf.get(Parameter.IMAP_HOST),
+        conf.get_int(Parameter.IMAP_PORT),
+        conf.get_bool(Parameter.IMAP_SSL),
+        conf.get(Parameter.IMAP_LOGIN),
+        conf.get(Parameter.IMAP_PASSWORD),
+        conf.get(Parameter.SMTP_HOST),
+        conf.get_int(Parameter.SMTP_PORT),
+        conf.get_bool(Parameter.SMTP_STARTTLS),
+        conf.get(Parameter.SMTP_LOGIN),
+        conf.get(Parameter.SMTP_PASSWORD),
     )
 
     # configure scheduler
     scheduler.configure(
-        conf.get_int(config.IMAP_POLLING),
-        conf.get_int(config.COMMENT_POLLING),
-        conf.get(config.LANG),
+        conf.get_int(Parameter.IMAP_POLLING),
+        conf.get_int(Parameter.COMMENT_POLLING),
+        conf.get(Parameter.LANG),
         mailer,
         rss,
     )
 
     # start Flask
     app.run(
-        host=conf.get(config.HTTP_HOST),
-        port=conf.get(config.HTTP_PORT),
+        host=conf.get(Parameter.HTTP_HOST),
+        port=conf.get(Parameter.HTTP_PORT),
         debug=False,
         use_reloader=False,
     )
