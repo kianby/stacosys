@@ -3,37 +3,36 @@
 
 import profig
 
-# constants
-FLASK_APP = "flask.app"
 
-DB_URL = "main.db_url"
-DB_BACKUP_JSON_FILE = "main.db_backup_json_file"
-LANG = "main.lang"
-COMMENT_POLLING = "main.newcomment_polling"
+class Parameter:
+    DB_URL = "main.db_url"
+    DB_BACKUP_JSON_FILE = "main.db_backup_json_file"
+    LANG = "main.lang"
+    COMMENT_POLLING = "main.newcomment_polling"
 
-HTTP_HOST = "http.host"
-HTTP_PORT = "http.port"
+    HTTP_HOST = "http.host"
+    HTTP_PORT = "http.port"
 
-RSS_PROTO = "rss.proto"
-RSS_FILE = "rss.file"
+    RSS_PROTO = "rss.proto"
+    RSS_FILE = "rss.file"
 
-IMAP_POLLING = "imap.polling"
-IMAP_SSL = "imap.ssl"
-IMAP_HOST = "imap.host"
-IMAP_PORT = "imap.port"
-IMAP_LOGIN = "imap.login"
-IMAP_PASSWORD = "imap.password"
+    IMAP_POLLING = "imap.polling"
+    IMAP_SSL = "imap.ssl"
+    IMAP_HOST = "imap.host"
+    IMAP_PORT = "imap.port"
+    IMAP_LOGIN = "imap.login"
+    IMAP_PASSWORD = "imap.password"
 
-SMTP_STARTTLS = "smtp.starttls"
-SMTP_HOST = "smtp.host"
-SMTP_PORT = "smtp.port"
-SMTP_LOGIN = "smtp.login"
-SMTP_PASSWORD = "smtp.password"
+    SMTP_STARTTLS = "smtp.starttls"
+    SMTP_HOST = "smtp.host"
+    SMTP_PORT = "smtp.port"
+    SMTP_LOGIN = "smtp.login"
+    SMTP_PASSWORD = "smtp.password"
 
-SITE_NAME = "site.name"
-SITE_URL = "site.url"
-SITE_TOKEN = "site.token"
-SITE_ADMIN_EMAIL = "site.admin_email"
+    SITE_NAME = "site.name"
+    SITE_URL = "site.url"
+    SITE_TOKEN = "site.token"
+    SITE_ADMIN_EMAIL = "site.admin_email"
 
 
 class Config:
