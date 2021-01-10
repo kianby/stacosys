@@ -5,9 +5,9 @@ import logging
 from datetime import datetime
 from flask import abort, redirect, request
 
+from stacosys.conf.config import ConfigParameter
 from stacosys.interface import app
 from stacosys.model.comment import Comment
-from stacosys.model.site import Site
 
 logger = logging.getLogger(__name__)
 
@@ -21,10 +21,8 @@ def new_form_comment():
 
         # validate token: retrieve site entity
         token = data.get("token", "")
-        site = Site.select().where(Site.token == token).get()
-        if site is None:
-            logger.warn("Unknown site %s" % token)
-            abort(400)
+        if token != app.config.get(ConfigParameter.SITE_TOKEN):
+            abort(401)
 
         # honeypot for spammers
         captcha = data.get("remarque", "")
@@ -49,7 +47,6 @@ def new_form_comment():
         # add a row to Comment table
         created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         comment = Comment(
-            site=site,
             url=url,
             author_name=author_name,
             author_site=author_site,

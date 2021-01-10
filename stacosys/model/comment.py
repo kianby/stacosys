@@ -6,9 +6,9 @@ from peewee import CharField
 from peewee import TextField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
-from stacosys.model.site import Site
 from datetime import datetime
 from stacosys.core.database import BaseModel
+
 
 class Comment(BaseModel):
     url = CharField()
@@ -19,7 +19,6 @@ class Comment(BaseModel):
     author_site = CharField(default="")
     author_gravatar = CharField(default="")
     content = TextField()
-    site = ForeignKeyField(Site, related_name="site")
 
     def notify_site_admin(self):
         self.notified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
