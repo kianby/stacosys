@@ -2,17 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import os
 import re
 import time
 from datetime import datetime
 
 from stacosys.core import rss
-from stacosys.core.templater import get_template
+from stacosys.core.templater import Templater, Template
 from stacosys.model.comment import Comment, Site
 from stacosys.model.email import Email
 
 logger = logging.getLogger(__name__)
 
+current_path = os.path.dirname(__file__)
+template_path = os.path.abspath(os.path.join(current_path, "../templates"))
+templater = Templater(template_path)
 
 def fetch_mail_answers(lang, mailer, rss):
     for msg in mailer.fetch():
@@ -53,7 +57,7 @@ def _reply_comment_email(lang, mailer, rss, email: Email):
     if email.plain_text_content[:2].upper() in ("NO"):
         logger.info("discard comment: %d" % comment_id)
         comment.delete_instance()
-        new_email_body = get_template(lang, "drop_comment").render(
+        new_email_body = templater.get_template(lang, Template.DROP_COMMENT).render(
             original=email.plain_text_content
         )
         if not mailer.send(email.from_addr, "Re: " + email.subject, new_email_body):
@@ -67,7 +71,7 @@ def _reply_comment_email(lang, mailer, rss, email: Email):
         rss.generate_site(token)
 
         # send approval confirmation email to admin
-        new_email_body = get_template(lang, "approve_comment").render(
+        new_email_body = templater.get_template(lang, Template.APPROVE_COMMENT).render(
             original=email.plain_text_content
         )
         if not mailer.send(email.from_addr, "Re: " + email.subject, new_email_body):
@@ -90,8 +94,7 @@ def submit_new_comment(lang, mailer):
             "",
         )
         comment_text = "\n".join(comment_list)
-        # TODO use constants for template names
-        email_body = get_template(lang, "new_comment").render(
+        email_body = templater.get_template(lang, Template.NEW_COMMENT).render(
             url=comment.url, comment=comment_text
         )
 
