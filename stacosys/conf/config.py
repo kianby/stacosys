@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from enum import Enum
 import profig
 
 
-class ConfigParameter:
+class ConfigParameter(Enum):
     DB_URL = "main.db_url"
     DB_BACKUP_JSON_FILE = "main.db_backup_json_file"
     LANG = "main.lang"
@@ -47,18 +48,18 @@ class Config:
         config._params.update(cfg)
         return config
 
-    def exists(self, key):
-        return key in self._params
+    def exists(self, key: ConfigParameter):
+        return key.value in self._params
 
-    def get(self, key):
-        return self._params[key] if key in self._params else None
+    def get(self, key: ConfigParameter):
+        return self._params[key.value] if key.value in self._params else None
 
-    def put(self, key, value):
-        self._params[key] = value
+    def put(self, key: ConfigParameter, value):
+        self._params[key.value] = value
 
-    def get_int(self, key):
-        return int(self._params[key])
+    def get_int(self, key: ConfigParameter):
+        return int(self._params[key.value])
 
-    def get_bool(self, key):
-        return self._params[key].lower() in ("yes", "true")
+    def get_bool(self, key: ConfigParameter):
+        return self._params[key.value].lower() in ("yes", "true")
 
