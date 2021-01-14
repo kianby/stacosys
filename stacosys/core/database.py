@@ -25,7 +25,6 @@ class Database:
         db.connect()
 
         from stacosys.model.comment import Comment
-
         db.create_tables([Comment], safe=True)
 
 
