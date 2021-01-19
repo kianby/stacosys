@@ -16,7 +16,7 @@ class JobConfig(object):
             {
                 "id": "fetch_mail",
                 "func": "stacosys.core.cron:fetch_mail_answers",
-                "args": [lang, mailer, rss],
+                "args": [lang, mailer, rss, site_token],
                 "trigger": "interval",
                 "seconds": imap_polling_seconds,
             },

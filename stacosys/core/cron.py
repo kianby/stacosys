@@ -19,14 +19,14 @@ template_path = os.path.abspath(os.path.join(current_path, "../templates"))
 templater = Templater(template_path)
 
 
-def fetch_mail_answers(lang, mailer, rss):
+def fetch_mail_answers(lang, mailer, rss, site_token):
     for msg in mailer.fetch():
         if re.search(r".*STACOSYS.*\[(\d+)\:(\w+)\]", msg.subject, re.DOTALL):
-            if _reply_comment_email(lang, mailer, rss, msg):
+            if _reply_comment_email(lang, mailer, rss, msg, site_token):
                 mailer.delete(msg.id)
 
 
-def _reply_comment_email(lang, mailer, rss, email: Email):
+def _reply_comment_email(lang, mailer, rss, email: Email, site_token):
 
     m = re.search(r"\[(\d+)\:(\w+)\]", email.subject)
     if not m:
@@ -34,6 +34,9 @@ def _reply_comment_email(lang, mailer, rss, email: Email):
         return
     comment_id = int(m.group(1))
     token = m.group(2)
+    if token != site_token:
+        logger.warn("ignore corrupted email. Unknown token %d" % comment_id)
+        return
 
     # retrieve site and comment rows
     try:
@@ -44,10 +47,6 @@ def _reply_comment_email(lang, mailer, rss, email: Email):
 
     if comment.published:
         logger.warn("ignore already published email. token %d" % comment_id)
-        return
-
-    if comment.site.token != token:
-        logger.warn("ignore corrupted email. Unknown token %d" % comment_id)
         return
 
     if not email.plain_text_content:
