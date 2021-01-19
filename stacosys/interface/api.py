@@ -4,7 +4,6 @@
 import logging
 from flask import abort, jsonify, request
 
-from stacosys.conf.config import ConfigParameter
 from stacosys.interface import app
 from stacosys.model.comment import Comment
 
@@ -22,7 +21,7 @@ def query_comments():
     comments = []
     try:
         token = request.args.get("token", "")
-        if token != app.config.get(ConfigParameter.SITE_TOKEN):
+        if token != app.config.get("SITE_TOKEN"):
             abort(401)
 
         url = request.args.get("url", "")
@@ -56,7 +55,7 @@ def query_comments():
 def get_comments_count():
     try:
         token = request.args.get("token", "")
-        if token != app.config.get(ConfigParameter.SITE_TOKEN):
+        if token != app.config.get("SITE_TOKEN"):
             abort(401)
 
         url = request.args.get("url", "")

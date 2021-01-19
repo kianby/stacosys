@@ -5,7 +5,6 @@ import logging
 from datetime import datetime
 from flask import abort, redirect, request
 
-from stacosys.conf.config import ConfigParameter
 from stacosys.interface import app
 from stacosys.model.comment import Comment
 
@@ -21,7 +20,7 @@ def new_form_comment():
 
         # validate token: retrieve site entity
         token = data.get("token", "")
-        if token != app.config.get(ConfigParameter.SITE_TOKEN):
+        if token != app.config.get("SITE_TOKEN"):
             abort(401)
 
         # honeypot for spammers
