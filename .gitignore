@@ -68,3 +68,4 @@ stacosys/lib64
 .vscode/
 .pytest_cache/
 workspace.code-workspace
+*.sqlite
