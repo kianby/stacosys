@@ -1,29 +1,27 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from typing import NamedTuple
-from typing import List
 from datetime import datetime
 
 
-class Part(NamedTuple):
+class Part():
     content: str
     content_type: str
 
 
-class Attachment(NamedTuple):
+class Attachment():
     filename: str
     content: str
     content_type: str
 
 
-class Email(NamedTuple):
+class Email():
     id: int
     encoding: str
     date: datetime
     from_addr: str
     to_addr: str
     subject: str
-    parts: List[Part]
-    attachments: List[Attachment]
+    parts: list[Part]
+    attachments: list[Attachment]
     plain_text_content: str
