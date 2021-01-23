@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stacosys"
-version = "2.0-b1"
+version = "2.0b2"
 description = "STAtic COmmenting SYStem"
 authors = ["Yax"]
 readme = "README.md"
