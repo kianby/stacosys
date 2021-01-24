@@ -1,16 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
 import logging
 import smtplib
 from email.mime.text import MIMEText
 
-import requests
-
-from stacosys.conf import config
 from stacosys.core import imap
-from stacosys.model.email import Email
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +51,7 @@ class Mailer:
                 count = mbox.get_count()
                 for num in range(count):
                     msgs.append(mbox.fetch_message(num + 1))
-        except:
+        except Exception:
             logger.exception("fetch mail exception")
         return msgs
 
@@ -76,7 +71,7 @@ class Mailer:
             s.login(self._smtp_login, self._smtp_password)
             s.send_message(msg)
             s.quit()
-        except:
+        except Exception:
             logger.exception("send mail exception")
             success = False
         return success
@@ -85,5 +80,5 @@ class Mailer:
         try:
             with self._open_mailbox() as mbox:
                 mbox.delete_message(id)
-        except:
+        except Exception:
             logger.exception("delete mail exception")

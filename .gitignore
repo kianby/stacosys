@@ -69,3 +69,4 @@ stacosys/lib64
 .pytest_cache/
 workspace.code-workspace
 *.sqlite
+config-server.ini

@@ -7,14 +7,18 @@ from datetime import datetime
 import markdown
 import PyRSS2Gen
 
-import stacosys.conf.config as config
 from stacosys.core.templater import Templater, Template
 from stacosys.model.comment import Comment
 
 
 class Rss:
     def __init__(
-        self, lang, rss_file, rss_proto, site_name, site_url,
+        self,
+        lang,
+        rss_file,
+        rss_proto,
+        site_name,
+        site_url,
     ):
         self._lang = lang
         self._rss_file = rss_file
