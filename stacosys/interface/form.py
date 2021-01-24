@@ -57,7 +57,7 @@ def new_form_comment():
         )
         comment.save()
 
-    except:
+    except Exception:
         logger.exception("new comment failure")
         abort(400)
 

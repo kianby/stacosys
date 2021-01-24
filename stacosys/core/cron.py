@@ -4,10 +4,7 @@
 import logging
 import os
 import re
-import time
-from datetime import datetime
 
-from stacosys.core import rss
 from stacosys.core.templater import Templater, Template
 from stacosys.model.comment import Comment
 from stacosys.model.email import Email
@@ -39,9 +36,8 @@ def _reply_comment_email(lang, mailer, rss, email: Email, site_token):
         return
 
     # retrieve site and comment rows
-    try:
-        comment = Comment.get_by_id(comment_id)
-    except:
+    comment = Comment.get_by_id(comment_id)
+    if not comment:
         logger.warn("unknown comment %d" % comment_id)
         return True
 

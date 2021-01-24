@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import os
-import pytest
 
 from stacosys.core.templater import Templater, Template
 

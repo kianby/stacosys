@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 import json
-from peewee import DatabaseProxy, Model
-from playhouse.db_url import connect, SqliteDatabase
+from peewee import Model
+from playhouse.db_url import SqliteDatabase
 from playhouse.shortcuts import model_to_dict
 from tinydb import TinyDB
 
@@ -46,4 +46,3 @@ def _backup_db(db_file, Comment):
     for comment in Comment.select():
         cc = _tojson_model(comment)
         table.insert(cc)
-

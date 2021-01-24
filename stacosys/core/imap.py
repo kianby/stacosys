@@ -7,6 +7,7 @@ import email
 import imaplib
 import logging
 import re
+from email.message import Message
 
 from stacosys.model.email import Attachment, Email, Part
 
@@ -50,7 +51,7 @@ class Mailbox(object):
 
         parts = []
         attachments = []
-        plain_text_content: 'no plain-text part'
+        plain_text_content = "no plain-text part"
         for part in raw_msg.walk():
             if part.is_multipart():
                 continue
@@ -73,18 +74,10 @@ class Mailbox(object):
                     )
                 )
             else:
-                part_item = {}
-                content = part.get_payload(decode=True)
                 try:
-                    charset = part.get_param("charset", None)
-                    if charset:
-                        content = to_utf8(content, charset)
-                    elif type(content) == bytes:
-                        content = content.decode("utf8")
-                except:
-                    self.logger.exception()
-                # RFC 3676: remove automatic word-wrapping
-                content = content.replace(" \r\n", " ")
+                    content = to_plain_text_content(part)
+                except Exception:
+                    logging.exception("cannot extract content from mail part")
 
                 parts.append(
                     Part(content=content, content_type=part.get_content_type())
@@ -102,7 +95,7 @@ class Mailbox(object):
             subject=email_nonascii_to_uft8(raw_msg["Subject"]),
             parts=parts,
             attachments=attachments,
-            plain_text_content = plain_text_content
+            plain_text_content=plain_text_content,
         )
 
     def delete_message(self, num):
@@ -156,3 +149,14 @@ def email_nonascii_to_uft8(string):
         else:
             subject = subject + to_utf8(v, charset)
     return subject
+
+
+def to_plain_text_content(part: Message) -> str:
+    content = part.get_payload(decode=True)
+    charset = part.get_param("charset", None)
+    if charset:
+        content = to_utf8(content, charset)
+    elif type(content) == bytes:
+        content = content.decode("utf8")
+    # RFC 3676: remove automatic word-wrapping
+    return content.replace(" \r\n", " ")

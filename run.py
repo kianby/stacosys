@@ -5,15 +5,12 @@ import sys
 import os
 import argparse
 import logging
-from flask import Flask
 
 from stacosys.conf.config import Config, ConfigParameter
 from stacosys.core import database
 from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
 from stacosys.interface import app
-from stacosys.interface import api
-from stacosys.interface import form
 from stacosys.interface import scheduler
 
 
@@ -33,17 +30,29 @@ def configure_logging(level):
 
 def stacosys_server(config_pathname):
 
-    conf = Config.load(config_pathname)
-
     # configure logging
     logger = logging.getLogger(__name__)
     configure_logging(logging.INFO)
     logging.getLogger("werkzeug").level = logging.WARNING
     logging.getLogger("apscheduler.executors").level = logging.WARNING
 
+    # check config file exists
+    if not os.path.isfile(config_pathname):
+        logger.error(f"Configuration file '{config_pathname}' not found.")
+        sys.exit(1)
+
+    # initialize config
+    conf = Config.load(config_pathname)
+
+    # check database file exists (prevents from creating a fresh db)
+    db_pathname = conf.get(ConfigParameter.DB_SQLITE_FILE)
+    if not os.path.isfile(db_pathname):
+        logger.error(f"Database file '{db_pathname}' not found.")
+        sys.exit(1)
+
     # initialize database
     db = database.Database()
-    db.setup(conf.get(ConfigParameter.DB_URL))
+    db.setup(db_pathname)
 
     logger.info("Start Stacosys application")
 
@@ -53,7 +62,7 @@ def stacosys_server(config_pathname):
         conf.get(ConfigParameter.RSS_FILE),
         conf.get(ConfigParameter.RSS_PROTO),
         conf.get(ConfigParameter.SITE_NAME),
-        conf.get(ConfigParameter.SITE_URL)
+        conf.get(ConfigParameter.SITE_URL),
     )
     rss.generate()
 

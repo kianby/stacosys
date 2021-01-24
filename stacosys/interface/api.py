@@ -44,7 +44,7 @@ def query_comments():
             comments.append(d)
         r = jsonify({"data": comments})
         r.status_code = 200
-    except:
+    except Exception:
         logger.warn("bad request")
         r = jsonify({"data": []})
         r.status_code = 400
@@ -66,7 +66,7 @@ def get_comments_count():
         )
         r = jsonify({"count": count})
         r.status_code = 200
-    except:
+    except Exception:
         r = jsonify({"count": 0})
         r.status_code = 200
     return r
