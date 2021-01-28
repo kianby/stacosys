@@ -21,6 +21,7 @@ class Mailer:
         smtp_host,
         smtp_port,
         smtp_starttls,
+        smtp_ssl,
         smtp_login,
         smtp_password,
     ):
@@ -32,6 +33,7 @@ class Mailer:
         self._smtp_host = smtp_host
         self._smtp_port = smtp_port
         self._smtp_starttls = smtp_starttls
+        self._smtp_ssl = smtp_ssl
         self._smtp_login = smtp_login
         self._smtp_password = smtp_password
 
@@ -65,7 +67,10 @@ class Mailer:
 
         success = True
         try:
-            s = smtplib.SMTP(self._smtp_host, self._smtp_port)
+            if self._smtp_ssl:
+                s = smtplib.SMTP_SSL(self._smtp_host, self._smtp_port)
+            else:
+                s = smtplib.SMTP(self._smtp_host, self._smtp_port)            
             if self._smtp_starttls:
                 s.starttls()
             s.login(self._smtp_login, self._smtp_password)

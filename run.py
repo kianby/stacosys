@@ -11,6 +11,8 @@ from stacosys.core import database
 from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
 from stacosys.interface import app
+from stacosys.interface import api
+from stacosys.interface import form
 from stacosys.interface import scheduler
 
 
@@ -43,7 +45,8 @@ def stacosys_server(config_pathname):
 
     # initialize config
     conf = Config.load(config_pathname)
-
+    logger.info(conf.__repr__())
+  
     # check database file exists (prevents from creating a fresh db)
     db_pathname = conf.get(ConfigParameter.DB_SQLITE_FILE)
     if not os.path.isfile(db_pathname):
@@ -76,6 +79,7 @@ def stacosys_server(config_pathname):
         conf.get(ConfigParameter.SMTP_HOST),
         conf.get_int(ConfigParameter.SMTP_PORT),
         conf.get_bool(ConfigParameter.SMTP_STARTTLS),
+        conf.get_bool(ConfigParameter.SMTP_SSL),
         conf.get(ConfigParameter.SMTP_LOGIN),
         conf.get(ConfigParameter.SMTP_PASSWORD),
     )
@@ -94,6 +98,7 @@ def stacosys_server(config_pathname):
 
     # inject config parameters into flask
     app.config.update(SITE_TOKEN=conf.get(ConfigParameter.SITE_TOKEN))
+    logger.info(f"start interfaces {api} {form}")
 
     # start Flask
     app.run(

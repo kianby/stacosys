@@ -25,6 +25,7 @@ class ConfigParameter(Enum):
     IMAP_PASSWORD = "imap.password"
 
     SMTP_STARTTLS = "smtp.starttls"
+    SMTP_SSL = "smtp.ssl"
     SMTP_HOST = "smtp.host"
     SMTP_PORT = "smtp.port"
     SMTP_LOGIN = "smtp.login"
@@ -62,3 +63,6 @@ class Config:
 
     def get_bool(self, key: ConfigParameter):
         return self._params[key.value].lower() in ("yes", "true")
+
+    def __repr__(self):
+        return self._params.__repr__()

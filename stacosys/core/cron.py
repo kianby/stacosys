@@ -8,6 +8,8 @@ import re
 from stacosys.core.templater import Templater, Template
 from stacosys.model.comment import Comment
 from stacosys.model.email import Email
+from stacosys.core.rss import Rss
+from stacosys.core.mailer import Mailer
 
 logger = logging.getLogger(__name__)
 
@@ -16,14 +18,14 @@ template_path = os.path.abspath(os.path.join(current_path, "../templates"))
 templater = Templater(template_path)
 
 
-def fetch_mail_answers(lang, mailer, rss, site_token):
+def fetch_mail_answers(lang, mailer: Mailer, rss: Rss, site_token):
     for msg in mailer.fetch():
         if re.search(r".*STACOSYS.*\[(\d+)\:(\w+)\]", msg.subject, re.DOTALL):
             if _reply_comment_email(lang, mailer, rss, msg, site_token):
                 mailer.delete(msg.id)
 
 
-def _reply_comment_email(lang, mailer, rss, email: Email, site_token):
+def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, site_token):
 
     m = re.search(r"\[(\d+)\:(\w+)\]", email.subject)
     if not m:
@@ -64,7 +66,7 @@ def _reply_comment_email(lang, mailer, rss, email: Email, site_token):
         logger.info("commit comment: %d" % comment_id)
 
         # rebuild RSS
-        rss.generate_site(token)
+        rss.generate()
 
         # send approval confirmation email to admin
         new_email_body = templater.get_template(lang, Template.APPROVE_COMMENT).render(
@@ -77,9 +79,7 @@ def _reply_comment_email(lang, mailer, rss, email: Email, site_token):
 
 
 def submit_new_comment(lang, site_name, site_token, site_admin_email, mailer):
-
     for comment in Comment.select().where(Comment.notified.is_null()):
-
         comment_list = (
             "author: %s" % comment.author_name,
             "site: %s" % comment.author_site,
@@ -103,4 +103,3 @@ def submit_new_comment(lang, site_name, site_token, site_admin_email, mailer):
             comment.notify_site_admin()
         else:
             logger.warn("rescheduled. send mail failure " + subject)
-
