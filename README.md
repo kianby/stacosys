@@ -24,7 +24,8 @@ Stacosys is localized (english and french).
 
 Stacosys can be hosted on the same server or on a different server than the blog. Stacosys offers a REST API to retrieve and post comments. Static blog is HTML-based and a piece of JavaScript code interacts with Stacosys using HTTP requests. Each page has a unique id and a simple request allows to retrieve comments for a given page. Similarly a form request allows to post a comment which is relayed to the administrator by e-mail. For this purpose a dedicated email is assigned to Stacosys.
 
-### FAQ
+
+### Little FAQ
 
 *How do you block spammers?*
 
