@@ -59,11 +59,16 @@ def get_comments_count():
             abort(401)
 
         url = request.args.get("url", "")
-        count = (
-            Comment.select(Comment)
-            .where((Comment.url == url) & (Comment.published.is_null(False)))
-            .count()
-        )
+        if url:
+            count = (
+                Comment.select(Comment)
+                .where((Comment.url == url) & (Comment.published.is_null(False)))
+                .count()
+            )
+        else:
+            count = (
+                Comment.select(Comment).where(Comment.published.is_null(False)).count()
+            )
         r = jsonify({"count": count})
         r.status_code = 200
     except Exception:
