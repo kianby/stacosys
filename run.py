@@ -10,6 +10,7 @@ from stacosys.conf.config import Config, ConfigParameter
 from stacosys.core import database
 from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
+from stacosys.core.mailer import SSLSMTPHandler
 from stacosys.interface import app
 from stacosys.interface import api
 from stacosys.interface import form
@@ -46,7 +47,7 @@ def stacosys_server(config_pathname):
     # initialize config
     conf = Config.load(config_pathname)
     logger.info(conf.__repr__())
-  
+
     # check database file exists (prevents from creating a fresh db)
     db_pathname = conf.get(ConfigParameter.DB_SQLITE_FILE)
     if not os.path.isfile(db_pathname):
@@ -82,7 +83,13 @@ def stacosys_server(config_pathname):
         conf.get_bool(ConfigParameter.SMTP_SSL),
         conf.get(ConfigParameter.SMTP_LOGIN),
         conf.get(ConfigParameter.SMTP_PASSWORD),
+        conf.get(ConfigParameter.SITE_ADMIN_EMAIL)
     )
+
+    # configure mailer logger
+    mail_handler = mailer.get_error_handler()
+    logger.addHandler(mail_handler)
+    app.logger.addHandler(mail_handler)
 
     # configure scheduler
     scheduler.configure(
