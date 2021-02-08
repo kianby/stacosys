@@ -3,7 +3,10 @@
 
 import logging
 import smtplib
+import email.utils
 from email.mime.text import MIMEText
+from email.message import EmailMessage
+from logging.handlers import SMTPHandler
 
 from stacosys.core import imap
 
@@ -24,6 +27,7 @@ class Mailer:
         smtp_ssl,
         smtp_login,
         smtp_password,
+        site_admin_email,
     ):
         self._imap_host = imap_host
         self._imap_port = imap_port
@@ -36,6 +40,7 @@ class Mailer:
         self._smtp_ssl = smtp_ssl
         self._smtp_login = smtp_login
         self._smtp_password = smtp_password
+        self._site_admin_email = site_admin_email
 
     def _open_mailbox(self):
         return imap.Mailbox(
@@ -70,10 +75,11 @@ class Mailer:
             if self._smtp_ssl:
                 s = smtplib.SMTP_SSL(self._smtp_host, self._smtp_port)
             else:
-                s = smtplib.SMTP(self._smtp_host, self._smtp_port)            
+                s = smtplib.SMTP(self._smtp_host, self._smtp_port)
             if self._smtp_starttls:
                 s.starttls()
-            s.login(self._smtp_login, self._smtp_password)
+            if self._smtp_login:
+                s.login(self._smtp_login, self._smtp_password)
             s.send_message(msg)
             s.quit()
         except Exception:
@@ -87,3 +93,58 @@ class Mailer:
                 mbox.delete_message(id)
         except Exception:
             logger.exception("delete mail exception")
+
+    def get_error_handler(self):
+        if self._smtp_ssl:
+            mail_handler = SSLSMTPHandler(
+                mailhost=(
+                    self._smtp_host,
+                    self._smtp_port,
+                ),
+                credentials=(
+                    self._smtp_login,
+                    self._smtp_password,
+                ),
+                fromaddr=self._smtp_login,
+                toaddrs=self._site_admin_email,
+                subject="Stacosys error",
+            )
+        else:
+            mail_handler = SMTPHandler(
+                mailhost=(
+                    self._smtp_host,
+                    self._smtp_port,
+                ),
+                credentials=(
+                    self._smtp_login,
+                    self._smtp_password,
+                ),
+                fromaddr=self._smtp_login,
+                toaddrs=self._site_admin_email,
+                subject="Stacosys error",
+            )
+        mail_handler.setLevel(logging.ERROR)
+        return mail_handler
+
+
+class SSLSMTPHandler(SMTPHandler):
+    def emit(self, record):
+        """
+        Emit a record.
+
+        Format the record and send it to the specified addressees.
+        """
+        try:
+            smtp = smtplib.SMTP_SSL(self.mailhost, self.mailport)
+            msg = EmailMessage()
+            msg["From"] = self.fromaddr
+            msg["To"] = ",".join(self.toaddrs)
+            msg["Subject"] = self.getSubject(record)
+            msg["Date"] = email.utils.localtime()
+            msg.set_content(self.format(record))
+            if self.username:
+                smtp.login(self.username, self.password)
+            smtp.send_message(msg)
+            smtp.quit()
+        except Exception:
+            self.handleError(record)
