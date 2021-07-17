@@ -1,5 +1,9 @@
+import unittest
+
 from stacosys import __version__
 
 
-def test_version():
-    assert __version__ == "2.0"
+class StacosysTestCase(unittest.TestCase):
+
+    def test_version(self):
+        self.assertEqual("2.0", __version__)
