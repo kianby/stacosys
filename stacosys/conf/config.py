@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from enum import Enum
+
 import profig
 
 
 class ConfigParameter(Enum):
     DB_SQLITE_FILE = "main.db_sqlite_file"
-    DB_BACKUP_JSON_FILE = "main.db_backup_json_file"
     LANG = "main.lang"
     COMMENT_POLLING = "main.newcomment_polling"
 
@@ -62,7 +62,9 @@ class Config:
         return int(self._params[key.value])
 
     def get_bool(self, key: ConfigParameter):
-        return self._params[key.value].lower() in ("yes", "true")
+        value = self._params[key.value].lower()
+        assert value in ("yes", "true", "no", "false")
+        return value in ("yes", "true")
 
     def __repr__(self):
         return self._params.__repr__()
