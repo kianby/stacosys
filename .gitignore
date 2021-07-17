@@ -70,3 +70,4 @@ stacosys/lib64
 workspace.code-workspace
 *.sqlite
 config-server.ini
+.idea/
