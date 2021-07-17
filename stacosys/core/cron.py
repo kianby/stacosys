@@ -10,6 +10,7 @@ from stacosys.model.comment import Comment
 from stacosys.model.email import Email
 from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
+from stacosys.db import dao
 
 logger = logging.getLogger(__name__)
 
@@ -29,40 +30,40 @@ def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, site_toke
 
     m = re.search(r"\[(\d+)\:(\w+)\]", email.subject)
     if not m:
-        logger.warn("ignore corrupted email. No token %s" % email.subject)
+        logger.warning("ignore corrupted email. No token %s" % email.subject)
         return
     comment_id = int(m.group(1))
     token = m.group(2)
     if token != site_token:
-        logger.warn("ignore corrupted email. Unknown token %d" % comment_id)
+        logger.warning("ignore corrupted email. Unknown token %d" % comment_id)
         return
 
     # retrieve site and comment rows
-    comment = Comment.get_by_id(comment_id)
+    comment = Comment
     if not comment:
-        logger.warn("unknown comment %d" % comment_id)
+        logger.warning("unknown comment %d" % comment_id)
         return True
 
     if comment.published:
-        logger.warn("ignore already published email. token %d" % comment_id)
+        logger.warning("ignore already published email. token %d" % comment_id)
         return
 
     if not email.plain_text_content:
-        logger.warn("ignore empty email")
+        logger.warning("ignore empty email")
         return
 
     # safe logic: no answer or unknown answer is a go for publishing
-    if email.plain_text_content[:2].upper() in ("NO"):
+    if email.plain_text_content[:2].upper() == "NO":
         logger.info("discard comment: %d" % comment_id)
         comment.delete_instance()
         new_email_body = templater.get_template(lang, Template.DROP_COMMENT).render(
             original=email.plain_text_content
         )
         if not mailer.send(email.from_addr, "Re: " + email.subject, new_email_body):
-            logger.warn("minor failure. cannot send rejection mail " + email.subject)
+            logger.warning("minor failure. cannot send rejection mail " + email.subject)
     else:
         # save publishing datetime
-        comment.publish()
+        dao.publish(comment)
         logger.info("commit comment: %d" % comment_id)
 
         # rebuild RSS
@@ -73,7 +74,7 @@ def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, site_toke
             original=email.plain_text_content
         )
         if not mailer.send(email.from_addr, "Re: " + email.subject, new_email_body):
-            logger.warn("minor failure. cannot send approval email " + email.subject)
+            logger.warning("minor failure. cannot send approval email " + email.subject)
 
     return True
 
@@ -100,6 +101,6 @@ def submit_new_comment(lang, site_name, site_token, site_admin_email, mailer):
             logger.debug("new comment processed ")
 
             # notify site admin and save notification datetime
-            comment.notify_site_admin()
+            dao.notify_site_admin(comment)
         else:
-            logger.warn("rescheduled. send mail failure " + subject)
+            logger.warning("rescheduled. send mail failure " + subject)
