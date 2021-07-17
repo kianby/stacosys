@@ -7,10 +7,9 @@ import argparse
 import logging
 
 from stacosys.conf.config import Config, ConfigParameter
-from stacosys.core import database
+from stacosys.db import database
 from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
-from stacosys.core.mailer import SSLSMTPHandler
 from stacosys.interface import app
 from stacosys.interface import api
 from stacosys.interface import form

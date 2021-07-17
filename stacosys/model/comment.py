@@ -5,7 +5,7 @@ from peewee import CharField
 from peewee import TextField
 from peewee import DateTimeField
 from datetime import datetime
-from stacosys.core.database import BaseModel
+from stacosys.db.database import BaseModel
 
 
 class Comment(BaseModel):
@@ -17,11 +17,3 @@ class Comment(BaseModel):
     author_site = CharField(default="")
     author_gravatar = CharField(default="")
     content = TextField()
-
-    def notify_site_admin(self):
-        self.notified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.save()
-
-    def publish(self):
-        self.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.save()
