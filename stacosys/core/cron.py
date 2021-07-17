@@ -5,12 +5,13 @@ import logging
 import os
 import re
 
-from stacosys.core.templater import Templater, Template
-from stacosys.model.comment import Comment
-from stacosys.model.email import Email
-from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
+from stacosys.core.rss import Rss
+from stacosys.core.templater import Templater, Template
 from stacosys.db import dao
+from stacosys.model.email import Email
+
+REGEX_EMAIL_SUBJECT = r".*STACOSYS.*\[(\d+)\:(\w+)\]"
 
 logger = logging.getLogger(__name__)
 
@@ -21,41 +22,42 @@ templater = Templater(template_path)
 
 def fetch_mail_answers(lang, mailer: Mailer, rss: Rss, site_token):
     for msg in mailer.fetch():
-        if re.search(r".*STACOSYS.*\[(\d+)\:(\w+)\]", msg.subject, re.DOTALL):
-            if _reply_comment_email(lang, mailer, rss, msg, site_token):
-                mailer.delete(msg.id)
+        # filter stacosys e-mails
+        m = re.search(REGEX_EMAIL_SUBJECT, msg.subject, re.DOTALL)
+        if not m:
+            continue
+
+        comment_id = int(m.group(1))
+        submitted_token = m.group(2)
+
+        # validate token
+        if submitted_token != site_token:
+            logger.warning("ignore corrupted email. Unknown token %d" % comment_id)
+            continue
+
+        if not msg.plain_text_content:
+            logger.warning("ignore empty email")
+            continue
+
+        _reply_comment_email(lang, mailer, rss, msg, comment_id)
+        mailer.delete(msg.id)
 
 
-def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, site_token):
-
-    m = re.search(r"\[(\d+)\:(\w+)\]", email.subject)
-    if not m:
-        logger.warning("ignore corrupted email. No token %s" % email.subject)
-        return
-    comment_id = int(m.group(1))
-    token = m.group(2)
-    if token != site_token:
-        logger.warning("ignore corrupted email. Unknown token %d" % comment_id)
-        return
-
-    # retrieve site and comment rows
-    comment = Comment
+def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, comment_id):
+    # retrieve comment
+    comment = dao.find_comment_by_id(comment_id)
     if not comment:
         logger.warning("unknown comment %d" % comment_id)
-        return True
+        return
 
     if comment.published:
         logger.warning("ignore already published email. token %d" % comment_id)
         return
 
-    if not email.plain_text_content:
-        logger.warning("ignore empty email")
-        return
-
     # safe logic: no answer or unknown answer is a go for publishing
     if email.plain_text_content[:2].upper() == "NO":
         logger.info("discard comment: %d" % comment_id)
-        comment.delete_instance()
+        dao.delete_comment(comment)
         new_email_body = templater.get_template(lang, Template.DROP_COMMENT).render(
             original=email.plain_text_content
         )
@@ -63,7 +65,7 @@ def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, site_toke
             logger.warning("minor failure. cannot send rejection mail " + email.subject)
     else:
         # save publishing datetime
-        dao.publish(comment)
+        dao.publish_comment(comment)
         logger.info("commit comment: %d" % comment_id)
 
         # rebuild RSS
@@ -76,11 +78,9 @@ def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, site_toke
         if not mailer.send(email.from_addr, "Re: " + email.subject, new_email_body):
             logger.warning("minor failure. cannot send approval email " + email.subject)
 
-    return True
-
 
 def submit_new_comment(lang, site_name, site_token, site_admin_email, mailer):
-    for comment in Comment.select().where(Comment.notified.is_null()):
+    for comment in dao.find_not_notified_comments():
         comment_list = (
             "author: %s" % comment.author_name,
             "site: %s" % comment.author_site,
@@ -95,12 +95,12 @@ def submit_new_comment(lang, site_name, site_token, site_admin_email, mailer):
             url=comment.url, comment=comment_text
         )
 
-        # send email
+        # send email to notify admin
         subject = "STACOSYS %s: [%d:%s]" % (site_name, comment.id, site_token)
         if mailer.send(site_admin_email, subject, email_body):
             logger.debug("new comment processed ")
 
-            # notify site admin and save notification datetime
-            dao.notify_site_admin(comment)
+            # save notification datetime
+            dao.notify_comment(comment)
         else:
             logger.warning("rescheduled. send mail failure " + subject)

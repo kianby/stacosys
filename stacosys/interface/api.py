@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import logging
+
 from flask import abort, jsonify, request
+
+from stacosys.db import dao
 from stacosys.interface import app
-from stacosys.model.comment import Comment
 
 logger = logging.getLogger(__name__)
-
 
 
 @app.route("/ping", methods=["GET"])
@@ -23,12 +24,8 @@ def query_comments():
         abort(401)
     url = request.args.get("url", "")
 
-    logger.info("retrieve comments for url %s" % (url))
-    for comment in (
-        Comment.select(Comment)
-        .where((Comment.url == url) & (Comment.published.is_null(False)))
-        .order_by(+Comment.published)
-    ):
+    logger.info("retrieve comments for url %s" % url)
+    for comment in dao.find_published_comments_by_url(url):
         d = {
             "author": comment.author_name,
             "content": comment.content,
@@ -48,12 +45,4 @@ def get_comments_count():
     if token != app.config.get("SITE_TOKEN"):
         abort(401)
     url = request.args.get("url", "")
-    if url:
-        count = (
-            Comment.select(Comment)
-            .where((Comment.url == url) & (Comment.published.is_null(False)))
-            .count()
-        )
-    else:
-        count = Comment.select(Comment).where(Comment.publishd.is_null(False)).count()
-    return jsonify({"count": count})
+    return jsonify({"count": dao.count_published_comments(url)})

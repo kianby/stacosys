@@ -2,18 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from datetime import datetime
+
 from flask import abort, redirect, request
 
+from stacosys.db import dao
 from stacosys.interface import app
-from stacosys.model.comment import Comment
 
 logger = logging.getLogger(__name__)
 
 
 @app.route("/newcomment", methods=["POST"])
 def new_form_comment():
-
     try:
         data = request.form
         logger.info("form data " + str(data))
@@ -26,7 +25,7 @@ def new_form_comment():
         # honeypot for spammers
         captcha = data.get("remarque", "")
         if captcha:
-            logger.warn("discard spam: data %s" % data)
+            logger.warning("discard spam: data %s" % data)
             abort(400)
 
         url = data.get("url", "")
@@ -39,23 +38,14 @@ def new_form_comment():
 
         # anti-spam again
         if not url or not author_name or not message:
-            logger.warn("empty field: data %s" % data)
+            logger.warning("empty field: data %s" % data)
             abort(400)
-        check_form_data(data)
+        if not check_form_data(data.to_dict()):
+            logger.warning("additional field: data %s" % data)
+            abort(400)
 
         # add a row to Comment table
-        created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        comment = Comment(
-            url=url,
-            author_name=author_name,
-            author_site=author_site,
-            author_gravatar=author_gravatar,
-            content=message,
-            created=created,
-            notified=None,
-            published=None,
-        )
-        comment.save()
+        dao.create_comment(url, author_name, author_site, author_gravatar, message)
 
     except Exception:
         logger.exception("new comment failure")
@@ -64,12 +54,13 @@ def new_form_comment():
     return redirect("/redirect/", code=302)
 
 
-def check_form_data(data):
+def check_form_data(d):
     fields = ["url", "message", "site", "remarque", "author", "token", "email"]
-    d = data.to_dict()
     for field in fields:
         if field in d:
             del d[field]
-    if d:
-        logger.warn("additional field: data %s" % data)
-        abort(400)
+
+#    filtered = dict(filter(lambda x: x[0] not in fields, data.to_dict().items()))
+    return not d
+
+

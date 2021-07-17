@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 from peewee import CharField
-from peewee import TextField
 from peewee import DateTimeField
-from datetime import datetime
+from peewee import TextField
+
 from stacosys.db.database import BaseModel
 
 
