@@ -5,6 +5,7 @@ import sys
 import os
 import argparse
 import logging
+import hashlib
 
 from stacosys.conf.config import Config, ConfigParameter
 from stacosys.db import database
@@ -91,6 +92,7 @@ def stacosys_server(config_pathname):
     app.logger.addHandler(mail_handler)
 
     # configure scheduler
+    conf.set(ConfigParameter.SITE_TOKEN, hashlib.sha1(conf.get(ConfigParameter.SITE_NAME)).hexdigest())
     scheduler.configure(
         conf.get_int(ConfigParameter.IMAP_POLLING),
         conf.get_int(ConfigParameter.COMMENT_POLLING),
