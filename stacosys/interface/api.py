@@ -3,7 +3,7 @@
 
 import logging
 
-from flask import abort, jsonify, request
+from flask import jsonify, request
 
 from stacosys.db import dao
 from stacosys.interface import app
@@ -38,8 +38,5 @@ def query_comments():
 
 @app.route("/comments/count", methods=["GET"])
 def get_comments_count():
-    token = request.args.get("token", "")
-    if token != app.config.get("SITE_TOKEN"):
-        abort(401)
     url = request.args.get("url", "")
     return jsonify({"count": dao.count_published_comments(url)})
