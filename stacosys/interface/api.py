@@ -19,9 +19,6 @@ def ping():
 @app.route("/comments", methods=["GET"])
 def query_comments():
     comments = []
-    token = request.args.get("token", "")
-    if token != app.config.get("SITE_TOKEN"):
-        abort(401)
     url = request.args.get("url", "")
 
     logger.info("retrieve comments for url %s" % url)
