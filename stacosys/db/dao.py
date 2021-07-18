@@ -35,7 +35,7 @@ def find_published_comments_by_url(url):
 def count_published_comments(url):
     return Comment.select(Comment).where(
         (Comment.url == url) & (Comment.published.is_null(False))).count() if url else Comment.select(Comment).where(
-        Comment.publishd.is_null(False)).count()
+        Comment.published.is_null(False)).count()
 
 
 def create_comment(url, author_name, author_site, author_gravatar, message):
@@ -51,3 +51,4 @@ def create_comment(url, author_name, author_site, author_gravatar, message):
         published=None,
     )
     comment.save()
+    return comment
