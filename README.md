@@ -29,7 +29,7 @@ Stacosys can be hosted on the same server or on a different server than the blog
 
 *How do you block spammers?*
 
-- Current comment form is basic: no captcha support but a honey pot. 
+- Current comment form is basic: no captcha support but protected by an honey pot. 
 
 *Which database is used?*
 
