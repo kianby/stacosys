@@ -92,7 +92,7 @@ def stacosys_server(config_pathname):
     app.logger.addHandler(mail_handler)
 
     # configure scheduler
-    conf.set(ConfigParameter.SITE_TOKEN, hashlib.sha1(conf.get(ConfigParameter.SITE_NAME)).hexdigest())
+    conf.put(ConfigParameter.SITE_TOKEN, hashlib.sha1(conf.get(ConfigParameter.SITE_NAME).encode('utf-8')).hexdigest())
     scheduler.configure(
         conf.get_int(ConfigParameter.IMAP_POLLING),
         conf.get_int(ConfigParameter.COMMENT_POLLING),
