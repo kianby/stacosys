@@ -1,4 +1,4 @@
-name: pytest
+name: Run Pytests
 on: push
 
 jobs:
@@ -6,8 +6,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8]
-        poetry-version: [1.0, 1.1.6]
+        python-version: [3.9, 3.9.6]
+        poetry-version: [1.1.7]
         os: [ubuntu-18.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
