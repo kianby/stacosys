@@ -1,4 +1,4 @@
-name: Run Pytests
+name: pytest
 on: push
 
 jobs:
