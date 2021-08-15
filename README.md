@@ -1,3 +1,5 @@
+[![Python version badge](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/) [![Flask version badge](https://img.shields.io/badge/Flask-2.0.1-green.svg)](https://flask.palletsprojects.com) [![Peewee version badge](https://img.shields.io/badge/Peewee-3.14.0-green.svg)](https://docs.peewee-orm.com/)
+
 ## Stacosys
 
 Stacosys (aka STAtic blog COmment SYStem) is a fork of [Pecosys](http://github.com/kianby/pecosys) trying to fix Pecosys design drawbacks and to provide an humble alternative to comment hosting services like Disqus. Stacosys protects your readers's privacy.
@@ -37,14 +39,14 @@ Stacosys can be hosted on the same server or on a different server than the blog
 
 *Which technologies are used?*
 
--    [Python 3.9](https://www.python.org)
+-    [Python](https://www.python.org)
 -    [Flask](http://flask.pocoo.org)
 -    [Peewee ORM](http://docs.peewee-orm.com)
 -    [Markdown](http://daringfireball.net/projects/markdown)
 
 ### Installation
 
-Build is based on [Poetry](https://python-poetry.org/) but you can also use [published releases on GitHub](https://github.com/kianby/stacosys/releases) or the [Docker image](https://hub.docker.com/repository/docker/kianby/stacosys).
+Build is based on [Poetry](https://python-poetry.org/) but you can also use [published releases](https://github.com/kianby/stacosys/releases) or [Docker image](https://hub.docker.com/repository/docker/kianby/stacosys).
 
 ### Improvements
 
