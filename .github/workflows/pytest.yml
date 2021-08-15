@@ -22,9 +22,9 @@ jobs:
       - name: poetry install
         run: poetry install
       - name: poetry run pytest and coverage
-        run: poetry run pytest --cov . 
+        run: poetry run pytest --cov . --cov-report xml
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
+          path-to-lcov: ./coverage.xml
