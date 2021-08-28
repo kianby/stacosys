@@ -4,18 +4,20 @@ from datetime import datetime
 
 from stacosys.model.comment import Comment
 
+TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 
 def find_comment_by_id(id):
     return Comment.get_by_id(id)
 
 
 def notify_comment(comment: Comment):
-    comment.notified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    comment.notified = datetime.now().strftime(TIME_FORMAT)
     comment.save()
 
 
 def publish_comment(comment: Comment):
-    comment.published = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    comment.published = datetime.now().strftime(TIME_FORMAT)
     comment.save()
 
 

@@ -31,14 +31,14 @@ class Mailbox(object):
         self.imap.login(self.login, self.password)
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, _type, value, traceback):
         self.imap.close()
         self.imap.logout()
 
     def get_count(self):
         self.imap.select("Inbox")
         _, data = self.imap.search(None, "ALL")
-        return sum(1 for num in data[0].split())
+        return sum(1 for _ in data[0].split())
 
     def fetch_raw_message(self, num):
         self.imap.select("Inbox")
@@ -56,43 +56,26 @@ class Mailbox(object):
             if part.is_multipart():
                 continue
 
-            content_disposition = part.get("Content-Disposition", None)
-            if content_disposition:
-                # we have attachment
-                r = filename_re.findall(content_disposition)
-                if r:
-                    filename = sorted(r[0])[1]
-                else:
-                    filename = "undefined"
-                content = base64.b64encode(part.get_payload(decode=True))
-                content = content.decode()
-                attachments.append(
-                    Attachment(
-                        filename=email_nonascii_to_uft8(filename),
-                        content=content,
-                        content_type=part.get_content_type(),
-                    )
-                )
+            if _is_part_attachment(part):
+                attachments.append(_get_attachment(part))
             else:
                 try:
-                    content = to_plain_text_content(part)
+                    content = _to_plain_text_content(part)
+                    parts.append(
+                        Part(content=content, content_type=part.get_content_type())
+                    )
+                    if part.get_content_type() == "text/plain":
+                        plain_text_content = content
                 except Exception:
                     logging.exception("cannot extract content from mail part")
-
-                parts.append(
-                    Part(content=content, content_type=part.get_content_type())
-                )
-
-                if part.get_content_type() == "text/plain":
-                    plain_text_content = content
 
         return Email(
             id=num,
             encoding="UTF-8",
-            date=parse_date(raw_msg["Date"]).strftime("%Y-%m-%d %H:%M:%S"),
+            date=_parse_date(raw_msg["Date"]).strftime("%Y-%m-%d %H:%M:%S"),
             from_addr=raw_msg["From"],
             to_addr=raw_msg["To"],
-            subject=email_nonascii_to_uft8(raw_msg["Subject"]),
+            subject=_email_non_ascii_to_uft8(raw_msg["Subject"]),
             parts=parts,
             attachments=attachments,
             plain_text_content=plain_text_content,
@@ -118,26 +101,22 @@ class Mailbox(object):
             self.logger.debug("Message %s\n%s\n" % (num, data[0][1]))
 
 
-def parse_date(v):
+def _parse_date(v):
     if v is None:
         return datetime.datetime.now()
-
     tt = email.utils.parsedate_tz(v)
-
     if tt is None:
         return datetime.datetime.now()
-
     timestamp = email.utils.mktime_tz(tt)
     date = datetime.datetime.fromtimestamp(timestamp)
     return date
 
 
-def to_utf8(string, charset):
+def _to_utf8(string, charset):
     return string.decode(charset).encode("UTF-8").decode("UTF-8")
 
 
-def email_nonascii_to_uft8(string):
-
+def _email_non_ascii_to_uft8(string):
     # RFC 1342 is a recommendation that provides a way to represent non ASCII
     # characters inside e-mail in a way that won’t confuse e-mail servers
     subject = ""
@@ -147,16 +126,36 @@ def email_nonascii_to_uft8(string):
                 v = v.decode()
             subject = subject + v
         else:
-            subject = subject + to_utf8(v, charset)
+            subject = subject + _to_utf8(v, charset)
     return subject
 
 
-def to_plain_text_content(part: Message) -> str:
+def _to_plain_text_content(part: Message) -> str:
     content = part.get_payload(decode=True)
     charset = part.get_param("charset", None)
     if charset:
-        content = to_utf8(content, charset)
+        content = _to_utf8(content, charset)
     elif type(content) == bytes:
         content = content.decode("utf8")
     # RFC 3676: remove automatic word-wrapping
     return content.replace(" \r\n", " ")
+
+
+def _is_part_attachment(part):
+    return part.get("Content-Disposition", None)
+
+
+def _get_attachment(part) -> Attachment:
+    content_disposition = part.get("Content-Disposition", None)
+    r = filename_re.findall(content_disposition)
+    if r:
+        filename = sorted(r[0])[1]
+    else:
+        filename = "undefined"
+    content = base64.b64encode(part.get_payload(decode=True))
+    content = content.decode()
+    return Attachment(
+        filename=_email_non_ascii_to_uft8(filename),
+        content=content,
+        content_type=part.get_content_type(),
+    )
