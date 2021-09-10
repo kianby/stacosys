@@ -1,22 +1,40 @@
-import unittest
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
+import logging
+
+import pytest
+
+from stacosys.db import database
+from stacosys.interface import app
 from stacosys.interface import form
 
 
-class FormInterfaceTestCase(unittest.TestCase):
-
-    def test_check_form_data_ok(self):
-        d = {"url": "/", "message": "", "site": "", "remarque": "", "author": "", "token": "", "email": ""}
-        self.assertTrue(form.check_form_data(d))
-        d = {"url": "/"}
-        self.assertTrue(form.check_form_data(d))
-        d = {}
-        self.assertTrue(form.check_form_data(d))
-
-    def test_check_form_data_ko(self):
-        d = {"url": "/", "message": "", "site": "", "remarque": "", "author": "", "token": "", "email": "", "bonus": ""}
-        self.assertFalse(form.check_form_data(d))
+@pytest.fixture
+def client():
+    logger = logging.getLogger(__name__)
+    db = database.Database()
+    db.setup(":memory:")
+    app.config.update(SITE_TOKEN="ETC")
+    logger.info(f"start interface {form}")
+    return app.test_client()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_new_comment_honeypot(client):
+    resp = client.post('/newcomment',
+                       content_type='multipart/form-data',
+                       data={'remarque': 'trapped'})
+    assert resp.status == '400 BAD REQUEST'
+
+
+def test_new_comment_success(client):
+    resp = client.post('/newcomment',
+                       content_type='multipart/form-data',
+                       data={'author': 'Jack', 'url': '/site3', 'message': 'comment 3'})
+    assert resp.status == '302 FOUND'
+
+
+def test_check_form_data():
+    from stacosys.interface.form import check_form_data
+    assert check_form_data({'author': 'Jack', 'url': '/site3', 'message': 'comment 3'})
+    assert not check_form_data({'author': 'Jack', 'url': '/site3', 'message': 'comment 3', 'extra': 'ball'})
