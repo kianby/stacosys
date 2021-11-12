@@ -3,7 +3,7 @@ FROM python:3.9-alpine
 ARG STACOSYS_VERSION=2.0
 ARG STACOSYS_FILENAME=stacosys-${STACOSYS_VERSION}-py3-none-any.whl
 
-RUN apk update && apk add bash && apk add wget && rm -rf /var/cache/apk/* 
+RUN apk update && apk add bash && apk add wget && apk add tzdata && rm -rf /var/cache/apk/* 
 
 COPY docker/docker-init.sh /usr/local/bin/
 RUN chmod +x usr/local/bin/docker-init.sh
