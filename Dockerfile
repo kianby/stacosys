@@ -3,7 +3,15 @@ FROM python:3.9-alpine
 ARG STACOSYS_VERSION=2.0
 ARG STACOSYS_FILENAME=stacosys-${STACOSYS_VERSION}-py3-none-any.whl
 
-RUN apk update && apk add bash && apk add wget && apk add tzdata && rm -rf /var/cache/apk/* 
+RUN apk update && apk add bash && apk add wget
+
+# Timezone
+RUN apk add tzdata
+RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+RUN echo "Europe/Paris" >  /etc/timezone
+
+# Clean apk cache
+RUN rm -rf /var/cache/apk/* 
 
 COPY docker/docker-init.sh /usr/local/bin/
 RUN chmod +x usr/local/bin/docker-init.sh
