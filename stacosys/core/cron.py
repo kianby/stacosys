@@ -21,26 +21,34 @@ templater = Templater(template_path)
 
 
 def fetch_mail_answers(lang, mailer: Mailer, rss: Rss, site_token):
-    for msg in mailer.fetch():
-        # filter stacosys e-mails
-        m = re.search(REGEX_EMAIL_SUBJECT, msg.subject, re.DOTALL)
-        if not m:
-            continue
-
-        comment_id = int(m.group(1))
-        submitted_token = m.group(2)
-
-        # validate token
-        if submitted_token != site_token:
-            logger.warning("ignore corrupted email. Unknown token %d" % comment_id)
-            continue
-
-        if not msg.plain_text_content:
-            logger.warning("ignore empty email")
-            continue
-
-        _reply_comment_email(lang, mailer, rss, msg, comment_id)
+    while True:
+        msgs = mailer.fetch()
+        if len(msgs) == 0:
+            break
+        msg = msgs[0]
+        _process_answer_msg(msg, lang, mailer, rss, site_token)
         mailer.delete(msg.id)
+
+
+def _process_answer_msg(msg, lang, mailer: Mailer, rss: Rss, site_token):
+    # filter stacosys e-mails
+    m = re.search(REGEX_EMAIL_SUBJECT, msg.subject, re.DOTALL)
+    if not m:
+        return
+
+    comment_id = int(m.group(1))
+    submitted_token = m.group(2)
+
+    # validate token
+    if submitted_token != site_token:
+        logger.warning("ignore corrupted email. Unknown token %d" % comment_id)
+        return
+
+    if not msg.plain_text_content:
+        logger.warning("ignore empty email")
+        return
+
+    _reply_comment_email(lang, mailer, rss, msg, comment_id)
 
 
 def _reply_comment_email(lang, mailer: Mailer, rss: Rss, email: Email, comment_id):
