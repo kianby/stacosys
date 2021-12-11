@@ -15,7 +15,7 @@ def client():
     logger = logging.getLogger(__name__)
     db = database.Database()
     db.setup(":memory:")
-    app.config.update(SITE_TOKEN="ETC")
+    app.config.update(SITE_REDIRECT="/redirect")
     logger.info(f"start interface {form}")
     return app.test_client()
 
