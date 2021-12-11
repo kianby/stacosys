@@ -105,7 +105,7 @@ def stacosys_server(config_pathname):
     )
 
     # inject config parameters into flask
-    app.config.update(SITE_TOKEN=conf.get(ConfigParameter.SITE_TOKEN))
+    app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
     logger.info(f"start interfaces {api} {form}")
 
     # start Flask

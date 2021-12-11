@@ -35,6 +35,7 @@ class ConfigParameter(Enum):
     SITE_URL = "site.url"
     SITE_TOKEN = "site.token"
     SITE_ADMIN_EMAIL = "site.admin_email"
+    SITE_REDIRECT = "site.redirect"
 
 
 class Config:

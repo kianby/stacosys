@@ -42,7 +42,7 @@ def new_form_comment():
     # add a row to Comment table
     dao.create_comment(url, author_name, author_site, author_gravatar, message)
 
-    return redirect("/redirect/", code=302)
+    return redirect(app.config.get("SITE_REDIRECT"), code=302)
 
 
 def check_form_data(d):
