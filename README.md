@@ -54,4 +54,3 @@ Build is based on [Poetry](https://python-poetry.org/) but you can also use [pub
 ### Improvements
 
 Stacosys fits my needs and it manages comments on [my blog](https://blogduyax.madyanne.fr) for a while. I don't have any plan to make big changes, it's more a python playground for me. So I strongly encourage you to fork the project and enhance the project if you need more features.
-
