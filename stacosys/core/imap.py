@@ -121,7 +121,7 @@ def _email_non_ascii_to_uft8(string):
     # characters inside e-mail in a way that won’t confuse e-mail servers
     subject = ""
     for v, charset in email.header.decode_header(string):
-        if charset is None:
+        if charset is None or charset == 'unknown-8bit':
             if type(v) is bytes:
                 v = v.decode()
             subject = subject + v
