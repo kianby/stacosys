@@ -1,7 +1,7 @@
 [![GitLicense](https://gitlicense.com/badge/kianby/stacosys)](https://gitlicense.com/license/kianby/stacosys)
  [![Python version](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/) [![Flask version](https://img.shields.io/badge/Flask-2.0.1-green.svg)](https://flask.palletsprojects.com) [![Peewee version](https://img.shields.io/badge/Peewee-3.14.0-green.svg)](https://docs.peewee-orm.com/)
 
-[![Build Status - pytest](https://github.com/kianby/stacosys/workflows/pytest/badge.svg)](https://github.com/kianby/stacosys) [![Coverage Status](https://coveralls.io/repos/github/kianby/stacosys/badge.svg?branch=master)](https://coveralls.io/github/kianby/stacosys?branch=master) [![Build status - docker image](https://github.com/kianby/stacosys/workflows/docker/badge.svg)](https://hub.docker.com/r/kianby/stacosys)  
+[![Build Status - pytest](https://github.com/kianby/stacosys/workflows/pytest/badge.svg)](https://github.com/kianby/stacosys) [![Coverage Status](https://coveralls.io/repos/github/kianby/stacosys/badge.svg?branch=main)](https://coveralls.io/github/kianby/stacosys?branch=main) [![Build status - docker image](https://github.com/kianby/stacosys/workflows/docker/badge.svg)](https://hub.docker.com/r/kianby/stacosys)  
 
 ## Stacosys
 
