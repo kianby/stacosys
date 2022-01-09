@@ -19,4 +19,8 @@ class ImapTestCase(unittest.TestCase):
     def test_parse_date(self):
         now = datetime.datetime.now()
         self.assertGreaterEqual(imap._parse_date(None), now)
-        self.assertEqual(imap._parse_date("Wed, 8 Dec 2021 20:05:20 +0100"), datetime.datetime(2021, 12, 8, 20, 5, 20))
+        parsed = imap._parse_date("Wed, 8 Dec 2021 20:05:20 +0100")
+        self.assertEqual(parsed.day, 8)
+        self.assertEqual(parsed.month, 12)
+        self.assertEqual(parsed.year, 2021)
+        # do not compare hours. don't care about timezone
