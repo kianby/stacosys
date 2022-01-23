@@ -18,6 +18,7 @@ requests = "^2.25.1"
 coverage = "^5.5"
 peewee = "^3.14.8"
 tox = "^3.24.5"
+python-ulid = "^1.0.3"
 
 [tool.poetry.dev-dependencies]
 rope = "^0.16.0"
