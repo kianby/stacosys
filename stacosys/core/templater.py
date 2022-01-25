@@ -11,6 +11,7 @@ class Template(Enum):
     NEW_COMMENT = "new_comment"
     NOTIFY_MESSAGE = "notify_message"
     RSS_TITLE_MESSAGE = "rss_title_message"
+    WEB_COMMENT_APPROVAL = "web_comment_approval"
 
 
 class Templater:

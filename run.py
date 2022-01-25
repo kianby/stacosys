@@ -14,6 +14,7 @@ from stacosys.core.mailer import Mailer
 from stacosys.interface import app
 from stacosys.interface import api
 from stacosys.interface import form
+from stacosys.interface import webadmin
 from stacosys.interface import scheduler
 
 
@@ -106,7 +107,7 @@ def stacosys_server(config_pathname):
 
     # inject config parameters into flask
     app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
-    logger.info(f"start interfaces {api} {form}")
+    logger.info(f"start interfaces {api} {form} {webadmin}")
 
     # start Flask
     app.run(
