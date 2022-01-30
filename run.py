@@ -1,21 +1,21 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import sys
-import os
 import argparse
-import logging
 import hashlib
+import logging
+import os
+import sys
 
 from stacosys.conf.config import Config, ConfigParameter
-from stacosys.db import database
-from stacosys.core.rss import Rss
 from stacosys.core.mailer import Mailer
-from stacosys.interface import app
+from stacosys.core.rss import Rss
+from stacosys.db import database
 from stacosys.interface import api
+from stacosys.interface import app
 from stacosys.interface import form
-from stacosys.interface import webadmin
 from stacosys.interface import scheduler
+from stacosys.interface.web import admin
 
 
 # configure logging
@@ -33,7 +33,6 @@ def configure_logging(level):
 
 
 def stacosys_server(config_pathname):
-
     # configure logging
     logger = logging.getLogger(__name__)
     configure_logging(logging.INFO)
@@ -107,7 +106,8 @@ def stacosys_server(config_pathname):
 
     # inject config parameters into flask
     app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
-    logger.info(f"start interfaces {api} {form} {webadmin}")
+    app.config.update(SITE_URL=conf.get(ConfigParameter.SITE_URL))
+    logger.info(f"start interfaces {api} {form} {admin}")
 
     # start Flask
     app.run(

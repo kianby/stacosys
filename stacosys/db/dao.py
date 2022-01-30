@@ -29,6 +29,10 @@ def find_not_notified_comments():
     return Comment.select().where(Comment.notified.is_null())
 
 
+def find_not_published_comments():
+    return Comment.select().where(Comment.published.is_null())
+
+
 def find_published_comments_by_url(url):
     return Comment.select(Comment).where((Comment.url == url) & (Comment.published.is_null(False))).order_by(
         +Comment.published)

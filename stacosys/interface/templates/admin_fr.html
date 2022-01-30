@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacosys</title>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+  <header>
+    <h1>Modération des commentaires</h1>
+  </header>
+  <main>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <blockquote>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+      </blockquote>
+      {% endif %}
+      {% endwith %}
+    <table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Auteur</th>
+            <th>Commentaire</th>
+            <th>Article</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comment in comments %}
+        <tr>
+            <td>{{ comment.created }}</td>
+            <td>{{ comment.author_name }}</td>
+            <td>{{ comment.content }}</td>
+            <td><a href="{{ baseurl + comment.url }}">{{ comment.url }}</a></td>
+            <td>
+                <form action="/web" method="post">
+                    <input type="hidden" name="comment" value="{{comment.id}}">
+                    <input type="hidden" name="action" value="APPROVE">
+                    <button type="submit">Accepter</button>
+                </form>
+                <form action="/web" method="post">
+                    <input type="hidden" name="comment" value="{{comment.id}}">
+                    <input type="hidden" name="action" value="REJECT">
+                    <button type="submit">Rejeter</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+  </main>
+  <footer>
+    <p>Cette page a été conçue par Yax avec <a href="https://simplecss.org">Simple.css</a>.</p>
+  </footer>
+</body>
+</html>
