@@ -8,10 +8,13 @@
 </head>
 <body>
   <header>
-    <h1>Modération des commentaires</h1>
+    <h2>Modération des commentaires</h2>
+    <nav>
+        <a href="/web/logout">Déconnecter</a>
+    </nav>
   </header>
   <main>
-      {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages() %}
       {% if messages %}
         <blockquote>
         {% for message in messages %}
@@ -19,7 +22,7 @@
         {% endfor %}
       </blockquote>
       {% endif %}
-      {% endwith %}
+    {% endwith %}
     <table>
     <thead>
         <tr>
@@ -38,12 +41,12 @@
             <td>{{ comment.content }}</td>
             <td><a href="{{ baseurl + comment.url }}">{{ comment.url }}</a></td>
             <td>
-                <form action="/web" method="post">
+                <form action="/web/admin" method="post">
                     <input type="hidden" name="comment" value="{{comment.id}}">
                     <input type="hidden" name="action" value="APPROVE">
                     <button type="submit">Accepter</button>
                 </form>
-                <form action="/web" method="post">
+                <form action="/web/admin" method="post">
                     <input type="hidden" name="comment" value="{{comment.id}}">
                     <input type="hidden" name="action" value="REJECT">
                     <button type="submit">Rejeter</button>
