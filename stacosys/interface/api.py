@@ -11,12 +11,12 @@ from stacosys.interface import app
 logger = logging.getLogger(__name__)
 
 
-@app.route("/ping", methods=["GET"])
+@app.route("/api/ping", methods=["GET"])
 def ping():
     return "OK"
 
 
-@app.route("/comments", methods=["GET"])
+@app.route("/api/comments", methods=["GET"])
 def query_comments():
     comments = []
     url = request.args.get("url", "")
@@ -36,7 +36,7 @@ def query_comments():
     return jsonify({"data": comments})
 
 
-@app.route("/comments/count", methods=["GET"])
+@app.route("/api/comments/count", methods=["GET"])
 def get_comments_count():
     url = request.args.get("url", "")
     return jsonify({"count": dao.count_published_comments(url)})
