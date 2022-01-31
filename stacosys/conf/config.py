@@ -37,6 +37,9 @@ class ConfigParameter(Enum):
     SITE_ADMIN_EMAIL = "site.admin_email"
     SITE_REDIRECT = "site.redirect"
 
+    WEB_USERNAME = "web.username"
+    WEB_PASSWORD = "web.password"
+
 
 class Config:
     def __init__(self):

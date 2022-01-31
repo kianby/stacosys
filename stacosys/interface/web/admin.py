@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import hashlib
 import logging
 
 from flask import request, redirect, flash, render_template, session
@@ -10,7 +11,10 @@ from stacosys.interface import app
 
 logger = logging.getLogger(__name__)
 
-user = {"username": "admin", "password": "toto"}
+
+def is_login_ok(username, password):
+    hashed = hashlib.sha256(password.encode()).hexdigest().upper()
+    return app.config.get("WEB_USERNAME") == username and app.config.get("WEB_PASSWORD") == hashed
 
 
 @app.route('/web/login', methods=['POST', 'GET'])
@@ -18,7 +22,7 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        if username == user['username'] and password == user['password']:
+        if is_login_ok(username, password):
             session['user'] = username
             return redirect('/web/admin')
 
@@ -36,7 +40,7 @@ def logout():
 
 @app.route("/web/admin", methods=["GET"])
 def admin_homepage():
-    if not ('user' in session and session['user'] == user['username']):
+    if not ('user' in session and session['user'] == app.config.get("WEB_USERNAME")):
         flash("Vous avez été déconnecté.")
         return redirect('/web/login')
 
