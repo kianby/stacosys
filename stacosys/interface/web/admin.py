@@ -11,6 +11,14 @@ from stacosys.interface import app
 
 logger = logging.getLogger(__name__)
 
+app.add_url_rule("/web", endpoint="index")
+app.add_url_rule("/web/", endpoint="index")
+
+
+@app.endpoint("index")
+def index():
+    return redirect('/web/admin')
+
 
 def is_login_ok(username, password):
     hashed = hashlib.sha256(password.encode()).hexdigest().upper()
@@ -35,7 +43,7 @@ def login():
 @app.route('/web/logout', methods=["GET"])
 def logout():
     session.pop('user')
-    return redirect('/web/login')
+    return redirect('/web/admin')
 
 
 @app.route("/web/admin", methods=["GET"])
@@ -52,4 +60,6 @@ def admin_homepage():
 @app.route("/web/admin", methods=["POST"])
 def admin_action():
     flash(request.form.get("comment") + " " + request.form.get("action"))
+    # rebuild RSS
+    #rss.generate()
     return redirect('/web/admin')

@@ -105,9 +105,9 @@ def stacosys_server(config_pathname):
     )
 
     # inject config parameters into flask
-    app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
-    app.config.update(SITE_URL=conf.get(ConfigParameter.SITE_URL))
     app.config.update(LANG=conf.get(ConfigParameter.LANG))
+    app.config.update(SITE_URL=conf.get(ConfigParameter.SITE_URL))
+    app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
     app.config.update(WEB_USERNAME=conf.get(ConfigParameter.WEB_USERNAME))
     app.config.update(WEB_PASSWORD=conf.get(ConfigParameter.WEB_PASSWORD))
     logger.info(f"start interfaces {api} {form} {admin}")
