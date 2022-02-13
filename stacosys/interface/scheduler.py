@@ -9,31 +9,20 @@ class JobConfig(object):
 
     JOBS: list = []
 
-    SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 4}}
+    SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 1}}
 
     def __init__(
         self,
-        imap_polling_seconds,
         new_comment_polling_seconds,
-        lang,
         site_name,
-        site_token,
         site_admin_email,
         mailer,
-        rss,
     ):
         self.JOBS = [
             {
-                "id": "fetch_mail",
-                "func": "stacosys.core.cron:fetch_mail_answers",
-                "args": [lang, mailer, rss, site_token],
-                "trigger": "interval",
-                "seconds": imap_polling_seconds,
-            },
-            {
                 "id": "submit_new_comment",
                 "func": "stacosys.core.cron:submit_new_comment",
-                "args": [lang, site_name, site_token, site_admin_email, mailer],
+                "args": [site_name, site_admin_email, mailer],
                 "trigger": "interval",
                 "seconds": new_comment_polling_seconds,
             },
@@ -41,25 +30,17 @@ class JobConfig(object):
 
 
 def configure(
-    imap_polling,
     comment_polling,
-    lang,
     site_name,
-    site_token,
     site_admin_email,
     mailer,
-    rss,
 ):
     app.config.from_object(
         JobConfig(
-            imap_polling,
             comment_polling,
-            lang,
             site_name,
-            site_token,
             site_admin_email,
             mailer,
-            rss,
         )
     )
     scheduler = APScheduler()

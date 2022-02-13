@@ -17,13 +17,6 @@ class ConfigParameter(Enum):
     RSS_PROTO = "rss.proto"
     RSS_FILE = "rss.file"
 
-    IMAP_POLLING = "imap.polling"
-    IMAP_SSL = "imap.ssl"
-    IMAP_HOST = "imap.host"
-    IMAP_PORT = "imap.port"
-    IMAP_LOGIN = "imap.login"
-    IMAP_PASSWORD = "imap.password"
-
     SMTP_STARTTLS = "smtp.starttls"
     SMTP_SSL = "smtp.ssl"
     SMTP_HOST = "smtp.host"
