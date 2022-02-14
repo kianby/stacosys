@@ -15,14 +15,13 @@ class JobConfig(object):
         self,
         new_comment_polling_seconds,
         site_name,
-        site_admin_email,
         mailer,
     ):
         self.JOBS = [
             {
                 "id": "submit_new_comment",
                 "func": "stacosys.core.cron:submit_new_comment",
-                "args": [site_name, site_admin_email, mailer],
+                "args": [site_name, mailer],
                 "trigger": "interval",
                 "seconds": new_comment_polling_seconds,
             },
@@ -32,14 +31,12 @@ class JobConfig(object):
 def configure(
     comment_polling,
     site_name,
-    site_admin_email,
     mailer,
 ):
     app.config.from_object(
         JobConfig(
             comment_polling,
             site_name,
-            site_admin_email,
             mailer,
         )
     )

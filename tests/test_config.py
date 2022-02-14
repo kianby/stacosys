@@ -16,7 +16,6 @@ class ConfigTestCase(unittest.TestCase):
         self.conf = Config()
         self.conf.put(ConfigParameter.DB_SQLITE_FILE, EXPECTED_DB_SQLITE_FILE)
         self.conf.put(ConfigParameter.HTTP_PORT, EXPECTED_HTTP_PORT)
-        self.conf.put(ConfigParameter.SMTP_STARTTLS, "yes")
 
     def test_exists(self):
         self.assertTrue(self.conf.exists(ConfigParameter.DB_SQLITE_FILE))
@@ -27,7 +26,6 @@ class ConfigTestCase(unittest.TestCase):
         self.assertIsNone(self.conf.get(ConfigParameter.HTTP_HOST))
         self.assertEqual(self.conf.get(ConfigParameter.HTTP_PORT), EXPECTED_HTTP_PORT)
         self.assertEqual(self.conf.get_int(ConfigParameter.HTTP_PORT), 8080)
-        self.assertTrue(self.conf.get_bool(ConfigParameter.SMTP_STARTTLS))
         try:
             self.conf.get_bool(ConfigParameter.DB_SQLITE_FILE)
             self.assertTrue(False)

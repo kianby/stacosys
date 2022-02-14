@@ -74,24 +74,16 @@ def stacosys_server(config_pathname):
     mailer = Mailer(
         conf.get(ConfigParameter.SMTP_HOST),
         conf.get_int(ConfigParameter.SMTP_PORT),
-        conf.get_bool(ConfigParameter.SMTP_STARTTLS),
-        conf.get_bool(ConfigParameter.SMTP_SSL),
         conf.get(ConfigParameter.SMTP_LOGIN),
         conf.get(ConfigParameter.SMTP_PASSWORD),
         conf.get(ConfigParameter.SITE_ADMIN_EMAIL)
     )
-
-    # configure mailer logger
-    mail_handler = mailer.get_error_handler()
-    logger.addHandler(mail_handler)
-    app.logger.addHandler(mail_handler)
 
     # configure scheduler
     conf.put(ConfigParameter.SITE_TOKEN, hashlib.sha1(conf.get(ConfigParameter.SITE_NAME).encode('utf-8')).hexdigest())
     scheduler.configure(
         conf.get_int(ConfigParameter.COMMENT_POLLING),
         conf.get(ConfigParameter.SITE_NAME),
-        conf.get(ConfigParameter.SITE_ADMIN_EMAIL),
         mailer,
     )
 

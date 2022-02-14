@@ -8,7 +8,7 @@ from stacosys.db import dao
 logger = logging.getLogger(__name__)
 
 
-def submit_new_comment(site_name, site_admin_email, mailer):
+def submit_new_comment(site_name, mailer):
     for comment in dao.find_not_notified_comments():
         comment_list = (
             "author: %s" % comment.author_name,
@@ -23,7 +23,7 @@ def submit_new_comment(site_name, site_admin_email, mailer):
 
         # send email to notify admin
         subject = "STACOSYS %s" % site_name
-        if mailer.send(site_admin_email, subject, email_body):
+        if mailer.send(subject, email_body):
             logger.debug("new comment processed ")
 
             # save notification datetime
