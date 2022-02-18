@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import logging
 
+import background
 from flask import abort, redirect, request
 
 from stacosys.db import dao
@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 @app.route("/newcomment", methods=["POST"])
 def new_form_comment():
-
     data = request.form
     logger.info("form data " + str(data))
 
@@ -40,7 +39,10 @@ def new_form_comment():
         abort(400)
 
     # add a row to Comment table
-    dao.create_comment(url, author_name, author_site, author_gravatar, message)
+    comment = dao.create_comment(url, author_name, author_site, author_gravatar, message)
+
+    # send notification e-mail asynchronously
+    submit_new_comment(comment)
 
     return redirect(app.config.get("SITE_REDIRECT"), code=302)
 
@@ -51,3 +53,32 @@ def check_form_data(d):
     return not filtered
 
 
+@background.task
+def submit_new_comment(comment):
+    comment_list = (
+        "Web admin interface: %s/web/admin" % app.config.get("SITE_URL"),
+        "",
+        "author: %s" % comment.author_name,
+        "site: %s" % comment.author_site,
+        "date: %s" % comment.created,
+        "url: %s" % comment.url,
+        "",
+        "%s" % comment.content,
+        "",
+    )
+    email_body = "\n".join(comment_list)
+
+    # send email to notify admin
+    subject = "STACOSYS " + app.config.get("SITE_NAME")
+    if app.config.get("MAILER").send(subject, email_body):
+        logger.debug("new comment processed")
+
+        # save notification datetime
+        dao.notify_comment(comment)
+    else:
+        logger.warning("rescheduled. send mail failure " + subject)
+
+
+@background.callback
+def submit_new_comment_callback(future):
+    pass

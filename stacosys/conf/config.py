@@ -9,7 +9,6 @@ import profig
 class ConfigParameter(Enum):
     DB_SQLITE_FILE = "main.db_sqlite_file"
     LANG = "main.lang"
-    COMMENT_POLLING = "main.newcomment_polling"
 
     HTTP_HOST = "http.host"
     HTTP_PORT = "http.port"
@@ -24,7 +23,6 @@ class ConfigParameter(Enum):
 
     SITE_NAME = "site.name"
     SITE_URL = "site.url"
-    SITE_TOKEN = "site.token"
     SITE_ADMIN_EMAIL = "site.admin_email"
     SITE_REDIRECT = "site.redirect"
 

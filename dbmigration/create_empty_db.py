@@ -6,9 +6,6 @@ import sqlite3
 connection = sqlite3.connect("db.sqlite")
 cursor = connection.cursor()
 
-# What script performs: 
-# - first, remove site table: crash here if table doesn't exist (compatibility test without effort)
-# - remove site_id colum from comment table
 script = """
 CREATE TABLE comment (
     id INTEGER NOT NULL PRIMARY KEY, 

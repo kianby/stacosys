@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import argparse
-import hashlib
 import logging
 import os
 import sys
@@ -14,7 +13,6 @@ from stacosys.db import database
 from stacosys.interface import api
 from stacosys.interface import app
 from stacosys.interface import form
-from stacosys.interface import scheduler
 from stacosys.interface.web import admin
 
 
@@ -79,20 +77,14 @@ def stacosys_server(config_pathname):
         conf.get(ConfigParameter.SITE_ADMIN_EMAIL)
     )
 
-    # configure scheduler
-    conf.put(ConfigParameter.SITE_TOKEN, hashlib.sha1(conf.get(ConfigParameter.SITE_NAME).encode('utf-8')).hexdigest())
-    scheduler.configure(
-        conf.get_int(ConfigParameter.COMMENT_POLLING),
-        conf.get(ConfigParameter.SITE_NAME),
-        mailer,
-    )
-
     # inject config parameters into flask
     app.config.update(LANG=conf.get(ConfigParameter.LANG))
+    app.config.update(SITE_NAME=conf.get(ConfigParameter.SITE_NAME))
     app.config.update(SITE_URL=conf.get(ConfigParameter.SITE_URL))
     app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
     app.config.update(WEB_USERNAME=conf.get(ConfigParameter.WEB_USERNAME))
     app.config.update(WEB_PASSWORD=conf.get(ConfigParameter.WEB_PASSWORD))
+    app.config.update(MAILER=mailer)
     logger.info(f"start interfaces {api} {form} {admin}")
 
     # start Flask
