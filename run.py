@@ -85,6 +85,7 @@ def stacosys_server(config_pathname):
     app.config.update(WEB_USERNAME=conf.get(ConfigParameter.WEB_USERNAME))
     app.config.update(WEB_PASSWORD=conf.get(ConfigParameter.WEB_PASSWORD))
     app.config.update(MAILER=mailer)
+    app.config.update(RSS=rss)
     logger.info(f"start interfaces {api} {form} {admin}")
 
     # start Flask

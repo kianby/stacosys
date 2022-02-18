@@ -60,6 +60,7 @@ def admin_homepage():
 @app.route("/web/admin", methods=["POST"])
 def admin_action():
     flash(request.form.get("comment") + " " + request.form.get("action"))
+    # TODO process action
     # rebuild RSS
-    #rss.generate()
+    app.config.get("RSS").generate()
     return redirect('/web/admin')
