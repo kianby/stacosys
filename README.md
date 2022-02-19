@@ -51,3 +51,4 @@ Build and Dependency management relies on [Poetry](https://python-poetry.org/), 
 ### Improvements
 
 Stacosys fits my needs, and it manages comments on [my blog](https://blogduyax.madyanne.fr) for a while. I don't have any plan to make big changes, it's more a python playground for me. So I strongly encourage you to fork and enhance the project if you need additional features.
+
