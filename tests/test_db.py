@@ -7,8 +7,7 @@ from stacosys.db import database
 class DbTestCase(unittest.TestCase):
 
     def setUp(self):
-        db = database.Database()
-        db.setup(":memory:")
+        database.setup(":memory:")
 
     def test_dao_published(self):
 

@@ -13,8 +13,7 @@ from stacosys.interface import form
 @pytest.fixture
 def client():
     logger = logging.getLogger(__name__)
-    db = database.Database()
-    db.setup(":memory:")
+    database.setup(":memory:")
     app.config.update(SITE_REDIRECT="/redirect")
     logger.info(f"start interface {form}")
     return app.test_client()

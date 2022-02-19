@@ -22,8 +22,7 @@ def init_test_db():
 @pytest.fixture
 def client():
     logger = logging.getLogger(__name__)
-    db = database.Database()
-    db.setup(":memory:")
+    database.setup(":memory:")
     init_test_db()
     app.config.update(SITE_TOKEN="ETC")
     logger.info(f"start interface {api}")

@@ -53,8 +53,7 @@ def stacosys_server(config_pathname):
         sys.exit(1)
 
     # initialize database
-    db = database.Database()
-    db.setup(db_pathname)
+    database.setup(db_pathname)
 
     logger.info("Start Stacosys application")
 

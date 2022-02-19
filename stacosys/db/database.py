@@ -12,13 +12,13 @@ class BaseModel(Model):
         database = db
 
 
-class Database:
-    def get_db(self):
-        return db
+def setup(db_url):
+    db.init(db_url)
+    db.connect()
 
-    def setup(self, db_url):
-        db.init(db_url)
-        db.connect()
+    from stacosys.model.comment import Comment
+    db.create_tables([Comment], safe=True)
 
-        from stacosys.model.comment import Comment
-        db.create_tables([Comment], safe=True)
+
+def get_db():
+    return db

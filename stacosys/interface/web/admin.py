@@ -33,10 +33,10 @@ def login():
         if is_login_ok(username, password):
             session['user'] = username
             return redirect('/web/admin')
-
+        # TODO localization
         flash("Identifiant ou mot de passe incorrect")
         return redirect('/web/login')
-
+    # GET
     return render_template("login_" + app.config.get("LANG") + ".html")
 
 
@@ -49,6 +49,7 @@ def logout():
 @app.route("/web/admin", methods=["GET"])
 def admin_homepage():
     if not ('user' in session and session['user'] == app.config.get("WEB_USERNAME")):
+        # TODO localization
         flash("Vous avez été déconnecté.")
         return redirect('/web/login')
 
@@ -59,8 +60,17 @@ def admin_homepage():
 
 @app.route("/web/admin", methods=["POST"])
 def admin_action():
-    flash(request.form.get("comment") + " " + request.form.get("action"))
-    # TODO process action
-    # rebuild RSS
-    app.config.get("RSS").generate()
+    comment = dao.find_comment_by_id(request.form.get("comment"))
+    if comment is None:
+        # TODO localization
+        flash("Commentaire introuvable")
+    elif request.form.get("action") == "APPROVE":
+        dao.publish_comment(comment)
+        app.config.get("RSS").generate()
+        # TODO localization
+        flash("Commentaire publié")
+    else:
+        dao.delete_comment(comment)
+        # TODO localization
+        flash("Commentaire supprimé")
     return redirect('/web/admin')
