@@ -72,3 +72,4 @@ workspace.code-workspace
 config-server.ini
 config-dev.ini
 .idea/
+.python-version
