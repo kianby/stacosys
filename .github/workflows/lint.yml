@@ -2,23 +2,15 @@ name: lint
 on: push
 
 jobs:
-  flake8_py3:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.9.9]
-        poetry-version: [1.1.12]
-        os: [ubuntu-18.04]
-    runs-on: ${{ matrix.os }}
+  lint:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
       - name: Run image
         uses: abatilo/actions-poetry@v2.0.0
         with:
-          poetry-version: ${{ matrix.poetry-version }}
+          poetry-version: 1.1.12
       - name: Install dependencies
         run: poetry install
       - uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
