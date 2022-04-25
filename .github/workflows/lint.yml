@@ -1,4 +1,4 @@
-name: Lint
+name: lint
 
 on:
   push:
@@ -7,15 +7,24 @@ on:
 
 jobs:
   flake8_py3:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.9.9]
+        poetry-version: [1.1.12]
+        os: [ubuntu-18.04]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
         with:
-          python-version: 3.9.9
-          architecture: x64
-      - name: Checkout Stacosys
-        uses: actions/checkout@master
+          python-version: ${{ matrix.python-version }}
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install dependencies
+        run: poetry install
       - name: Install flake8
         run: pip install flake8
       - name: Run flake8
@@ -23,4 +32,4 @@ jobs:
         with:
           checkName: 'flake8_py3'   # NOTE: this needs to be the same as the job name
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTION_GITHUB_TOKEN }}
