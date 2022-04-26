@@ -6,17 +6,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9.9"      
       - name: Install poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: 1.1.12
       - name: Install dependencies
         run: poetry install
-      - uses: usama2490/lintly-flake8-github-action@v1.1
+      - name: Run flake8
+        uses: julianwachholz/flake8-action@v2
         with:
-          # The GitHub API token to create reviews with
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Fail if "new" violations detected or "any", default "new"
-          failIf: new
-          # Additional arguments to be black compliant
-          args: "--max-line-length=88 --extend-ignore=E203 --exclude=*/tests/*"
+          checkName: "Python Lint"
+          path: path/to/files
+          plugins: flake8-spellcheck
+          config: flake8.ini
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
