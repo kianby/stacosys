@@ -19,7 +19,7 @@ jobs:
         uses: julianwachholz/flake8-action@v2
         with:
           checkName: "Python Lint"
-          path: path/to/files
+          path: .
           plugins: flake8-spellcheck
           config: flake8.ini
         env:
