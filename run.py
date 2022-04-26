@@ -22,11 +22,8 @@ def configure_logging(level):
     root_logger.setLevel(level)
     ch = logging.StreamHandler()
     ch.setLevel(level)
-    # create formatter
     formatter = logging.Formatter("[%(asctime)s] %(name)s %(levelname)s %(message)s")
-    # add formatter to ch
     ch.setFormatter(formatter)
-    # add ch to logger
     root_logger.addHandler(ch)
 
 
@@ -57,7 +54,7 @@ def stacosys_server(config_pathname):
 
     logger.info("Start Stacosys application")
 
-    # generate RSS for all sites
+    # generate RSS
     rss = Rss(
         conf.get(ConfigParameter.LANG),
         conf.get(ConfigParameter.RSS_FILE),

@@ -39,7 +39,9 @@ def new_form_comment():
         abort(400)
 
     # add a row to Comment table
-    comment = dao.create_comment(url, author_name, author_site, author_gravatar, message)
+    comment = dao.create_comment(
+        url, author_name, author_site, author_gravatar, message
+    )
 
     # send notification e-mail asynchronously
     submit_new_comment(comment)

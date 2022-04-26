@@ -5,7 +5,6 @@ from stacosys.db import database
 
 
 class DbTestCase(unittest.TestCase):
-
     def setUp(self):
         database.setup(":memory:")
 
@@ -50,5 +49,5 @@ class DbTestCase(unittest.TestCase):
         self.assertEqual(0, len(dao.find_not_notified_comments()))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

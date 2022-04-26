@@ -20,20 +20,25 @@ def client():
 
 
 def test_new_comment_honeypot(client):
-    resp = client.post('/newcomment',
-                       content_type='multipart/form-data',
-                       data={'remarque': 'trapped'})
-    assert resp.status == '400 BAD REQUEST'
+    resp = client.post(
+        "/newcomment", content_type="multipart/form-data", data={"remarque": "trapped"}
+    )
+    assert resp.status == "400 BAD REQUEST"
 
 
 def test_new_comment_success(client):
-    resp = client.post('/newcomment',
-                       content_type='multipart/form-data',
-                       data={'author': 'Jack', 'url': '/site3', 'message': 'comment 3'})
-    assert resp.status == '302 FOUND'
+    resp = client.post(
+        "/newcomment",
+        content_type="multipart/form-data",
+        data={"author": "Jack", "url": "/site3", "message": "comment 3"},
+    )
+    assert resp.status == "302 FOUND"
 
 
 def test_check_form_data():
     from stacosys.interface.form import check_form_data
-    assert check_form_data({'author': 'Jack', 'url': '/site3', 'message': 'comment 3'})
-    assert not check_form_data({'author': 'Jack', 'url': '/site3', 'message': 'comment 3', 'extra': 'ball'})
+
+    assert check_form_data({"author": "Jack", "url": "/site3", "message": "comment 3"})
+    assert not check_form_data(
+        {"author": "Jack", "url": "/site3", "message": "comment 3", "extra": "ball"}
+    )

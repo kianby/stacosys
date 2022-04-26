@@ -11,12 +11,12 @@ from stacosys.model.comment import Comment
 
 class Rss:
     def __init__(
-            self,
-            lang,
-            rss_file,
-            rss_proto,
-            site_name,
-            site_url,
+        self,
+        lang,
+        rss_file,
+        rss_proto,
+        site_name,
+        site_url,
     ):
         self._lang = lang
         self._rss_file = rss_file
@@ -29,16 +29,16 @@ class Rss:
 
         items = []
         for row in (
-                Comment.select()
-                        .where(Comment.published)
-                        .order_by(-Comment.published)
-                        .limit(10)
+            Comment.select()
+            .where(Comment.published)
+            .order_by(-Comment.published)
+            .limit(10)
         ):
             item_link = "%s://%s%s" % (self._rss_proto, self._site_url, row.url)
             items.append(
                 PyRSS2Gen.RSSItem(
                     title="%s - %s://%s%s"
-                          % (self._rss_proto, row.author_name, self._site_url, row.url),
+                    % (self._rss_proto, row.author_name, self._site_url, row.url),
                     link=item_link,
                     description=md.convert(row.content),
                     guid=PyRSS2Gen.Guid("%s/%d" % (item_link, row.id)),

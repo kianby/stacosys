@@ -17,6 +17,7 @@ def setup(db_url):
     db.connect()
 
     from stacosys.model.comment import Comment
+
     db.create_tables([Comment], safe=True)
 
 

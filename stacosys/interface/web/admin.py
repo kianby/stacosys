@@ -17,45 +17,51 @@ app.add_url_rule("/web/", endpoint="index")
 
 @app.endpoint("index")
 def index():
-    return redirect('/web/admin')
+    return redirect("/web/admin")
 
 
 def is_login_ok(username, password):
     hashed = hashlib.sha256(password.encode()).hexdigest().upper()
-    return app.config.get("WEB_USERNAME") == username and app.config.get("WEB_PASSWORD") == hashed
+    return (
+        app.config.get("WEB_USERNAME") == username
+        and app.config.get("WEB_PASSWORD") == hashed
+    )
 
 
-@app.route('/web/login', methods=['POST', 'GET'])
+@app.route("/web/login", methods=["POST", "GET"])
 def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
         if is_login_ok(username, password):
-            session['user'] = username
-            return redirect('/web/admin')
+            session["user"] = username
+            return redirect("/web/admin")
         # TODO localization
         flash("Identifiant ou mot de passe incorrect")
-        return redirect('/web/login')
+        return redirect("/web/login")
     # GET
     return render_template("login_" + app.config.get("LANG") + ".html")
 
 
-@app.route('/web/logout', methods=["GET"])
+@app.route("/web/logout", methods=["GET"])
 def logout():
-    session.pop('user')
-    return redirect('/web/admin')
+    session.pop("user")
+    return redirect("/web/admin")
 
 
 @app.route("/web/admin", methods=["GET"])
 def admin_homepage():
-    if not ('user' in session and session['user'] == app.config.get("WEB_USERNAME")):
+    if not ("user" in session and session["user"] == app.config.get("WEB_USERNAME")):
         # TODO localization
         flash("Vous avez été déconnecté.")
-        return redirect('/web/login')
+        return redirect("/web/login")
 
     comments = dao.find_not_published_comments()
-    return render_template("admin_" + app.config.get("LANG") + ".html", comments=comments,
-                           baseurl=app.config.get("SITE_URL"))
+    return render_template(
+        "admin_" + app.config.get("LANG") + ".html",
+        comments=comments,
+        baseurl=app.config.get("SITE_URL"),
+    )
 
 
 @app.route("/web/admin", methods=["POST"])
@@ -73,4 +79,4 @@ def admin_action():
         dao.delete_comment(comment)
         # TODO localization
         flash("Commentaire supprimé")
-    return redirect('/web/admin')
+    return redirect("/web/admin")

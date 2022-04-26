@@ -11,7 +11,6 @@ EXPECTED_LANG = "fr"
 
 
 class ConfigTestCase(unittest.TestCase):
-
     def setUp(self):
         self.conf = Config()
         self.conf.put(ConfigParameter.DB_SQLITE_FILE, EXPECTED_DB_SQLITE_FILE)
@@ -21,7 +20,9 @@ class ConfigTestCase(unittest.TestCase):
         self.assertTrue(self.conf.exists(ConfigParameter.DB_SQLITE_FILE))
 
     def test_get(self):
-        self.assertEqual(self.conf.get(ConfigParameter.DB_SQLITE_FILE), EXPECTED_DB_SQLITE_FILE)
+        self.assertEqual(
+            self.conf.get(ConfigParameter.DB_SQLITE_FILE), EXPECTED_DB_SQLITE_FILE
+        )
         self.assertEqual(self.conf.get(ConfigParameter.HTTP_PORT), EXPECTED_HTTP_PORT)
         self.assertIsNone(self.conf.get(ConfigParameter.HTTP_HOST))
         self.assertEqual(self.conf.get(ConfigParameter.HTTP_PORT), EXPECTED_HTTP_PORT)

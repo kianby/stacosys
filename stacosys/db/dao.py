@@ -34,14 +34,21 @@ def find_not_published_comments():
 
 
 def find_published_comments_by_url(url):
-    return Comment.select(Comment).where((Comment.url == url) & (Comment.published.is_null(False))).order_by(
-        +Comment.published)
+    return (
+        Comment.select(Comment)
+        .where((Comment.url == url) & (Comment.published.is_null(False)))
+        .order_by(+Comment.published)
+    )
 
 
 def count_published_comments(url):
-    return Comment.select(Comment).where(
-        (Comment.url == url) & (Comment.published.is_null(False))).count() if url else Comment.select(Comment).where(
-        Comment.published.is_null(False)).count()
+    return (
+        Comment.select(Comment)
+        .where((Comment.url == url) & (Comment.published.is_null(False)))
+        .count()
+        if url
+        else Comment.select(Comment).where(Comment.published.is_null(False)).count()
+    )
 
 
 def create_comment(url, author_name, author_site, author_gravatar, message):

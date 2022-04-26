@@ -30,35 +30,35 @@ def client():
 
 
 def test_api_ping(client):
-    resp = client.get('/api/ping')
+    resp = client.get("/api/ping")
     assert resp.data == b"OK"
 
 
 def test_api_count_global(client):
-    resp = client.get('/api/comments/count')
+    resp = client.get("/api/comments/count")
     d = json.loads(resp.data)
-    assert d and d['count'] == 2
+    assert d and d["count"] == 2
 
 
 def test_api_count_url(client):
-    resp = client.get('/api/comments/count?url=/site1')
+    resp = client.get("/api/comments/count?url=/site1")
     d = json.loads(resp.data)
-    assert d and d['count'] == 1
-    resp = client.get('/api/comments/count?url=/site2')
+    assert d and d["count"] == 1
+    resp = client.get("/api/comments/count?url=/site2")
     d = json.loads(resp.data)
-    assert d and d['count'] == 0
+    assert d and d["count"] == 0
 
 
 def test_api_comment(client):
-    resp = client.get('/api/comments?url=/site1')
+    resp = client.get("/api/comments?url=/site1")
     d = json.loads(resp.data)
-    assert d and len(d['data']) == 1
-    comment = d['data'][0]
-    assert comment['author'] == 'Bob'
-    assert comment['content'] == 'comment 1'
+    assert d and len(d["data"]) == 1
+    comment = d["data"][0]
+    assert comment["author"] == "Bob"
+    assert comment["content"] == "comment 1"
 
 
 def test_api_comment_not_found(client):
-    resp = client.get('/api/comments?url=/site2')
+    resp = client.get("/api/comments?url=/site2")
     d = json.loads(resp.data)
-    assert d and d['data'] == []
+    assert d and d["data"] == []
