@@ -17,6 +17,7 @@ coverage = "^5.5"
 peewee = "^3.14.8"
 tox = "^3.24.5"
 background = "^0.2.1"
+Flask = "^2.1.1"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.942"
