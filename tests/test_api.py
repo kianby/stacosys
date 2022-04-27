@@ -17,6 +17,7 @@ def init_test_db():
     c3 = dao.create_comment("/site3", "Jack", "/jack.site", "", "comment 3")
     dao.publish_comment(c1)
     dao.publish_comment(c3)
+    assert c2
 
 
 @pytest.fixture
