@@ -23,9 +23,10 @@ class ConfigTestCase(unittest.TestCase):
         self.assertEqual(
             self.conf.get(ConfigParameter.DB_SQLITE_FILE), EXPECTED_DB_SQLITE_FILE
         )
-        self.assertEqual(self.conf.get(ConfigParameter.HTTP_PORT), EXPECTED_HTTP_PORT)
         self.assertIsNone(self.conf.get(ConfigParameter.HTTP_HOST))
-        self.assertEqual(self.conf.get(ConfigParameter.HTTP_PORT), EXPECTED_HTTP_PORT)
+        self.assertEqual(
+            self.conf.get(ConfigParameter.HTTP_PORT), str(EXPECTED_HTTP_PORT)
+        )
         self.assertEqual(self.conf.get_int(ConfigParameter.HTTP_PORT), 8080)
         try:
             self.conf.get_bool(ConfigParameter.DB_SQLITE_FILE)
