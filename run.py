@@ -39,9 +39,10 @@ def stacosys_server(config_pathname):
         logger.error(f"Configuration file '{config_pathname}' not found.")
         sys.exit(1)
 
-    # initialize config
+    # load config
     conf = Config.load(config_pathname)
-    logger.info(conf.__repr__())
+    conf.check()
+    logger.info(conf)
 
     # check database file exists (prevents from creating a fresh db)
     db_pathname = conf.get(ConfigParameter.DB_SQLITE_FILE)
@@ -70,7 +71,7 @@ def stacosys_server(config_pathname):
         conf.get_int(ConfigParameter.SMTP_PORT),
         conf.get(ConfigParameter.SMTP_LOGIN),
         conf.get(ConfigParameter.SMTP_PASSWORD),
-        conf.get(ConfigParameter.SITE_ADMIN_EMAIL)
+        conf.get(ConfigParameter.SITE_ADMIN_EMAIL),
     )
 
     # inject config parameters into flask

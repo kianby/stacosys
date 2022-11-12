@@ -74,6 +74,10 @@ class Config:
         assert value in ("yes", "true", "no", "false")
         return value in ("yes", "true")
 
+    def check(self):
+        for key in ConfigParameter:
+            assert self.get(key), f"Paramètre introuvable : {key.value}"
+
     def __repr__(self):
         d = dict()
         for section in self._cfg.sections():
