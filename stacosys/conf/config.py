@@ -37,10 +37,10 @@ class Config:
     @classmethod
     def load(cls, config_pathname):
         config = cls()
-        config._cfg.read(config_pathname)        
+        config._cfg.read(config_pathname)
         return config
 
-    def _split_key(self, key: ConfigParameter):        
+    def _split_key(self, key: ConfigParameter):
         section, param = str(key.value).split(".")
         if not param:
             param = section
@@ -61,7 +61,7 @@ class Config:
 
     def put(self, key: ConfigParameter, value):
         section, param = self._split_key(key)
-        if section and not self._cfg.has_section(section):            
+        if section and not self._cfg.has_section(section):
             self._cfg.add_section(section)
         self._cfg.set(section, param, str(value))
 
@@ -78,5 +78,5 @@ class Config:
         d = dict()
         for section in self._cfg.sections():
             for option in self._cfg.options(section):
-                d[".".join([section, option])]  = self._cfg.get(section, option)
+                d[".".join([section, option])] = self._cfg.get(section, option)
         return str(d)
