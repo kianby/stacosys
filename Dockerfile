@@ -1,6 +1,6 @@
-FROM python:3.9-alpine
+FROM python:3.10-alpine
 
-ARG STACOSYS_VERSION=3.0
+ARG STACOSYS_VERSION=3.1
 ARG STACOSYS_FILENAME=stacosys-${STACOSYS_VERSION}-py3-none-any.whl
 
 RUN apk update && apk add bash && apk add wget
