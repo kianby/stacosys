@@ -7,10 +7,9 @@ readme = "README.md"
 include = ["run.py"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "~3.10"
 apscheduler = "^3.6.3"
 pyrss2gen = "^1.1"
-profig = "^0.5.1"
 markdown = "^3.1.1"
 requests = "^2.25.1"
 coverage = "^5.5"
