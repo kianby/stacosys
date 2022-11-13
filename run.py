@@ -41,7 +41,10 @@ def stacosys_server(config_pathname):
 
     # load config
     conf = Config.load(config_pathname)
-    conf.check()
+    is_config_ok, erreur_config = conf.check()
+    if not is_config_ok:
+        logger.error(f"Configuration incorrecte '{erreur_config}'")
+        sys.exit(1)
     logger.info(conf)
 
     # check database file exists (prevents from creating a fresh db)

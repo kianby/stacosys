@@ -71,12 +71,19 @@ class Config:
 
     def get_bool(self, key: ConfigParameter):
         value = self.get(key)
-        assert value in ("yes", "true", "no", "false")
+        assert value in (
+            "yes",
+            "true",
+            "no",
+            "false",
+        ), f"Parameètre booléen incorrect {key.value}"
         return value in ("yes", "true")
 
     def check(self):
         for key in ConfigParameter:
-            assert self.get(key), f"Paramètre introuvable : {key.value}"
+            if not self.get(key):
+                return (False, key.value)
+        return (True, None)
 
     def __repr__(self):
         d = dict()
