@@ -51,7 +51,9 @@ def logout():
 
 @app.route("/web/admin", methods=["GET"])
 def admin_homepage():
-    if not ("user" in session and session["user"] == app.config.get("WEB_USERNAME")):
+    if not (
+        "user" in session and session["user"] == app.config.get("WEB_USERNAME")
+    ):
         # TODO localization
         flash("Vous avez été déconnecté.")
         return redirect("/web/login")

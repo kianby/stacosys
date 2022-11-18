@@ -47,7 +47,9 @@ def count_published_comments(url):
         .where((Comment.url == url) & (Comment.published.is_null(False)))
         .count()
         if url
-        else Comment.select(Comment).where(Comment.published.is_null(False)).count()
+        else Comment.select(Comment)
+        .where(Comment.published.is_null(False))
+        .count()
     )
 
 
