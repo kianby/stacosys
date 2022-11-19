@@ -22,7 +22,8 @@ def configure_logging(level):
     root_logger.setLevel(level)
     ch = logging.StreamHandler()
     ch.setLevel(level)
-    formatter = logging.Formatter("[%(asctime)s] %(name)s %(levelname)s %(message)s")
+    formatter = logging.Formatter(
+        "[%(asctime)s] %(name)s %(levelname)s %(message)s")
     ch.setFormatter(formatter)
     root_logger.addHandler(ch)
 
