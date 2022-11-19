@@ -1,0 +1,21 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+    "settings":
+    {
+        "LSP":
+        {
+            "LSP-pylsp":
+            {
+                "settings":
+                {
+                    "pylsp.plugins.jedi.environment": "./.venv"
+                }
+            }
+        }
+    }	
+}
