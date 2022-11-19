@@ -20,12 +20,11 @@ from stacosys.interface.web import admin
 def configure_logging(level):
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
-    ch = logging.StreamHandler()
-    ch.setLevel(level)
-    formatter = logging.Formatter(
-        "[%(asctime)s] %(name)s %(levelname)s %(message)s")
-    ch.setFormatter(formatter)
-    root_logger.addHandler(ch)
+    handler = logging.StreamHandler()
+    handler.setLevel(level)
+    formatter = logging.Formatter("[%(asctime)s] %(name)s %(levelname)s %(message)s")
+    handler.setFormatter(formatter)
+    root_logger.addHandler(handler)
 
 
 def stacosys_server(config_pathname):

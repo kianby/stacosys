@@ -10,4 +10,4 @@ lint:
 	pylint stacosys/
 
 black:
-	black -l 79 stacosys/
+	black stacosys/
