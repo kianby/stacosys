@@ -44,7 +44,7 @@ class Config:
         section, param = str(key.value).split(".")
         if not param:
             param = section
-            section = None
+            section = ""
         return (section, param)
 
     def exists(self, key: ConfigParameter):
