@@ -1,4 +1,8 @@
-all: test typehint lint black 
+all: black test typehint lint 
+
+black:
+	isort --multi-line 3 --profile black stacosys/
+	black stacosys/
 
 test:
 	pytest
@@ -9,6 +13,3 @@ typehint:
 lint:
 	pylint stacosys/
 
-black:
-	isort --multi-line 3 --profile black stacosys/
-	black stacosys/
