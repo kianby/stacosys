@@ -10,9 +10,7 @@ from stacosys.conf.config import Config, ConfigParameter
 from stacosys.core.mailer import Mailer
 from stacosys.core.rss import Rss
 from stacosys.db import database
-from stacosys.interface import api
-from stacosys.interface import app
-from stacosys.interface import form
+from stacosys.interface import api, app, form
 from stacosys.interface.web import admin
 
 

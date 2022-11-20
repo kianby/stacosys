@@ -3,8 +3,8 @@
 
 from datetime import datetime
 
-import PyRSS2Gen
 import markdown
+import PyRSS2Gen
 
 from stacosys.model.comment import Comment
 

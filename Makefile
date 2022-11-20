@@ -10,4 +10,5 @@ lint:
 	pylint stacosys/
 
 black:
+	isort --multi-line 3 --profile black stacosys/
 	black stacosys/

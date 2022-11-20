@@ -4,7 +4,7 @@
 import hashlib
 import logging
 
-from flask import request, redirect, flash, render_template, session
+from flask import flash, redirect, render_template, request, session
 
 from stacosys.db import dao
 from stacosys.interface import app

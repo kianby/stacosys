@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from peewee import CharField
-from peewee import DateTimeField
-from peewee import TextField
+from peewee import CharField, DateTimeField, TextField
 
 from stacosys.db.database import BaseModel
 

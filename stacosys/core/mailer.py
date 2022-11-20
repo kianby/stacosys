@@ -4,7 +4,6 @@
 import logging
 import smtplib
 import ssl
-
 from email.mime.text import MIMEText
 
 logger = logging.getLogger(__name__)
