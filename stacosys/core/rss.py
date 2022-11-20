@@ -3,8 +3,8 @@
 
 from datetime import datetime
 
-import PyRSS2Gen
 import markdown
+import PyRSS2Gen
 
 from stacosys.model.comment import Comment
 
@@ -34,11 +34,20 @@ class Rss:
             .order_by(-Comment.published)
             .limit(10)
         ):
-            item_link = "%s://%s%s" % (self._rss_proto, self._site_url, row.url)
+            item_link = "%s://%s%s" % (
+                self._rss_proto,
+                self._site_url,
+                row.url,
+            )
             items.append(
                 PyRSS2Gen.RSSItem(
                     title="%s - %s://%s%s"
-                    % (self._rss_proto, row.author_name, self._site_url, row.url),
+                    % (
+                        self._rss_proto,
+                        row.author_name,
+                        self._site_url,
+                        row.url,
+                    ),
                     link=item_link,
                     description=md.convert(row.content),
                     guid=PyRSS2Gen.Guid("%s/%d" % (item_link, row.id)),

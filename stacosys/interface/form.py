@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 @app.route("/newcomment", methods=["POST"])
 def new_form_comment():
     data = request.form
-    logger.info("form data " + str(data))
+    logger.info("form data %s", str(data))
 
     # honeypot for spammers
     captcha = data.get("remarque", "")
     if captcha:
-        logger.warning("discard spam: data %s" % data)
+        logger.warning("discard spam: data %s", data)
         abort(400)
 
     url = data.get("url", "")
@@ -32,10 +32,10 @@ def new_form_comment():
 
     # anti-spam again
     if not url or not author_name or not message:
-        logger.warning("empty field: data %s" % data)
+        logger.warning("empty field: data %s", data)
         abort(400)
     if not check_form_data(data.to_dict()):
-        logger.warning("additional field: data %s" % data)
+        logger.warning("additional field: data %s", data)
         abort(400)
 
     # add a row to Comment table
@@ -49,23 +49,24 @@ def new_form_comment():
     return redirect(app.config.get("SITE_REDIRECT"), code=302)
 
 
-def check_form_data(d):
+def check_form_data(posted_comment):
     fields = ["url", "message", "site", "remarque", "author", "token", "email"]
-    filtered = dict(filter(lambda x: x[0] not in fields, d.items()))
+    filtered = dict(filter(lambda x: x[0] not in fields, posted_comment.items()))
     return not filtered
 
 
 @background.task
 def submit_new_comment(comment):
+    site_url = app.config.get("SITE_URL")
     comment_list = (
-        "Web admin interface: %s/web/admin" % app.config.get("SITE_URL"),
+        f"Web admin interface: {site_url}/web/admin",
         "",
-        "author: %s" % comment.author_name,
-        "site: %s" % comment.author_site,
-        "date: %s" % comment.created,
-        "url: %s" % comment.url,
+        f"author: {comment.author_name}",
+        f"site: {comment.author_site}",
+        f"date: {comment.created}",
+        f"url: {comment.url}",
         "",
-        "%s" % comment.content,
+        comment.content,
         "",
     )
     email_body = "\n".join(comment_list)
@@ -78,9 +79,10 @@ def submit_new_comment(comment):
         # save notification datetime
         dao.notify_comment(comment)
     else:
-        logger.warning("rescheduled. send mail failure " + subject)
+        logger.warning("rescheduled. send mail failure %s", subject)
 
 
 @background.callback
 def submit_new_comment_callback(future):
-    pass
+    # TODO use future to log submit status
+    logger.debug(future)

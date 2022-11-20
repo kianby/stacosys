@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+# pylint: disable=import-outside-toplevel
 
 from peewee import Model
 from playhouse.db_url import SqliteDatabase

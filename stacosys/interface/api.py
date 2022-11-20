@@ -21,18 +21,18 @@ def query_comments():
     comments = []
     url = request.args.get("url", "")
 
-    logger.info("retrieve comments for url %s" % url)
+    logger.info("retrieve comments for url %s", url)
     for comment in dao.find_published_comments_by_url(url):
-        d = {
+        comment_dto = {
             "author": comment.author_name,
             "content": comment.content,
             "avatar": comment.author_gravatar,
             "date": comment.published.strftime("%Y-%m-%d %H:%M:%S"),
         }
         if comment.author_site:
-            d["site"] = comment.author_site
-        logger.debug(d)
-        comments.append(d)
+            comment_dto["site"] = comment.author_site
+        logger.debug(comment_dto)
+        comments.append(comment_dto)
     return jsonify({"data": comments})
 
 

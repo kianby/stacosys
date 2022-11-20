@@ -17,14 +17,15 @@ peewee = "^3.14.8"
 tox = "^3.24.5"
 background = "^0.2.1"
 Flask = "^2.1.1"
+types-markdown = "^3.4.2.1"
 
-[tool.poetry.dev-dependencies]
-mypy = "^0.942"
-flake8-black = "^0.3.2"
-black = "^22.3.0"
-pytest = "^6.2.4"
-pytest-cov = "^2.12.1"
-coveralls = "^3.2.0"
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.15.5"
+mypy = "^0.991"
+pytest = "^7.2.0"
+coveralls = "^3.3.1"
+flake8-black = "^0.3.4"
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

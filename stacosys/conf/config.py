@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from enum import Enum
-
 import configparser
+from enum import Enum
 
 
 class ConfigParameter(Enum):
@@ -44,7 +43,7 @@ class Config:
         section, param = str(key.value).split(".")
         if not param:
             param = section
-            section = None
+            section = ""
         return (section, param)
 
     def exists(self, key: ConfigParameter):

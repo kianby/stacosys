@@ -10,9 +10,7 @@ from stacosys.conf.config import Config, ConfigParameter
 from stacosys.core.mailer import Mailer
 from stacosys.core.rss import Rss
 from stacosys.db import database
-from stacosys.interface import api
-from stacosys.interface import app
-from stacosys.interface import form
+from stacosys.interface import api, app, form
 from stacosys.interface.web import admin
 
 
@@ -20,11 +18,11 @@ from stacosys.interface.web import admin
 def configure_logging(level):
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
-    ch = logging.StreamHandler()
-    ch.setLevel(level)
+    handler = logging.StreamHandler()
+    handler.setLevel(level)
     formatter = logging.Formatter("[%(asctime)s] %(name)s %(levelname)s %(message)s")
-    ch.setFormatter(formatter)
-    root_logger.addHandler(ch)
+    handler.setFormatter(formatter)
+    root_logger.addHandler(handler)
 
 
 def stacosys_server(config_pathname):
@@ -36,21 +34,21 @@ def stacosys_server(config_pathname):
 
     # check config file exists
     if not os.path.isfile(config_pathname):
-        logger.error(f"Configuration file '{config_pathname}' not found.")
+        logger.error("Configuration file '%s' not found.", config_pathname)
         sys.exit(1)
 
     # load config
     conf = Config.load(config_pathname)
     is_config_ok, erreur_config = conf.check()
     if not is_config_ok:
-        logger.error(f"Configuration incorrecte '{erreur_config}'")
+        logger.error("Configuration incorrecte '%s'", erreur_config)
         sys.exit(1)
     logger.info(conf)
 
     # check database file exists (prevents from creating a fresh db)
     db_pathname = conf.get(ConfigParameter.DB_SQLITE_FILE)
-    if not os.path.isfile(db_pathname):
-        logger.error(f"Database file '{db_pathname}' not found.")
+    if not db_pathname or not os.path.isfile(db_pathname):
+        logger.error("Database file '%s' not found.", db_pathname)
         sys.exit(1)
 
     # initialize database
@@ -86,12 +84,12 @@ def stacosys_server(config_pathname):
     app.config.update(WEB_PASSWORD=conf.get(ConfigParameter.WEB_PASSWORD))
     app.config.update(MAILER=mailer)
     app.config.update(RSS=rss)
-    logger.info(f"start interfaces {api} {form} {admin}")
+    logger.info("start interfaces %s %s %s", api, form, admin)
 
     # start Flask
     app.run(
         host=conf.get(ConfigParameter.HTTP_HOST),
-        port=conf.get(ConfigParameter.HTTP_PORT),
+        port=conf.get_int(ConfigParameter.HTTP_PORT),
         debug=False,
         use_reloader=False,
     )
