@@ -7,8 +7,8 @@ from stacosys.model.comment import Comment
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def find_comment_by_id(id):
-    return Comment.get_by_id(id)
+def find_comment_by_id(comment_id):
+    return Comment.get_by_id(comment_id)
 
 
 def notify_comment(comment: Comment):

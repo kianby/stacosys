@@ -40,7 +40,7 @@ def login():
         flash("Identifiant ou mot de passe incorrect")
         return redirect("/web/login")
     # GET
-    return render_template("login_" + app.config.get("LANG") + ".html")
+    return render_template("login_" + app.config.get("LANG", "fr") + ".html")
 
 
 @app.route("/web/logout", methods=["GET"])
@@ -58,7 +58,7 @@ def admin_homepage():
 
     comments = dao.find_not_published_comments()
     return render_template(
-        "admin_" + app.config.get("LANG") + ".html",
+        "admin_" + app.config.get("LANG", "fr") + ".html",
         comments=comments,
         baseurl=app.config.get("SITE_URL"),
     )
