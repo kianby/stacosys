@@ -3,6 +3,10 @@
 	{
 		"selected_items":
 		[
+			[
+				"get",
+				"get_int"
+			]
 		]
 	},
 	"buffers":
@@ -17,21 +21,334 @@
 			}
 		},
 		{
-			"contents": "Package Control Messages\n========================\n\nNord\n----\n\n  <p align=\"center\"><a href=\"https://www.nordtheme.com/ports/sublime-text\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/repository-hero.svg?sanitize=true\"/></a></p>\n\n  <p align=\"center\"><a href=\"https://github.com/arcticicestudio/nord-sublime-text/releases/latest\" target=\"_blank\"><img src=\"https://img.shields.io/github/release/arcticicestudio/nord-sublime-text.svg?style=flat-square&label=Release&logo=github&logoColor=eceff4&colorA=4c566a&colorB=88c0d0\"/></a> <a href=\"https://www.nordtheme.com/docs/ports/sublime-text\" target=\"_blank\"><img src=\"https://img.shields.io/github/release/arcticicestudio/nord-sublime-text.svg?style=flat-square&label=Docs&colorA=4c566a&colorB=88c0d0&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI%2BCiAgICA8cGF0aCBmaWxsPSIjZDhkZWU5IiBkPSJNMTMuNzQ2IDIuODEzYS42Ny42NyAwIDAgMC0uNTU5LS4xMzNMOCAzLjg0OGwtNS4xODgtMS4xOGEuNjY5LjY2OSAwIDAgMC0uNTcuMTMzLjY3Ny42NzcgMCAwIDAtLjI0Mi41MzF2OC4xMzNjLS4wMDguMzIuMjEuNTk4LjUyLjY2OGw1LjMzMiAxLjE5OWguMjk2bDUuMzMyLTEuMmEuNjY4LjY2OCAwIDAgMCAuNTItLjY2N1YzLjMzMmEuNjU5LjY1OSAwIDAgMC0uMjU0LS41MnpNMy4zMzIgNC4xNjhsNCAuODk4djYuNzY2bC00LS44OTh6bTkuMzM2IDYuNzY2bC00IC44OThWNS4wNjZsNC0uODk4em0wIDAiLz4KPC9zdmc%2BCg%3D%3D\"/></a> <a href=\"https://github.com/arcticicestudio/nord-sublime-text/blob/develop/CHANGELOG.md\" target=\"_blank\"><img src=\"https://img.shields.io/github/release/arcticicestudio/nord-sublime-text.svg?style=flat-square&label=Changelog&logo=github&logoColor=eceff4&colorA=4c566a&colorB=88c0d0\"/></a></p>\n\n  <p align=\"center\"><a href=\"https://packagecontrol.io/packages/Nord\" target=\"_blank\"><img src=\"https://img.shields.io/packagecontrol/dt/Nord?style=flat-square&label=Downloads&logo=sublime-text&logoColor=eceff4&colorA=4c566a&colorB=88c0d0\"/></a></p>\n\n  <p align=\"center\"><a href=\"https://www.sublimetext.com/blog/articles/sublime-text-3-point-1\" target=\"_blank\"><img src=\"https://img.shields.io/static/v1.svg?style=flat-square&label=Compatibility&message=%3E%3D3.1.0%20Build%203170&logo=sublime-text&logoColor=eceff4&colorA=4c566a&colorB=88c0d0\"/></a></p>\n\n  <p align=\"center\"><a href=\"https://github.com/arcticicestudio/styleguide-markdown/releases/latest\" target=\"_blank\"><img src=\"https://img.shields.io/github/release/arcticicestudio/styleguide-markdown.svg?style=flat-square&label=Markdown%20Style%20Guide&colorA=4c566a&colorB=88c0d0&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzOSIgaGVpZ2h0PSIzOSIgdmlld0JveD0iMCAwIDM5IDM5Ij48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNEOERFRTkiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNMS41IDEuNWgzNnYzNmgtMzZ6Ii8%2BPHBhdGggZmlsbD0iI0Q4REVFOSIgZD0iTTIwLjY4MyAyNS42NTVsNS44NzItMTMuNDhoLjU2Nmw1Ljg3MyAxMy40OGgtMS45OTZsLTQuMTU5LTEwLjA1Ni00LjE2MSAxMC4wNTZoLTEuOTk1em0tMi42OTYgMGwtMTMuNDgtNS44NzJ2LS41NjZsMTMuNDgtNS44NzJ2MS45OTVMNy45MzEgMTkuNWwxMC4wNTYgNC4xNnoiLz48L3N2Zz4%3D\"/></a> <a href=\"https://github.com/arcticicestudio/styleguide-git/releases/latest\" target=\"_blank\"><img src=\"https://img.shields.io/github/release/arcticicestudio/styleguide-git.svg?style=flat-square&label=Git%20Style%20Guide&logoColor=eceff4&colorA=4c566a&colorB=88c0d0&logo=git\"/></a></p>\n\n  <p align=\"center\">An arctic, north-bluish clean and elegant <a href=\"https://www.sublimetext.com\" target=\"_blank\">Sublime Text</a> color theme.</p>\n\n  <p align=\"center\">Designed for a fluent and clear workflow based on the <a href=\"https://www.nordtheme.com\" target=\"_blank\">Nord</a> color palette.</p>\n\n  <p align=\"center\"><a href=\"https://www.nordtheme.com/ports/sublime-text\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/editor-overview-go.png\"/></a></p>\n\n  Supports many bundled languages and third-party syntax plugins.\n\n  ## Getting Started\n\n  Visit the [official website][nord-home] to learn all about the [syntax highlighting][nord-home#syntax] features, details of the [editor elements][nord-home#editor-details] and the [one-command setup][nord-home#setup].\n\n  Learn about the [installation and activation][nord-docs-home-install] and how to [develop][nord-docs-home-develop] the theme from the [official documentations][nord-docs-home].\n\n  ### Quick Start\n\n  Thanks to the [_package control_ registry][pc-pkg-nord], _Nord Sublime Text_ can be installed with one command.\n  Please follow the [official installation instructions][pc-install] to set up _package control_ itself in order to install available packages from the registry.\n\n  > **Nord requires a minimum Sublime Text version of [3.1.0 Build 3170][sbt-blog-announce-v3.1]!**\n  > Nord makes use of the new [`.sublime-color-scheme` JSON file format][sbt-docs-color_schemes] that has been introduced in Sublime Text [version 3.1.0 Build 3170][sbt-blog-announce-v3.1] and is therefore the minimum required and supported version. The `.tmTheme` XML file format][sbt-docs-tmtheme] has been officially deprecated by the Sublime Text team and is not supported by Nord anymore.\n\n  <p align=\"center\">Open the _package installation_ view through the <a href=\"http://docs.sublimetext.info/en/latest/extensibility/command_palette.html\" target=\"_blank\">command palette</a> via <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>p</kbd> and run the „Package Control: Install Package“ command.</p>\n  <p align=\"center\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/ui-package-control-install-command.png\"/></p>\n\n  <p align=\"center\">Search for „Nord“ and press <kbd>⏎</kbd> _Enter_ to install the theme.</p>\n  <p align=\"center\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/ui-package-control-list-installed.png\"/></p>\n\n  See _Nord Sublime Text_'s documentation for details about more installation options like a [manual import through a local `.sublime-package` file][nord-docs-home-install#manual].\n\n  #### Activation\n\n  To activate the _Nord_ color theme, open the [command palette][sbt-udocs-cmdp] via <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>p</kbd> and run the „UI: Select Color Theme“ command or use the _Preferences_ ➜ _Color Theme…_ menu.\n\n  <p align=\"center\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/ui-color-theme-select.png\"/></p>\n\n  See _Nord Sublime Text_'s documentation for [more details about the activation][nord-docs-home-install#activation].\n\n  ## Features\n\n  <div align=\"center\"><p><strong>Your IDE. Your style.</strong></p><p>The unified UI and editor syntax element design provides a clutter-free and fluidly merging appearance.</p></div>\n\n  <p align=\"center\"><a href=\"https://www.nordtheme.com/ports/sublime-text#introduction\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/ui-overview-go.png\"/></a></p>\n\n  <div align=\"center\"><p><strong>Beautiful code to keep focused.</strong></p><p>The editor color scheme supports a wide range of programming languages — From bundled definitions up to many popular third-party syntax packages.</p></div>\n\n  <p align=\"center\"><a href=\"https://www.nordtheme.com/ports/sublime-text#syntax\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/editor-syntax-go-comments.png\"/></a></p>\n\n  <div align=\"center\"><p><strong>Small details with unobtrusive styles.</strong></p><p>Popular and common code editor features like search result marker and brace matching are designed to get out of your way with a visually attractive appearance.</p></div>\n\n  <p align=\"center\"><a href=\"https://www.nordtheme.com/ports/sublime-text#editor-details\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/ports/sublime-text/editor-brace-matching.png\"/></a></p>\n\n  ## Contributing\n\n  Nord is an open source project and we love to receive contributions from the [community][nord-comm]!\n\n  There are many ways to contribute, from [writing- and improving documentation and tutorials][nord-contrib-guide-docs], [reporting bugs][nord-contrib-guide-bugs], [submitting enhancement suggestions][nord-contrib-guide-enhance] that can be added to Nord by [submitting pull requests][nord-contrib-guide-pr].\n\n  Please take a moment to read Nord's full [contributing guide][nord-contrib-guide] to learn about the development process, the project's used [styleguides][nord-contrib-guide-styles], [branch organization][nord-contrib-guide-branching] and [versioning][nord-contrib-guide-versioning] model.\n\n  The guide also includes information about [minimal, complete, and verifiable examples][nord-contrib-guide-mcve] and other ways to contribute to the project like [improving existing issues][nord-contrib-guide-impr-issues] and [giving feedback on issues and pull requests][nord-contrib-guide-feedback].\n\n  <p align=\"center\"><img src=\"https://raw.githubusercontent.com/arcticicestudio/nord-docs/develop/assets/images/nord/repository-footer-separator.svg?sanitize=true\" /></p>\n\n  <p align=\"center\">Copyright &copy; 2016-present <a href=\"https://www.arcticicestudio.com\" target=\"_blank\">Arctic Ice Studio</a> and <a href=\"https://www.svengreb.de\" target=\"_blank\">Sven Greb</a></p>\n\n  <p align=\"center\"><a href=\"https://github.com/arcticicestudio/nord-sublime-text/blob/develop/LICENSE.md\"><img src=\"https://img.shields.io/static/v1.svg?style=flat-square&label=License&message=MIT&logoColor=eceff4&logo=github&colorA=4c566a&colorB=88c0d0\"/></a></p>\n\n  [nord-comm]: https://www.nordtheme.com/community\n  [nord-contrib-guide-branching]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#branch-organization\n  [nord-contrib-guide-bugs]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#bug-reports\n  [nord-contrib-guide-docs]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#documentations\n  [nord-contrib-guide-enhance]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#enhancement-suggestions\n  [nord-contrib-guide-feedback]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#give-feedback-on-issues-and-pull-requests\n  [nord-contrib-guide-impr-issues]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#improve-issues\n  [nord-contrib-guide-mcve]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#mcve\n  [nord-contrib-guide-pr]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#pull-requests\n  [nord-contrib-guide-styles]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#styleguides\n  [nord-contrib-guide-versioning]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md#versioning\n  [nord-contrib-guide]: https://github.com/arcticicestudio/nord/blob/develop/CONTRIBUTING.md\n  [nord-docs-home-develop]: https://www.nordtheme.com/docs/ports/sublime-text/development\n  [nord-docs-home-install]: https://www.nordtheme.com/docs/ports/sublime-text/installation\n  [nord-docs-home-install#activation]: https://www.nordtheme.com/docs/ports/sublime-text/installation#activation\n  [nord-docs-home-install#manual]: https://www.nordtheme.com/docs/ports/sublime-text/installation#manual\n  [nord-docs-home]: https://www.nordtheme.com/docs/ports/sublime-text\n  [nord-home]: https://www.nordtheme.com/ports/sublime-text\n  [nord-home#editor-details]: https://www.nordtheme.com/ports/sublime-text#editor-details\n  [nord-home#setup]: https://www.nordtheme.com/ports/sublime-text#setup\n  [nord-home#syntax]: https://www.nordtheme.com/ports/sublime-text#syntax\n  [pc-install]: https://packagecontrol.io/installation\n  [pc-pkg-nord]: https://packagecontrol.io/packages/Nord\n  [sbt-blog-announce-v3.1]: https://www.sublimetext.com/blog/articles/sublime-text-3-point-1\n  [sbt-docs-color_schemes]: https://www.sublimetext.com/docs/3/color_schemes.html\n  [sbt-docs-tmtheme]: https://www.sublimetext.com/docs/3/color_schemes_tmtheme.html\n  [sbt-udocs-cmdp]: http://docs.sublimetext.info/en/latest/extensibility/command_palette.html",
-			"settings":
-			{
-				"buffer_size": 12298,
-				"line_ending": "Unix",
-				"name": "Package Control Messages",
-				"read_only": true,
-				"scratch": true
-			}
-		},
-		{
 			"file": "stacosys/run.py",
 			"settings":
 			{
-				"buffer_size": 3315,
+				"buffer_size": 3298,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					34,
+					1,
+					"insert",
+					{
+						"characters": "no"
+					},
+					"AgAAAOcFAAAAAAAA6AUAAAAAAAAAAAAA6AUAAAAAAADpBQAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADnBQAAAAAAAOcFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					35,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAOkFAAAAAAAA6gUAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADpBQAAAAAAAOkFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					36,
+					1,
+					"left_delete",
+					null,
+					"AQAAAOkFAAAAAAAA6QUAAAAAAAABAAAAIA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqBQAAAAAAAOoFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					37,
+					1,
+					"insert",
+					{
+						"characters": "r"
+					},
+					"AQAAAOkFAAAAAAAA6gUAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADpBQAAAAAAAOkFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					38,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAOoFAAAAAAAA6wUAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqBQAAAAAAAOoFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					39,
+					1,
+					"paste",
+					null,
+					"AQAAAOsFAAAAAAAA9gUAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADrBQAAAAAAAOsFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					40,
+					1,
+					"insert",
+					{
+						"characters": " or"
+					},
+					"AwAAAPYFAAAAAAAA9wUAAAAAAAAAAAAA9wUAAAAAAAD4BQAAAAAAAAAAAAD4BQAAAAAAAPkFAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAD2BQAAAAAAAPYFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					41,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAPkFAAAAAAAA+gUAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAD5BQAAAAAAAPkFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					46,
+					1,
+					"left_delete",
+					null,
+					"AQAAAOkFAAAAAAAA6QUAAAAAAAABAAAAcg",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqBQAAAAAAAOoFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					47,
+					1,
+					"insert",
+					{
+						"characters": "t"
+					},
+					"AQAAAOkFAAAAAAAA6gUAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADpBQAAAAAAAOkFAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					59,
+					1,
+					"insert_completion",
+					{
+						"completion": "lsp_select_completion_item {\"session_name\":\"LSP-pyright\",\"item\":{\"label\":\"get_int\",\"data\":{\"workspacePath\":\"/home/yannic/work/stacosys\",\"position\":{\"character\":21,\"line\":91},\"symbolLabel\":\"get_int\",\"filePath\":\"/home/yannic/work/stacosys/stacosys/run.py\"},\"kind\":2,\"sortText\":\"09.9999.get_int\"}}",
+						"format": "command",
+						"keep_prefix": false,
+						"must_insert": false,
+						"trigger": "get_int"
+					},
+					"AgAAAMgLAAAAAAAAyAsAAAAAAAADAAAAZ2V0yAsAAAAAAADPCwAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADLCwAAAAAAAMsLAAAAAAAAAAAAAAAA8L8"
+				]
+			]
+		},
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 533,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "stacosys/core/mailer.py",
+			"settings":
+			{
+				"buffer_size": 1087,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					11,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AgAAAEIEAAAAAAAAQwQAAAAAAAAAAAAAQwQAAAAAAABPBAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABCBAAAAAAAAEIEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					12,
+					1,
+					"left_delete",
+					null,
+					"AQAAAEsEAAAAAAAASwQAAAAAAAAEAAAAICAgIA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABPBAAAAAAAAE8EAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					13,
+					1,
+					"insert",
+					{
+						"characters": "else:"
+					},
+					"BQAAAEsEAAAAAAAATAQAAAAAAAAAAAAATAQAAAAAAABNBAAAAAAAAAAAAABNBAAAAAAAAE4EAAAAAAAAAAAAAE4EAAAAAAAATwQAAAAAAAAAAAAATwQAAAAAAABQBAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABLBAAAAAAAAEsEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					14,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AwAAAFAEAAAAAAAAUQQAAAAAAAAAAAAAUQQAAAAAAABZBAAAAAAAAAAAAABZBAAAAAAAAF0EAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABQBAAAAAAAAFAEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					16,
+					1,
+					"insert",
+					{
+						"characters": "False"
+					},
+					"BQAAAF0EAAAAAAAAXgQAAAAAAAAAAAAAXgQAAAAAAABfBAAAAAAAAAAAAABfBAAAAAAAAGAEAAAAAAAAAAAAAGAEAAAAAAAAYQQAAAAAAAAAAAAAYQQAAAAAAABiBAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABdBAAAAAAAAF0EAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					44,
+					1,
+					"insert",
+					{
+						"characters": "s"
+					},
+					"AQAAAB4CAAAAAAAAHwIAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAeAgAAAAAAAB4CAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					53,
+					1,
+					"left_delete",
+					null,
+					"AQAAAEQEAAAAAAAARAQAAAAAAAA1AAAAICAgICAgICBlbHNlOgogICAgICAgICAgICBGYWxzZQogICAgICAgIHJldHVybiBGYWxzZQo",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABEBAAAAAAAAHkEAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					56,
+					1,
+					"right_delete",
+					null,
+					"AQAAACwEAAAAAAAALAQAAAAAAAAXAAAAICAgICAgICAgICAgcmV0dXJuIFRydWU",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAsBAAAAAAAAEMEAAAAAAAA////////738"
+				],
+				[
+					70,
+					1,
+					"left_delete",
+					null,
+					"AQAAAB4CAAAAAAAAHgIAAAAAAAABAAAAcw",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAfAgAAAAAAAB8CAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					80,
+					1,
+					"reindent",
+					null,
+					"AQAAACsEAAAAAAAANwQAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAArBAAAAAAAACsEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					81,
+					1,
+					"left_delete",
+					null,
+					"AQAAADMEAAAAAAAAMwQAAAAAAAAEAAAAICAgIA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA3BAAAAAAAADcEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					82,
+					1,
+					"insert",
+					{
+						"characters": "reru"
+					},
+					"BAAAADMEAAAAAAAANAQAAAAAAAAAAAAANAQAAAAAAAA1BAAAAAAAAAAAAAA1BAAAAAAAADYEAAAAAAAAAAAAADYEAAAAAAAANwQAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAzBAAAAAAAADMEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					83,
+					2,
+					"left_delete",
+					null,
+					"AgAAADYEAAAAAAAANgQAAAAAAAABAAAAdTUEAAAAAAAANQQAAAAAAAABAAAAcg",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA3BAAAAAAAADcEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					84,
+					1,
+					"insert",
+					{
+						"characters": "turn"
+					},
+					"BAAAADUEAAAAAAAANgQAAAAAAAAAAAAANgQAAAAAAAA3BAAAAAAAAAAAAAA3BAAAAAAAADgEAAAAAAAAAAAAADgEAAAAAAAAOQQAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA1BAAAAAAAADUEAAAAAAAAAAAAAAAA8L8"
+				],
+				[
+					85,
+					1,
+					"insert",
+					{
+						"characters": " True"
+					},
+					"BQAAADkEAAAAAAAAOgQAAAAAAAAAAAAAOgQAAAAAAAA7BAAAAAAAAAAAAAA7BAAAAAAAADwEAAAAAAAAAAAAADwEAAAAAAAAPQQAAAAAAAAAAAAAPQQAAAAAAAA+BAAAAAAAAAAAAAA",
+					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA5BAAAAAAAADkEAAAAAAAAAAAAAAAA8L8"
+				]
+			]
+		},
+		{
+			"file": "stacosys/db/dao.py",
+			"settings":
+			{
+				"buffer_size": 1633,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "stacosys.sublime-project",
+			"settings":
+			{
+				"buffer_size": 381,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					4,
+					1,
+					"",
+					null,
+					"AgAAAMMAAAAAAAAAZQEAAAAAAAAAAAAAZQEAAAAAAABlAQAAAAAAAPMAAAAgICAgInNldHRpbmdzIjoKICAgIHsKICAgICAgICAiTFNQIjoKICAgICAgICB7CiAgICAgICAgICAgICJMU1AtcHlsc3AiOgogICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAic2V0dGluZ3MiOgogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAgICJweWxzcC5wbHVnaW5zLmplZGkuZW52aXJvbm1lbnQiOiAiLi8udmVudiIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0",
+					"AQAAAAAAAAABAAAAtgEAAAAAAADDAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					8,
+					1,
+					"paste",
+					null,
+					"AgAAACYBAAAAAAAAUwEAAAAAAAAAAAAAUwEAAAAAAABTAQAAAAAAABkAAAAvLyBQdXQgeW91ciBzZXR0aW5ncyBoZXJl",
+					"AQAAAAAAAAABAAAAJgEAAAAAAAA/AQAAAAAAAP///////+9/"
+				]
+			]
+		},
+		{
+			"file": "stacosys/model/comment.py",
+			"settings":
+			{
+				"buffer_size": 471,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "stacosys/conf/config.py",
+			"settings":
+			{
+				"buffer_size": 2481,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -48,6 +365,50 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"diag",
+				"LSP: Goto Diagnostic in Project"
+			],
+			[
+				"lsp",
+				"LSP: Toggle Diagnostics Panel"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"distr",
+				"View: Toggle Distraction Free"
+			],
+			[
+				"upg",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"comment",
+				"Toggle Comment"
+			],
+			[
+				"form",
+				"LSP: Format Document"
+			],
+			[
+				"format",
+				"LSP: Format Document"
+			],
+			[
+				"lspc",
+				"LSP: Clear Diagnostics"
+			],
+			[
+				"ren",
+				"LSP: Rename Symbol"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
 			[
 				"install",
 				"Package Control: Install Package"
@@ -67,14 +428,6 @@
 			[
 				"insta",
 				"Package Control: Install Package"
-			],
-			[
-				"format",
-				"LSP: Format Document"
-			],
-			[
-				"lsp",
-				"LSP: Toggle Diagnostics Panel"
 			],
 			[
 				"inst",
@@ -108,17 +461,27 @@
 		"/home/yannic/work/stacosys",
 		"/home/yannic/work/stacosys/stacosys",
 		"/home/yannic/work/stacosys/stacosys/conf",
-		"/home/yannic/work/stacosys/stacosys/core"
+		"/home/yannic/work/stacosys/stacosys/core",
+		"/home/yannic/work/stacosys/stacosys/db",
+		"/home/yannic/work/stacosys/stacosys/interface",
+		"/home/yannic/work/stacosys/stacosys/interface/web",
+		"/home/yannic/work/stacosys/stacosys/model",
+		"/home/yannic/work/stacosys/tests"
 	],
 	"file_history":
 	[
-		"/home/yannic/work/stacosys/stacosys/__init__.py",
+		"/home/yannic/.cache/sublime-text-3/Package Storage/LSP-pyright/18.7.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/sys.pyi",
+		"/home/yannic/work/stacosys/stacosys/conf/config.py",
+		"/usr/lib64/python3.11/logging/__init__.py",
 		"/home/yannic/work/stacosys/stacosys.sublime-project",
+		"/home/yannic/work/stacosys/flake8.ini",
+		"/home/yannic/work/stacosys/Makefile",
+		"/home/yannic/work/stacosys/stacosys/__init__.py",
 		"/home/yannic/work/stacosys/stacosys/core/rss.py"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 28.0
 	},
 	"find_in_files":
 	{
@@ -132,6 +495,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"background"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -141,15 +505,16 @@
 		[
 		],
 		"reverse": false,
+		"scrollbar_highlights": true,
 		"show_context": true,
 		"use_buffer2": true,
+		"use_gitignore": true,
 		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
 				{
@@ -171,69 +536,190 @@
 						],
 						"settings":
 						{
+							"lsp_uri": "file:///home/yannic/work/stacosys/run.sh",
 							"syntax": "Packages/ShellScript/Bash.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 7,
+					"stack_multiselect": false,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12298,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								12298,
-								12298
-							]
-						],
-						"settings":
-						{
-							"auto_indent": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_width": 2,
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2862.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "stacosys/run.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3315,
+						"buffer_size": 3298,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								295,
-								295
+								1918,
+								1918
 							]
 						],
 						"settings":
 						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".[",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
 							"lsp_active": true,
-							"lsp_language":
-							{
-								"lsp-pylsp": "python"
-							},
+							"lsp_hover_provider_count": 10,
+							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/run.py",
+							"show_definitions": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 964.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 533,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								334,
+								334
+							]
+						],
+						"settings":
+						{
+							"lsp_uri": "file:///home/yannic/work/stacosys/Makefile",
+							"syntax": "Packages/Makefile/Makefile.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "stacosys/core/mailer.py",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1087,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1086,
+								1086
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".[",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
+							"lsp_active": true,
+							"lsp_hover_provider_count": 10,
+							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/core/mailer.py",
+							"show_definitions": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 399.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "stacosys/db/dao.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1633,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								524,
+								524
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".[",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
+							"lsp_active": true,
+							"lsp_hover_provider_count": 1,
+							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/db/dao.py",
 							"show_definitions": false,
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
@@ -243,7 +729,142 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "stacosys.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								364,
+								364
+							]
+						],
+						"settings":
+						{
+							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys.sublime-project",
+							"syntax": "Packages/JSON/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "stacosys/model/comment.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 471,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								150,
+								150
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".[",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
+							"lsp_active": true,
+							"lsp_hover_provider_count": 6,
+							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/model/comment.py",
+							"show_definitions": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "stacosys/conf/config.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2481,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".[",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
+							"lsp_active": true,
+							"lsp_hover_provider_count": 6,
+							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/conf/config.py",
+							"show_definitions": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1539.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"stack_multiselect": false,
 					"type": "text"
 				}
 			]
@@ -251,7 +872,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 28.0
 	},
 	"input":
 	{
@@ -280,23 +901,35 @@
 		]
 	},
 	"menu_visible": true,
+	"output.LSP Log Panel":
+	{
+		"height": 0.0
+	},
 	"output.diagnostics":
 	{
-		"height": 132.0
+		"height": 261.0
 	},
 	"output.find_results":
 	{
 		"height": 0.0
 	},
+	"output.language servers":
+	{
+		"height": 132.0
+	},
 	"output.mdpopups":
 	{
 		"height": 0.0
+	},
+	"output.references":
+	{
+		"height": 208.0
 	},
 	"pinned_build_system": "",
 	"project": "stacosys.sublime-project",
 	"replace":
 	{
-		"height": 0.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -334,7 +967,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 308.0,
+	"side_bar_width": 311.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
