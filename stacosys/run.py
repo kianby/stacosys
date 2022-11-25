@@ -6,12 +6,11 @@ import logging
 import os
 import sys
 
-from stacosys.conf.config import Config, ConfigParameter
-from stacosys.core.mailer import Mailer
-from stacosys.core.rss import Rss
 from stacosys.db import database
 from stacosys.interface import api, app, form
 from stacosys.interface.web import admin
+from stacosys.service import config, mailer, rss
+from stacosys.service.configuration import ConfigParameter
 
 
 # configure logging
@@ -37,16 +36,16 @@ def stacosys_server(config_pathname):
         logger.error("Configuration file '%s' not found.", config_pathname)
         sys.exit(1)
 
-    # load config
-    conf = Config.load(config_pathname)
-    is_config_ok, erreur_config = conf.check()
+    # load and check config
+    config.load(config_pathname)
+    is_config_ok, erreur_config = config.check()
     if not is_config_ok:
         logger.error("Configuration incorrecte '%s'", erreur_config)
         sys.exit(1)
-    logger.info(conf)
+    logger.info(config)
 
     # check database file exists (prevents from creating a fresh db)
-    db_pathname = conf.get(ConfigParameter.DB_SQLITE_FILE)
+    db_pathname = config.get(ConfigParameter.DB_SQLITE_FILE)
     if not db_pathname or not os.path.isfile(db_pathname):
         logger.error("Database file '%s' not found.", db_pathname)
         sys.exit(1)
@@ -57,39 +56,29 @@ def stacosys_server(config_pathname):
     logger.info("Start Stacosys application")
 
     # generate RSS
-    rss = Rss(
-        conf.get(ConfigParameter.LANG),
-        conf.get(ConfigParameter.RSS_FILE),
-        conf.get(ConfigParameter.RSS_PROTO),
-        conf.get(ConfigParameter.SITE_NAME),
-        conf.get(ConfigParameter.SITE_URL),
+    rss.configure(
+        config.get(ConfigParameter.RSS_FILE),
+        config.get(ConfigParameter.SITE_PROTO),
+        config.get(ConfigParameter.SITE_NAME),
+        config.get(ConfigParameter.SITE_URL),
     )
     rss.generate()
 
     # configure mailer
-    mailer = Mailer(
-        conf.get(ConfigParameter.SMTP_HOST),
-        conf.get_int(ConfigParameter.SMTP_PORT),
-        conf.get(ConfigParameter.SMTP_LOGIN),
-        conf.get(ConfigParameter.SMTP_PASSWORD),
-        conf.get(ConfigParameter.SITE_ADMIN_EMAIL),
+    mailer.configure_smtp(
+        config.get(ConfigParameter.SMTP_HOST),
+        config.get_int(ConfigParameter.SMTP_PORT),
+        config.get(ConfigParameter.SMTP_LOGIN),
+        config.get(ConfigParameter.SMTP_PASSWORD),
     )
+    mailer.configure_destination(config.get(ConfigParameter.SITE_ADMIN_EMAIL))
 
-    # inject config parameters into flask
-    app.config.update(LANG=conf.get(ConfigParameter.LANG))
-    app.config.update(SITE_NAME=conf.get(ConfigParameter.SITE_NAME))
-    app.config.update(SITE_URL=conf.get(ConfigParameter.SITE_URL))
-    app.config.update(SITE_REDIRECT=conf.get(ConfigParameter.SITE_REDIRECT))
-    app.config.update(WEB_USERNAME=conf.get(ConfigParameter.WEB_USERNAME))
-    app.config.update(WEB_PASSWORD=conf.get(ConfigParameter.WEB_PASSWORD))
-    app.config.update(MAILER=mailer)
-    app.config.update(RSS=rss)
     logger.info("start interfaces %s %s %s", api, form, admin)
 
     # start Flask
     app.run(
-        host=conf.get(ConfigParameter.HTTP_HOST),
-        port=conf.get_int(ConfigParameter.HTTP_PORT),
+        host=config.get(ConfigParameter.HTTP_HOST),
+        port=config.get_int(ConfigParameter.HTTP_PORT),
         debug=False,
         use_reloader=False,
     )

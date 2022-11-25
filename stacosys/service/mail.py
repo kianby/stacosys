@@ -10,21 +10,29 @@ logger = logging.getLogger(__name__)
 
 
 class Mailer:
-    def __init__(
+    def __init__(self) -> None:
+        self._smtp_host: str = ""
+        self._smtp_port: int = 0
+        self._smtp_login: str = ""
+        self._smtp_password: str = ""
+        self._site_admin_email: str = ""
+
+    def configure_smtp(
         self,
         smtp_host,
         smtp_port,
         smtp_login,
         smtp_password,
-        site_admin_email,
-    ):
+    ) -> None:
         self._smtp_host = smtp_host
         self._smtp_port = smtp_port
         self._smtp_login = smtp_login
         self._smtp_password = smtp_password
+
+    def configure_destination(self, site_admin_email) -> None:
         self._site_admin_email = site_admin_email
 
-    def send(self, subject, message):
+    def send(self, subject, message) -> bool:
         sender = self._smtp_login
         receivers = [self._site_admin_email]
 
@@ -34,7 +42,7 @@ class Mailer:
         msg["From"] = sender
 
         context = ssl.create_default_context()
-        # TODO catch SMTP failure 
+        # TODO catch SMTP failure
         with smtplib.SMTP_SSL(
             self._smtp_host, self._smtp_port, context=context
         ) as server:
