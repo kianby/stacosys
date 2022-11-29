@@ -24,7 +24,7 @@ def test_get(init_config):
     assert config.get(ConfigParameter.HTTP_HOST) == ""
     assert config.get(ConfigParameter.HTTP_PORT) == str(EXPECTED_HTTP_PORT)
     assert config.get_int(ConfigParameter.HTTP_PORT) == EXPECTED_HTTP_PORT
-    with pytest.raises(AssertionError):    
+    with pytest.raises(AssertionError):
         config.get_bool(ConfigParameter.DB_SQLITE_FILE)
 
 def test_put(init_config):

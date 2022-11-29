@@ -11,7 +11,6 @@ def setup_db():
     database.setup(":memory:")    
 
 
-
 def test_dao_published(setup_db):
 
     # test count published
@@ -51,5 +50,4 @@ def test_dao_notified(setup_db):
     assert 1 == len(dao.find_not_notified_comments())
     dao.notify_comment(c3)
     assert 0 == len(dao.find_not_notified_comments())
-
 
