@@ -38,5 +38,6 @@ def query_comments():
 
 @app.route("/api/comments/count", methods=["GET"])
 def get_comments_count():
+    # TODO process pending comments
     url = request.args.get("url", "")
     return jsonify({"count": dao.count_published_comments(url)})
