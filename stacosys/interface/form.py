@@ -7,6 +7,8 @@ from flask import abort, redirect, request
 
 from stacosys.db import dao
 from stacosys.interface import app
+from stacosys.service import config, mailer
+from stacosys.service.configuration import ConfigParameter
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +48,7 @@ def new_form_comment():
     # send notification e-mail asynchronously
     submit_new_comment(comment)
 
-    return redirect(app.config.get("SITE_REDIRECT"), code=302)
+    return redirect(config.get(ConfigParameter.SITE_REDIRECT), code=302)
 
 
 def check_form_data(posted_comment):
@@ -57,7 +59,7 @@ def check_form_data(posted_comment):
 
 @background.task
 def submit_new_comment(comment):
-    site_url = app.config.get("SITE_URL")
+    site_url = config.get(ConfigParameter.SITE_URL)
     comment_list = (
         f"Web admin interface: {site_url}/web/admin",
         "",
@@ -72,17 +74,11 @@ def submit_new_comment(comment):
     email_body = "\n".join(comment_list)
 
     # send email to notify admin
-    subject = "STACOSYS " + app.config.get("SITE_NAME")
-    if app.config.get("MAILER").send(subject, email_body):
+    site_name = config.get(ConfigParameter.SITE_NAME)
+    subject = f"STACOSYS {site_name}"
+    if mailer.send(subject, email_body):
         logger.debug("new comment processed")
-
         # save notification datetime
         dao.notify_comment(comment)
     else:
         logger.warning("rescheduled. send mail failure %s", subject)
-
-
-@background.callback
-def submit_new_comment_callback(future):
-    # TODO use future to log submit status
-    logger.debug(future)

@@ -8,6 +8,8 @@ from flask import flash, redirect, render_template, request, session
 
 from stacosys.db import dao
 from stacosys.interface import app
+from stacosys.service import config, rss
+from stacosys.service.configuration import ConfigParameter
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +25,8 @@ def index():
 def is_login_ok(username, password):
     hashed = hashlib.sha256(password.encode()).hexdigest().upper()
     return (
-        app.config.get("WEB_USERNAME") == username
-        and app.config.get("WEB_PASSWORD") == hashed
+        config.get(ConfigParameter.WEB_USERNAME) == username
+        and config.get(ConfigParameter.WEB_PASSWORD) == hashed
     )
 
 
@@ -40,7 +42,7 @@ def login():
         flash("Identifiant ou mot de passe incorrect")
         return redirect("/web/login")
     # GET
-    return render_template("login_" + app.config.get("LANG", "fr") + ".html")
+    return render_template("login_" + config.get(ConfigParameter.LANG) + ".html")
 
 
 @app.route("/web/logout", methods=["GET"])
@@ -51,16 +53,19 @@ def logout():
 
 @app.route("/web/admin", methods=["GET"])
 def admin_homepage():
-    if not ("user" in session and session["user"] == app.config.get("WEB_USERNAME")):
+    if not (
+        "user" in session
+        and session["user"] == config.get(ConfigParameter.WEB_USERNAME)
+    ):
         # TODO localization
         flash("Vous avez été déconnecté.")
         return redirect("/web/login")
 
     comments = dao.find_not_published_comments()
     return render_template(
-        "admin_" + app.config.get("LANG", "fr") + ".html",
+        "admin_" + config.get(ConfigParameter.LANG) + ".html",
         comments=comments,
-        baseurl=app.config.get("SITE_URL"),
+        baseurl=config.get(ConfigParameter.SITE_URL),
     )
 
 
@@ -72,7 +77,7 @@ def admin_action():
         flash("Commentaire introuvable")
     elif request.form.get("action") == "APPROVE":
         dao.publish_comment(comment)
-        app.config.get("RSS").generate()
+        rss.generate()
         # TODO localization
         flash("Commentaire publié")
     else:

@@ -1,15 +1,16 @@
 all: black test typehint lint 
 
 black:
-	isort --multi-line 3 --profile black stacosys/
-	black stacosys/
+	poetry run isort --multi-line 3 --profile black stacosys/
+	poetry run black stacosys/
 
-test:
-	pytest
+test:	
+	poetry run coverage run -m --source=stacosys pytest
+	poetry run coverage report        
 
 typehint: 
-	mypy --ignore-missing-imports stacosys/
+	poetry run mypy --ignore-missing-imports stacosys/
 
 lint:
-	pylint stacosys/
+	poetry run pylint stacosys/
 

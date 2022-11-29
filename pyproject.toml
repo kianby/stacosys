@@ -8,19 +8,17 @@ include = ["run.py"]
 
 [tool.poetry.dependencies]
 python = "~3.11"
-apscheduler = "^3.6.3"
 pyrss2gen = "^1.1"
 markdown = "^3.1.1"
 requests = "^2.25.1"
-coverage = "^5.5"
+coverage = "^6.5"
 peewee = "^3.14.8"
-tox = "^3.24.5"
 background = "^0.2.1"
 Flask = "^2.1.1"
 types-markdown = "^3.4.2.1"
 
 [tool.poetry.group.dev.dependencies]
-pylint = "^2.15.5"
+pylint = "^2.15"
 mypy = "^0.991"
 pytest = "^7.2.0"
 coveralls = "^3.3.1"

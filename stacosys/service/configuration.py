@@ -12,7 +12,6 @@ class ConfigParameter(Enum):
     HTTP_HOST = "http.host"
     HTTP_PORT = "http.port"
 
-    RSS_PROTO = "rss.proto"
     RSS_FILE = "rss.file"
 
     SMTP_HOST = "smtp.host"
@@ -20,6 +19,7 @@ class ConfigParameter(Enum):
     SMTP_LOGIN = "smtp.login"
     SMTP_PASSWORD = "smtp.password"
 
+    SITE_PROTO = "site.proto"
     SITE_NAME = "site.name"
     SITE_URL = "site.url"
     SITE_ADMIN_EMAIL = "site.admin_email"
@@ -30,14 +30,16 @@ class ConfigParameter(Enum):
 
 
 class Config:
-    def __init__(self):
-        self._cfg = configparser.ConfigParser()
 
-    @classmethod
-    def load(cls, config_pathname):
-        config = cls()
-        config._cfg.read(config_pathname)
-        return config
+    _cfg = configparser.ConfigParser()
+
+    # def __new__(cls):
+    #     if not hasattr(cls, "instance"):
+    #         cls.instance = super(Config, cls).__new__(cls)
+    #     return cls.instance
+
+    def load(self, config_pathname):
+        self._cfg.read(config_pathname)
 
     def _split_key(self, key: ConfigParameter):
         section, param = str(key.value).split(".")
@@ -50,12 +52,12 @@ class Config:
         section, param = self._split_key(key)
         return self._cfg.has_option(section, param)
 
-    def get(self, key: ConfigParameter):
+    def get(self, key: ConfigParameter) -> str:
         section, param = self._split_key(key)
         return (
             self._cfg.get(section, param)
             if self._cfg.has_option(section, param)
-            else None
+            else ""
         )
 
     def put(self, key: ConfigParameter, value):
@@ -64,11 +66,11 @@ class Config:
             self._cfg.add_section(section)
         self._cfg.set(section, param, str(value))
 
-    def get_int(self, key: ConfigParameter):
+    def get_int(self, key: ConfigParameter) -> int:
         value = self.get(key)
         return int(value) if value else 0
 
-    def get_bool(self, key: ConfigParameter):
+    def get_bool(self, key: ConfigParameter) -> bool:
         value = self.get(key)
         assert value in (
             "yes",
@@ -85,8 +87,8 @@ class Config:
         return (True, None)
 
     def __repr__(self):
-        d = dict()
+        dict_repr = {}
         for section in self._cfg.sections():
             for option in self._cfg.options(section):
-                d[".".join([section, option])] = self._cfg.get(section, option)
-        return str(d)
+                dict_repr[".".join([section, option])] = self._cfg.get(section, option)
+        return str(dict_repr)

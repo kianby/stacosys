@@ -25,7 +25,6 @@ def client():
     logger = logging.getLogger(__name__)
     database.setup(":memory:")
     init_test_db()
-    app.config.update(SITE_TOKEN="ETC")
     logger.info(f"start interface {api}")
     return app.test_client()
 

@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"c",
+				"check"
+			],
+			[
+				"con",
+				"configure_destination"
+			],
+			[
+				"EXP",
+				"EXPECTED_HTTP_PORT"
+			],
+			[
+				"auth",
+				"auth_login"
+			],
+			[
+				"l",
+				"login"
+			],
+			[
+				"assertI",
+				"assertIsNot"
+			],
+			[
+				"Confi",
+				"ConfigParameter"
+			],
+			[
+				"S",
+				"SITE_URL"
+			],
+			[
+				"Config",
+				"ConfigParameter"
+			],
+			[
+				"s",
+				"SITE_REDIRECT"
+			],
+			[
 				"get",
 				"get_int"
 			]
@@ -12,346 +52,81 @@
 	"buffers":
 	[
 		{
-			"file": "run.sh",
-			"settings":
-			{
-				"buffer_size": 40,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "stacosys/run.py",
-			"settings":
-			{
-				"buffer_size": 3298,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
+			"file": "pyproject.toml",
+			"redo_stack":
 			[
-				[
-					34,
-					1,
-					"insert",
-					{
-						"characters": "no"
-					},
-					"AgAAAOcFAAAAAAAA6AUAAAAAAAAAAAAA6AUAAAAAAADpBQAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADnBQAAAAAAAOcFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					35,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAOkFAAAAAAAA6gUAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADpBQAAAAAAAOkFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					36,
-					1,
-					"left_delete",
-					null,
-					"AQAAAOkFAAAAAAAA6QUAAAAAAAABAAAAIA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqBQAAAAAAAOoFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					37,
-					1,
-					"insert",
-					{
-						"characters": "r"
-					},
-					"AQAAAOkFAAAAAAAA6gUAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADpBQAAAAAAAOkFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					38,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAOoFAAAAAAAA6wUAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqBQAAAAAAAOoFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					39,
-					1,
-					"paste",
-					null,
-					"AQAAAOsFAAAAAAAA9gUAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADrBQAAAAAAAOsFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					40,
-					1,
-					"insert",
-					{
-						"characters": " or"
-					},
-					"AwAAAPYFAAAAAAAA9wUAAAAAAAAAAAAA9wUAAAAAAAD4BQAAAAAAAAAAAAD4BQAAAAAAAPkFAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAD2BQAAAAAAAPYFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					41,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAPkFAAAAAAAA+gUAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAD5BQAAAAAAAPkFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					46,
-					1,
-					"left_delete",
-					null,
-					"AQAAAOkFAAAAAAAA6QUAAAAAAAABAAAAcg",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqBQAAAAAAAOoFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					47,
-					1,
-					"insert",
-					{
-						"characters": "t"
-					},
-					"AQAAAOkFAAAAAAAA6gUAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADpBQAAAAAAAOkFAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					59,
-					1,
-					"insert_completion",
-					{
-						"completion": "lsp_select_completion_item {\"session_name\":\"LSP-pyright\",\"item\":{\"label\":\"get_int\",\"data\":{\"workspacePath\":\"/home/yannic/work/stacosys\",\"position\":{\"character\":21,\"line\":91},\"symbolLabel\":\"get_int\",\"filePath\":\"/home/yannic/work/stacosys/stacosys/run.py\"},\"kind\":2,\"sortText\":\"09.9999.get_int\"}}",
-						"format": "command",
-						"keep_prefix": false,
-						"must_insert": false,
-						"trigger": "get_int"
-					},
-					"AgAAAMgLAAAAAAAAyAsAAAAAAAADAAAAZ2V0yAsAAAAAAADPCwAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADLCwAAAAAAAMsLAAAAAAAAAAAAAAAA8L8"
-				]
-			]
-		},
-		{
-			"file": "Makefile",
-			"settings":
-			{
-				"buffer_size": 533,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "stacosys/core/mailer.py",
-			"settings":
-			{
-				"buffer_size": 1087,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					11,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AgAAAEIEAAAAAAAAQwQAAAAAAAAAAAAAQwQAAAAAAABPBAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABCBAAAAAAAAEIEAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					12,
-					1,
-					"left_delete",
-					null,
-					"AQAAAEsEAAAAAAAASwQAAAAAAAAEAAAAICAgIA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABPBAAAAAAAAE8EAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					13,
-					1,
-					"insert",
-					{
-						"characters": "else:"
-					},
-					"BQAAAEsEAAAAAAAATAQAAAAAAAAAAAAATAQAAAAAAABNBAAAAAAAAAAAAABNBAAAAAAAAE4EAAAAAAAAAAAAAE4EAAAAAAAATwQAAAAAAAAAAAAATwQAAAAAAABQBAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABLBAAAAAAAAEsEAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					14,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AwAAAFAEAAAAAAAAUQQAAAAAAAAAAAAAUQQAAAAAAABZBAAAAAAAAAAAAABZBAAAAAAAAF0EAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABQBAAAAAAAAFAEAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					16,
-					1,
-					"insert",
-					{
-						"characters": "False"
-					},
-					"BQAAAF0EAAAAAAAAXgQAAAAAAAAAAAAAXgQAAAAAAABfBAAAAAAAAAAAAABfBAAAAAAAAGAEAAAAAAAAAAAAAGAEAAAAAAAAYQQAAAAAAAAAAAAAYQQAAAAAAABiBAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABdBAAAAAAAAF0EAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					44,
-					1,
-					"insert",
-					{
-						"characters": "s"
-					},
-					"AQAAAB4CAAAAAAAAHwIAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAeAgAAAAAAAB4CAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					53,
-					1,
-					"left_delete",
-					null,
-					"AQAAAEQEAAAAAAAARAQAAAAAAAA1AAAAICAgICAgICBlbHNlOgogICAgICAgICAgICBGYWxzZQogICAgICAgIHJldHVybiBGYWxzZQo",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABEBAAAAAAAAHkEAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					56,
-					1,
-					"right_delete",
-					null,
-					"AQAAACwEAAAAAAAALAQAAAAAAAAXAAAAICAgICAgICAgICAgcmV0dXJuIFRydWU",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAsBAAAAAAAAEMEAAAAAAAA////////738"
-				],
-				[
-					70,
-					1,
-					"left_delete",
-					null,
-					"AQAAAB4CAAAAAAAAHgIAAAAAAAABAAAAcw",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAfAgAAAAAAAB8CAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					80,
-					1,
-					"reindent",
-					null,
-					"AQAAACsEAAAAAAAANwQAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAArBAAAAAAAACsEAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					81,
-					1,
-					"left_delete",
-					null,
-					"AQAAADMEAAAAAAAAMwQAAAAAAAAEAAAAICAgIA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA3BAAAAAAAADcEAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					82,
-					1,
-					"insert",
-					{
-						"characters": "reru"
-					},
-					"BAAAADMEAAAAAAAANAQAAAAAAAAAAAAANAQAAAAAAAA1BAAAAAAAAAAAAAA1BAAAAAAAADYEAAAAAAAAAAAAADYEAAAAAAAANwQAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAzBAAAAAAAADMEAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					83,
-					2,
-					"left_delete",
-					null,
-					"AgAAADYEAAAAAAAANgQAAAAAAAABAAAAdTUEAAAAAAAANQQAAAAAAAABAAAAcg",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA3BAAAAAAAADcEAAAAAAAAAAAAAAAA8L8"
-				],
 				[
 					84,
 					1,
 					"insert",
 					{
-						"characters": "turn"
+						"characters": ".1"
 					},
-					"BAAAADUEAAAAAAAANgQAAAAAAAAAAAAANgQAAAAAAAA3BAAAAAAAAAAAAAA3BAAAAAAAADgEAAAAAAAAAAAAADgEAAAAAAAAOQQAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA1BAAAAAAAADUEAAAAAAAAAAAAAAAA8L8"
-				],
+					"AgAAADABAAAAAAAAMAEAAAAAAAABAAAAMS8BAAAAAAAALwEAAAAAAAABAAAALg",
+					"AQAAAAAAAAABAAAAMQEAAAAAAAAxAQAAAAAAAAAAAAAAAPC/"
+				]
+			],
+			"settings":
+			{
+				"buffer_size": 620,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
 				[
-					85,
+					16,
 					1,
 					"insert",
 					{
-						"characters": " True"
+						"characters": "6"
 					},
-					"BQAAADkEAAAAAAAAOgQAAAAAAAAAAAAAOgQAAAAAAAA7BAAAAAAAAAAAAAA7BAAAAAAAADwEAAAAAAAAAAAAADwEAAAAAAAAPQQAAAAAAAAAAAAAPQQAAAAAAAA+BAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAA5BAAAAAAAADkEAAAAAAAAAAAAAAAA8L8"
-				]
-			]
-		},
-		{
-			"file": "stacosys/db/dao.py",
-			"settings":
-			{
-				"buffer_size": 1633,
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-			]
-		},
-		{
-			"file": "stacosys.sublime-project",
-			"settings":
-			{
-				"buffer_size": 381,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					4,
-					1,
-					"",
-					null,
-					"AgAAAMMAAAAAAAAAZQEAAAAAAAAAAAAAZQEAAAAAAABlAQAAAAAAAPMAAAAgICAgInNldHRpbmdzIjoKICAgIHsKICAgICAgICAiTFNQIjoKICAgICAgICB7CiAgICAgICAgICAgICJMU1AtcHlsc3AiOgogICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAic2V0dGluZ3MiOgogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAgICJweWxzcC5wbHVnaW5zLmplZGkuZW52aXJvbm1lbnQiOiAiLi8udmVudiIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0",
-					"AQAAAAAAAAABAAAAtgEAAAAAAADDAAAAAAAAAAAAAAAAAPC/"
+					"AgAAACIBAAAAAAAAIwEAAAAAAAAAAAAAIwEAAAAAAAAjAQAAAAAAAAEAAAA1",
+					"AQAAAAAAAAABAAAAIgEAAAAAAAAjAQAAAAAAAAAAAAAAAPC/"
 				],
 				[
-					8,
+					25,
 					1,
-					"paste",
+					"right_delete",
 					null,
-					"AgAAACYBAAAAAAAAUwEAAAAAAAAAAAAAUwEAAAAAAABTAQAAAAAAABkAAAAvLyBQdXQgeW91ciBzZXR0aW5ncyBoZXJl",
-					"AQAAAAAAAAABAAAAJgEAAAAAAAA/AQAAAAAAAP///////+9/"
+					"AQAAAMIBAAAAAAAAwgEAAAAAAAACAAAALjU",
+					"AQAAAAAAAAABAAAAwgEAAAAAAADEAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					43,
+					1,
+					"right_delete",
+					null,
+					"AQAAAMIAAAAAAAAAwgAAAAAAAAAWAAAAYXBzY2hlZHVsZXIgPSAiXjMuNi4zIg",
+					"AQAAAAAAAAABAAAA2AAAAAAAAADCAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					44,
+					1,
+					"left_delete",
+					null,
+					"AQAAAMEAAAAAAAAAwQAAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAAwgAAAAAAAADCAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					74,
+					1,
+					"insert",
+					{
+						"characters": "7"
+					},
+					"AgAAAC4BAAAAAAAALwEAAAAAAAAAAAAALwEAAAAAAAAvAQAAAAAAAAEAAAA0",
+					"AQAAAAAAAAABAAAALgEAAAAAAAAvAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					78,
+					1,
+					"right_delete",
+					null,
+					"AQAAAC8BAAAAAAAALwEAAAAAAAACAAAALjU",
+					"AQAAAAAAAAABAAAALwEAAAAAAAAxAQAAAAAAAAAAAAAAAPC/"
 				]
 			]
-		},
-		{
-			"file": "stacosys/model/comment.py",
-			"settings":
-			{
-				"buffer_size": 471,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "stacosys/conf/config.py",
-			"settings":
-			{
-				"buffer_size": 2481,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
 		}
 	],
 	"build_system": "",
@@ -366,12 +141,60 @@
 		"selected_items":
 		[
 			[
-				"diag",
-				"LSP: Goto Diagnostic in Project"
+				"comment",
+				"Toggle Comment"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
 			],
 			[
 				"lsp",
 				"LSP: Toggle Diagnostics Panel"
+			],
+			[
+				"rename",
+				"LSP: Rename"
+			],
+			[
+				"brea",
+				"Python Breakpoints: Clear All"
+			],
+			[
+				"comm",
+				"Toggle Comment"
+			],
+			[
+				"move",
+				"File: Move…"
+			],
+			[
+				"break",
+				"Python Breakpoints: Clear All"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"make",
+				"Build With: Make"
+			],
+			[
+				"python",
+				"Python Breakpoints: Toggle"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"diag",
+				"LSP: Toggle Diagnostics Panel"
+			],
+			[
+				"docstr",
+				"AutoDocstring: Current"
 			],
 			[
 				"Package Control: ",
@@ -384,10 +207,6 @@
 			[
 				"upg",
 				"Package Control: Upgrade Package"
-			],
-			[
-				"comment",
-				"Toggle Comment"
 			],
 			[
 				"form",
@@ -410,24 +229,12 @@
 				"Package Control: Install Package"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
-			],
-			[
 				"package re",
 				"Package Control: Remove Package"
 			],
 			[
 				"paka",
 				"Package Control: Remove Package"
-			],
-			[
-				"remove",
-				"Package Control: Remove Package"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
 			],
 			[
 				"inst",
@@ -459,35 +266,72 @@
 	"expanded_folders":
 	[
 		"/home/yannic/work/stacosys",
+		"/home/yannic/work/stacosys/.github",
+		"/home/yannic/work/stacosys/.github/workflows",
+		"/home/yannic/work/stacosys/docker",
 		"/home/yannic/work/stacosys/stacosys",
-		"/home/yannic/work/stacosys/stacosys/conf",
-		"/home/yannic/work/stacosys/stacosys/core",
 		"/home/yannic/work/stacosys/stacosys/db",
 		"/home/yannic/work/stacosys/stacosys/interface",
 		"/home/yannic/work/stacosys/stacosys/interface/web",
 		"/home/yannic/work/stacosys/stacosys/model",
+		"/home/yannic/work/stacosys/stacosys/service",
 		"/home/yannic/work/stacosys/tests"
 	],
 	"file_history":
 	[
-		"/home/yannic/.cache/sublime-text-3/Package Storage/LSP-pyright/18.7.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/sys.pyi",
-		"/home/yannic/work/stacosys/stacosys/conf/config.py",
-		"/usr/lib64/python3.11/logging/__init__.py",
-		"/home/yannic/work/stacosys/stacosys.sublime-project",
-		"/home/yannic/work/stacosys/flake8.ini",
+		"/home/yannic/work/stacosys/stacosys/interface/form.py",
+		"/home/yannic/work/stacosys/.venv/lib/python3.11/site-packages/background.py",
+		"/home/yannic/work/stacosys/config-dev.ini",
+		"/home/yannic/work/stacosys/stacosys/service/mail.py",
+		"/home/yannic/work/stacosys/tests/test_mail.py",
 		"/home/yannic/work/stacosys/Makefile",
-		"/home/yannic/work/stacosys/stacosys/__init__.py",
-		"/home/yannic/work/stacosys/stacosys/core/rss.py"
+		"/home/yannic/work/stacosys/tests/test_db.py",
+		"/home/yannic/.cache/sublime-text-3/Package Storage/LSP-pyright/18.7.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/builtins.pyi",
+		"/home/yannic/work/stacosys/stacosys/run.py",
+		"/home/yannic/work/stacosys/tests/test_config.py",
+		"/home/yannic/work/stacosys/.venv/lib64/python3.11/site-packages/mypy/typeshed/stdlib/socket.pyi",
+		"/usr/lib64/python3.11/smtplib.py",
+		"/home/yannic/work/stacosys/stacosys/interface/web/admin.py",
+		"/home/yannic/work/stacosys/stacosys/service/configuration.py",
+		"/home/yannic/work/stacosys/config.ini",
+		"/home/yannic/work/stacosys/stacosys/service/rssfeed.py",
+		"/home/yannic/work/stacosys/comments.xml",
+		"/home/yannic/work/stacosys/tests/test_api.py",
+		"/home/yannic/work/stacosys/stacosys/service/__init__.py",
+		"/home/yannic/work/stacosys/.venv/lib/python3.11/site-packages/PyRSS2Gen.py",
+		"/home/yannic/work/blog/README.md",
+		"/home/yannic/work/blog/Dockerfile",
+		"/usr/lib64/python3.11/logging/__init__.py",
+		"/home/yannic/work/stacosys/stacosys/core/__init__.py",
+		"/home/yannic/work/stacosys/stacosys/core/configuration.py",
+		"/home/yannic/work/stacosys/.pylintrc",
+		"/home/yannic/work/stacosys/tests/test_form.py",
+		"/home/yannic/work/stacosys/stacosys/core/mailer.py",
+		"/home/yannic/work/stacosys/stacosys/conf/config.py",
+		"/home/yannic/work/stacosys/stacosys/core/rss.py",
+		"/home/yannic/work/stacosys/stacosys/db/dao.py",
+		"/home/yannic/work/stacosys/stacosys/db/database.py",
+		"/home/yannic/work/stacosys/run.sh",
+		"/home/yannic/work/stacosys/stacosys/interface/__init__.py",
+		"/home/yannic/work/stacosys/stacosys/interface/api.py",
+		"/home/yannic/work/stacosys/stacosys.sublime-project",
+		"/home/yannic/work/stacosys/stacosys/model/comment.py",
+		"/home/yannic/work/stacosys/pylintrc",
+		"/home/yannic/work/stacosys/.venv/lib/python3.11/site-packages/flask/app.py",
+		"/home/yannic/.cache/sublime-text-3/Package Storage/LSP-pyright/18.7.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/sys.pyi",
+		"/home/yannic/work/stacosys/flake8.ini",
+		"/home/yannic/work/stacosys/stacosys/__init__.py"
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 104.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -495,6 +339,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"apscheduler",
+			"_lang",
+			"config",
+			"SITE_TOKE",
+			"app.conf",
+			"disable",
 			"background"
 		],
 		"highlight": true,
@@ -519,351 +369,32 @@
 			[
 				{
 					"buffer": 0,
-					"file": "run.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 40,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								27,
-								27
-							]
-						],
-						"settings":
-						{
-							"lsp_uri": "file:///home/yannic/work/stacosys/run.sh",
-							"syntax": "Packages/ShellScript/Bash.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "stacosys/run.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3298,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1918,
-								1918
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": "<",
-									"selector": "text.html, text.xml"
-								},
-								{
-									"rhs_empty": true,
-									"selector": "punctuation.accessor"
-								},
-								{
-									"characters": ".[",
-									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
-									"server": "LSP-pyright"
-								}
-							],
-							"lsp_active": true,
-							"lsp_hover_provider_count": 10,
-							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/run.py",
-							"show_definitions": false,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 964.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Makefile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 533,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								334,
-								334
-							]
-						],
-						"settings":
-						{
-							"lsp_uri": "file:///home/yannic/work/stacosys/Makefile",
-							"syntax": "Packages/Makefile/Makefile.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "stacosys/core/mailer.py",
+					"file": "pyproject.toml",
 					"selected": true,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1087,
+						"buffer_size": 620,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1086,
-								1086
+								481,
+								481
 							]
 						],
 						"settings":
 						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": "<",
-									"selector": "text.html, text.xml"
-								},
-								{
-									"rhs_empty": true,
-									"selector": "punctuation.accessor"
-								},
-								{
-									"characters": ".[",
-									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
-									"server": "LSP-pyright"
-								}
-							],
-							"lsp_active": true,
-							"lsp_hover_provider_count": 10,
-							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/core/mailer.py",
-							"show_definitions": false,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"lsp_uri": "file:///home/yannic/work/stacosys/pyproject.toml",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 399.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "stacosys/db/dao.py",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1633,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								524,
-								524
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": "<",
-									"selector": "text.html, text.xml"
-								},
-								{
-									"rhs_empty": true,
-									"selector": "punctuation.accessor"
-								},
-								{
-									"characters": ".[",
-									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
-									"server": "LSP-pyright"
-								}
-							],
-							"lsp_active": true,
-							"lsp_hover_provider_count": 1,
-							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/db/dao.py",
-							"show_definitions": false,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "stacosys.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 381,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								364,
-								364
-							]
-						],
-						"settings":
-						{
-							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys.sublime-project",
-							"syntax": "Packages/JSON/JSON.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "stacosys/model/comment.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 471,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								150,
-								150
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": "<",
-									"selector": "text.html, text.xml"
-								},
-								{
-									"rhs_empty": true,
-									"selector": "punctuation.accessor"
-								},
-								{
-									"characters": ".[",
-									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
-									"server": "LSP-pyright"
-								}
-							],
-							"lsp_active": true,
-							"lsp_hover_provider_count": 6,
-							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/model/comment.py",
-							"show_definitions": false,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "stacosys/conf/config.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2481,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": "<",
-									"selector": "text.html, text.xml"
-								},
-								{
-									"rhs_empty": true,
-									"selector": "punctuation.accessor"
-								},
-								{
-									"characters": ".[",
-									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
-									"server": "LSP-pyright"
-								}
-							],
-							"lsp_active": true,
-							"lsp_hover_provider_count": 6,
-							"lsp_uri": "file:///home/yannic/work/stacosys/stacosys/conf/config.py",
-							"show_definitions": false,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1539.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
 					"stack_multiselect": false,
 					"type": "text"
 				}
@@ -876,7 +407,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 40.0
 	},
 	"layout":
 	{
@@ -909,6 +440,10 @@
 	{
 		"height": 261.0
 	},
+	"output.exec":
+	{
+		"height": 132.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -938,17 +473,29 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"socket.p",
+				".venv/lib64/python3.11/site-packages/mypy/typeshed/stdlib/socket.pyi"
+			],
+			[
+				"mail",
+				"stacosys/service/mail.py"
+			],
+			[
+				"conf",
+				"stacosys/service/configuration.py"
+			]
 		],
 		"width": 0.0
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{
@@ -967,7 +514,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 311.0,
+	"side_bar_width": 299.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
