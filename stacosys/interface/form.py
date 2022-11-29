@@ -78,14 +78,7 @@ def submit_new_comment(comment):
     subject = f"STACOSYS {site_name}"
     if mailer.send(subject, email_body):
         logger.debug("new comment processed")
-
         # save notification datetime
         dao.notify_comment(comment)
     else:
         logger.warning("rescheduled. send mail failure %s", subject)
-
-
-@background.callback
-def submit_new_comment_callback(future):
-    # TODO use future to log submit status
-    logger.debug(future)
