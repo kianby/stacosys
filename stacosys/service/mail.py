@@ -32,6 +32,13 @@ class Mailer:
     def configure_destination(self, site_admin_email) -> None:
         self._site_admin_email = site_admin_email
 
+    def check(self):
+        server = smtplib.SMTP_SSL(
+            self._smtp_host, self._smtp_port, context=ssl.create_default_context()
+        )
+        server.login(self._smtp_login, self._smtp_password)
+        server.close()
+
     def send(self, subject, message) -> bool:
         sender = self._smtp_login
         receivers = [self._site_admin_email]
@@ -41,11 +48,15 @@ class Mailer:
         msg["To"] = self._site_admin_email
         msg["From"] = sender
 
-        context = ssl.create_default_context()
-        # TODO catch SMTP failure
-        with smtplib.SMTP_SSL(
-            self._smtp_host, self._smtp_port, context=context
-        ) as server:
+        # pylint: disable=bare-except
+        try:
+            server = smtplib.SMTP_SSL(
+                self._smtp_host, self._smtp_port, context=ssl.create_default_context()
+            )
             server.login(self._smtp_login, self._smtp_password)
             server.send_message(msg, sender, receivers)
-        return True
+            server.close()
+            success = True
+        except:
+            success = False
+        return success

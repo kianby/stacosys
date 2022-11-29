@@ -29,7 +29,6 @@ def stacosys_server(config_pathname):
     logger = logging.getLogger(__name__)
     configure_logging(logging.INFO)
     logging.getLogger("werkzeug").level = logging.WARNING
-    logging.getLogger("apscheduler.executors").level = logging.WARNING
 
     # check config file exists
     if not os.path.isfile(config_pathname):
@@ -58,8 +57,8 @@ def stacosys_server(config_pathname):
     # generate RSS
     rss.configure(
         config.get(ConfigParameter.RSS_FILE),
-        config.get(ConfigParameter.SITE_PROTO),
         config.get(ConfigParameter.SITE_NAME),
+        config.get(ConfigParameter.SITE_PROTO),
         config.get(ConfigParameter.SITE_URL),
     )
     rss.generate()
@@ -72,6 +71,7 @@ def stacosys_server(config_pathname):
         config.get(ConfigParameter.SMTP_PASSWORD),
     )
     mailer.configure_destination(config.get(ConfigParameter.SITE_ADMIN_EMAIL))
+    mailer.check()
 
     logger.info("start interfaces %s %s %s", api, form, admin)
 

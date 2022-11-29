@@ -19,13 +19,13 @@ class Rss:
     def configure(
         self,
         rss_file,
-        site_proto,
         site_name,
+        site_proto,
         site_url,
     ) -> None:
         self._rss_file = rss_file
-        self._site_proto = site_proto
         self._site_name = site_name
+        self._site_proto = site_proto
         self._site_url = site_url
 
     def generate(self) -> None:
