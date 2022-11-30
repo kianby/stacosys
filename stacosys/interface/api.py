@@ -6,7 +6,7 @@ import logging
 from flask import jsonify, request
 
 from stacosys.db import dao
-from stacosys.interface import app
+from stacosys.interface import app, submit_new_comment
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +38,8 @@ def query_comments():
 
 @app.route("/api/comments/count", methods=["GET"])
 def get_comments_count():
-    # TODO process pending comments
+    # send notification for pending e-mails asynchronously
+    for comment in dao.find_not_notified_comments():
+        submit_new_comment(comment)
     url = request.args.get("url", "")
     return jsonify({"count": dao.count_published_comments(url)})

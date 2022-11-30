@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 import logging
 
-import background
 from flask import abort, redirect, request
 
 from stacosys.db import dao
-from stacosys.interface import app
-from stacosys.service import config, mailer
+from stacosys.interface import app, submit_new_comment
+from stacosys.service import config
 from stacosys.service.configuration import ConfigParameter
 
 logger = logging.getLogger(__name__)
@@ -55,30 +54,3 @@ def check_form_data(posted_comment):
     fields = ["url", "message", "site", "remarque", "author", "token", "email"]
     filtered = dict(filter(lambda x: x[0] not in fields, posted_comment.items()))
     return not filtered
-
-
-@background.task
-def submit_new_comment(comment):
-    site_url = config.get(ConfigParameter.SITE_URL)
-    comment_list = (
-        f"Web admin interface: {site_url}/web/admin",
-        "",
-        f"author: {comment.author_name}",
-        f"site: {comment.author_site}",
-        f"date: {comment.created}",
-        f"url: {comment.url}",
-        "",
-        comment.content,
-        "",
-    )
-    email_body = "\n".join(comment_list)
-
-    # send email to notify admin
-    site_name = config.get(ConfigParameter.SITE_NAME)
-    subject = f"STACOSYS {site_name}"
-    if mailer.send(subject, email_body):
-        logger.debug("new comment processed")
-        # save notification datetime
-        dao.notify_comment(comment)
-    else:
-        logger.warning("rescheduled. send mail failure %s", subject)
