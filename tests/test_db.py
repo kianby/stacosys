@@ -8,7 +8,7 @@ from stacosys.db import database
 
 @pytest.fixture
 def setup_db():
-    database.setup(":memory:")    
+    database.configure("sqlite:memory://db.sqlite")
 
 
 def test_dao_published(setup_db):

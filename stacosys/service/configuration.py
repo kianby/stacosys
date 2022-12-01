@@ -6,7 +6,7 @@ from enum import Enum
 
 
 class ConfigParameter(Enum):
-    DB_SQLITE_FILE = "main.db_sqlite_file"
+    DB = "main.db"
     LANG = "main.lang"
 
     HTTP_HOST = "http.host"

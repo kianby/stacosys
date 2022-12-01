@@ -23,7 +23,7 @@ def init_test_db():
 @pytest.fixture
 def client():
     logger = logging.getLogger(__name__)
-    database.setup(":memory:")
+    database.configure("sqlite:memory://db.sqlite")
     init_test_db()
     logger.info(f"start interface {api}")
     return app.test_client()

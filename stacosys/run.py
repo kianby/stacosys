@@ -43,14 +43,8 @@ def stacosys_server(config_pathname):
         sys.exit(1)
     logger.info(config)
 
-    # check database file exists (prevents from creating a fresh db)
-    db_pathname = config.get(ConfigParameter.DB_SQLITE_FILE)
-    if not db_pathname or not os.path.isfile(db_pathname):
-        logger.error("Database file '%s' not found.", db_pathname)
-        sys.exit(1)
-
     # initialize database
-    database.setup(db_pathname)
+    database.configure(config.get(ConfigParameter.DB))
 
     logger.info("Start Stacosys application")
 

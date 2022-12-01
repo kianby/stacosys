@@ -1,17 +1,19 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from peewee import CharField, DateTimeField, TextField
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Optional
 
-from stacosys.db.database import BaseModel
 
-
-class Comment(BaseModel):
-    url = CharField()
-    created = DateTimeField()
-    notified = DateTimeField(null=True, default=None)
-    published = DateTimeField(null=True, default=None)
-    author_name = CharField()
-    author_site = CharField(default="")
-    author_gravatar = CharField(default="")
-    content = TextField()
+@dataclass
+class Comment:
+    id: int = 0
+    url: str = ""
+    created: Optional[datetime] = None
+    notified: Optional[datetime] = None
+    published: Optional[datetime] = None
+    author_name: str = ""
+    author_site: str = ""
+    author_gravatar: str = ""
+    content: str = ""

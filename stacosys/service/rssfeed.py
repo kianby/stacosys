@@ -6,7 +6,7 @@ from datetime import datetime
 import markdown
 import PyRSS2Gen
 
-from stacosys.model.comment import Comment
+from stacosys.db import dao
 
 
 class Rss:
@@ -32,12 +32,7 @@ class Rss:
         markdownizer = markdown.Markdown()
 
         items = []
-        for row in (
-            Comment.select()
-            .where(Comment.published)
-            .order_by(-Comment.published)
-            .limit(10)
-        ):
+        for row in dao.find_recent_published_comments():
             item_link = f"{self._site_proto}://{self._site_url}{row.url}"
             items.append(
                 PyRSS2Gen.RSSItem(

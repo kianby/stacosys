@@ -1,67 +1,80 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+# pylint: disable=singleton-comparison
+
 from datetime import datetime
 
+from stacosys.db import db
 from stacosys.model.comment import Comment
-
-TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 def find_comment_by_id(comment_id):
-    return Comment.get_by_id(comment_id)
+    return db().comment(comment_id)
 
 
 def notify_comment(comment: Comment):
-    comment.notified = datetime.now().strftime(TIME_FORMAT)
-    comment.save()
+    db()(db().comment.id == comment.id).update(notified=datetime.now())
+    db().commit()
 
 
 def publish_comment(comment: Comment):
-    comment.published = datetime.now().strftime(TIME_FORMAT)
-    comment.save()
+    db()(db().comment.id == comment.id).update(published=datetime.now())
+    db().commit()
 
 
 def delete_comment(comment: Comment):
-    comment.delete_instance()
+    db()(db().comment.id == comment.id).delete()
+    db().commit()
 
 
 def find_not_notified_comments():
-    return Comment.select().where(Comment.notified.is_null())
+    return db()(db().comment.notified == None).select()
 
 
 def find_not_published_comments():
-    return Comment.select().where(Comment.published.is_null())
+    return db()(db().comment.published == None).select()
 
 
 def find_published_comments_by_url(url):
-    return (
-        Comment.select(Comment)
-        .where((Comment.url == url) & (Comment.published.is_null(False)))
-        .order_by(+Comment.published)
+    return db()((db().comment.url == url) & (db().comment.published != None)).select(
+        orderby=db().comment.published
     )
 
 
 def count_published_comments(url):
     return (
-        Comment.select(Comment)
-        .where((Comment.url == url) & (Comment.published.is_null(False)))
-        .count()
+        db()((db().comment.url == url) & (db().comment.published != None)).count()
         if url
-        else Comment.select(Comment).where(Comment.published.is_null(False)).count()
+        else db()(db().comment.published != None).count()
+    )
+
+
+def find_recent_published_comments():
+    return db()(db().comment.published != None).select(
+        orderby=~db().comment.published, limitby=(0, 10)
     )
 
 
 def create_comment(url, author_name, author_site, author_gravatar, message):
-    created = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    comment = Comment(
+    row = db().comment.insert(
         url=url,
         author_name=author_name,
         author_site=author_site,
         author_gravatar=author_gravatar,
         content=message,
-        created=created,
+        created=datetime.now(),
         notified=None,
         published=None,
     )
-    comment.save()
-    return comment
+    db().commit()
+    return Comment(
+        id=row.id,
+        url=row.url,
+        author_name=row.author_name,
+        author_site=row.author_site,
+        author_gravatar=row.author_gravatar,
+        content=row.content,
+        created=row.created,
+        notified=row.notified,
+        published=row.published,
+    )
