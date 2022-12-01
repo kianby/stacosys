@@ -13,7 +13,7 @@ from stacosys.interface import form
 @pytest.fixture
 def client():
     logger = logging.getLogger(__name__)
-    database.setup(":memory:")    
+    database.configure("sqlite:memory://db.sqlite")
     logger.info(f"start interface {form}")
     return app.test_client()
 
