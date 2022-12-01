@@ -9,7 +9,7 @@ class Database:
     db_dal = DAL()
 
     def configure(self, db_uri):
-        self.db_dal = DAL(db_uri, migrate=False)
+        self.db_dal = DAL(db_uri, migrate=db_uri.startswith("sqlite:memory"))
         self.db_dal.define_table(
             "comment",
             Field("url"),
