@@ -33,11 +33,6 @@ class Config:
 
     _cfg = configparser.ConfigParser()
 
-    # def __new__(cls):
-    #     if not hasattr(cls, "instance"):
-    #         cls.instance = super(Config, cls).__new__(cls)
-    #     return cls.instance
-
     def load(self, config_pathname):
         self._cfg.read(config_pathname)
 
