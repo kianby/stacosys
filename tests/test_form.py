@@ -6,8 +6,7 @@ import logging
 import pytest
 
 from stacosys.db import database
-from stacosys.interface import app
-from stacosys.interface import form
+from stacosys.interface import app, form
 
 
 @pytest.fixture

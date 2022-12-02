@@ -6,9 +6,8 @@ import logging
 
 import pytest
 
-from stacosys.db import database, dao
-from stacosys.interface import api
-from stacosys.interface import app
+from stacosys.db import dao, database
+from stacosys.interface import api, app
 
 
 def init_test_db():

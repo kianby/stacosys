@@ -1,8 +1,8 @@
 all: black test typehint lint 
 
 black:
-	poetry run isort --multi-line 3 --profile black stacosys/
-	poetry run black stacosys/
+	poetry run isort --multi-line 3 --profile black stacosys/ tests/
+	poetry run black --target-version py311 stacosys/ tests/
 
 test:	
 	poetry run coverage run -m --source=stacosys pytest
