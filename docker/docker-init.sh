@@ -1,6 +1,9 @@
 #!/bin/bash
 
 cd /stacosys
-python3 stacosys/run.py /config/config.ini
+# workaround for startup
+cp -f stacosys/run.py .
+python3 run.py /config/config.ini
 
-tail -f /dev/null
+# catch for debug
+#tail -f /dev/null
