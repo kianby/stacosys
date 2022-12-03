@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd /stacosys
-python3 run.py /config/config.ini
+python3 stacosys/run.py /config/config.ini
