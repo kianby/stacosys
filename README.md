@@ -1,4 +1,4 @@
-[![GitLicense](https://gitlicense.com/badge/kianby/stacosys)](https://gitlicense.com/license/kianby/stacosys)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
  [![Python version](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Flask version](https://img.shields.io/badge/Flask-2.1-green.svg)](https://flask.palletsprojects.com) 
 
 [![Build Status - pytest](https://github.com/kianby/stacosys/workflows/pytest/badge.svg)](https://github.com/kianby/stacosys) [![Coverage Status](https://coveralls.io/repos/github/kianby/stacosys/badge.svg?branch=main)](https://coveralls.io/github/kianby/stacosys?branch=main) [![Build status - docker image](https://github.com/kianby/stacosys/workflows/docker/badge.svg)](https://hub.docker.com/r/kianby/stacosys)
