@@ -18,7 +18,6 @@ RUN chmod +x usr/local/bin/docker-init.sh
 
 RUN cd /
 COPY dist/${STACOSYS_FILENAME} /
-#RUN wget https://github.com/kianby/stacosys/releases/download/${STACOSYS_VERSION}/${STACOSYS_FILENAME}
 RUN python3 -m pip install ${STACOSYS_FILENAME} --target /stacosys
 RUN rm -f ${STACOSYS_FILENAME}
 
