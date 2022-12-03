@@ -52,7 +52,5 @@ class Rss:
             lastBuildDate=datetime.now(),
             items=items,
         )
-        # TODO technical debt: replace pyRss2Gen
-        # TODO validate feed (https://validator.w3.org/feed/check.cgi)
         # pylint: disable=consider-using-with
         rss.write_xml(open(self._rss_file, "w", encoding="utf-8"), encoding="utf-8")

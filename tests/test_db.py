@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import time
+
 import pytest
 
 from stacosys.db import dao, database

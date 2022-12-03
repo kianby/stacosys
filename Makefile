@@ -9,7 +9,7 @@ test:
 	poetry run coverage report        
 
 typehint: 
-	poetry run mypy --ignore-missing-imports stacosys/
+	poetry run mypy --ignore-missing-imports stacosys/ tests/
 
 lint:
 	poetry run pylint stacosys/
