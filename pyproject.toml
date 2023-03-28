@@ -6,7 +6,7 @@ authors = ["Yax"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.11.0,<3.12"
+python = ">=3.9.0,<3.12"
 pyrss2gen = "^1.1"
 markdown = "^3.1.1"
 requests = "^2.25.1"
