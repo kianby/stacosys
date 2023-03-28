@@ -47,6 +47,10 @@ Stacosys offers a REST API to retrieve and post comments. Static blog is HTML-ba
 
 Build and Dependency management relies on [Poetry](https://python-poetry.org/), but you can also use [published releases](https://github.com/kianby/stacosys/releases) or [Docker image](https://hub.docker.com/r/kianby/stacosys).
 
+Build executable with pyinstaller 
+
+    poetry run pyinstaller stacosys.spec 
+
 ### Improvements
 
 Stacosys fits my needs, and it manages comments on [my blog](https://blogduyax.madyanne.fr) for a while. I don't have any plan to make big changes, it's more a python playground for me. So I strongly encourage you to fork and enhance the project if you need additional features.
