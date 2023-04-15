@@ -73,3 +73,5 @@ config-server.ini
 config-dev.ini
 .idea/
 .python-version
+stacosys.sublime-project
+stacosys.sublime-workspace
