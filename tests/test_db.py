@@ -84,19 +84,12 @@ def create_comment(url, author_name, content):
 
 def test_find_recent_published_comments(setup_db):
 
-    comments = []
-    comments.append(create_comment("/post", "Adam", "Comment 1"))
-    comments.append(create_comment("/post", "Arf", "Comment 2"))
-    comments.append(create_comment("/post", "Arwin", "Comment 3"))
-    comments.append(create_comment("/post", "Bill", "Comment 4"))
-    comments.append(create_comment("/post", "Bo", "Comment 5"))
-    comments.append(create_comment("/post", "Charles", "Comment 6"))
-    comments.append(create_comment("/post", "Dan", "Comment 7"))
-    comments.append(create_comment("/post", "Dwayne", "Comment 8"))
-    comments.append(create_comment("/post", "Erl", "Comment 9"))
-    comments.append(create_comment("/post", "Jay", "Comment 10"))
-    comments.append(create_comment("/post", "Kenny", "Comment 11"))
-    comments.append(create_comment("/post", "Lord", "Comment 12"))
+    comments = [create_comment("/post", "Adam", "Comment 1"), create_comment("/post", "Arf", "Comment 2"),
+                create_comment("/post", "Arwin", "Comment 3"), create_comment("/post", "Bill", "Comment 4"),
+                create_comment("/post", "Bo", "Comment 5"), create_comment("/post", "Charles", "Comment 6"),
+                create_comment("/post", "Dan", "Comment 7"), create_comment("/post", "Dwayne", "Comment 8"),
+                create_comment("/post", "Erl", "Comment 9"), create_comment("/post", "Jay", "Comment 10"),
+                create_comment("/post", "Kenny", "Comment 11"), create_comment("/post", "Lord", "Comment 12")]
 
     rows = dao.find_recent_published_comments()
     assert len(rows) == 0
