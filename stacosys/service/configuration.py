@@ -36,13 +36,12 @@ class Config:
     def load(self, config_pathname):
         self._cfg.read(config_pathname)
 
-    @staticmethod
-    def _split_key(key: ConfigParameter):
+    def _split_key(self, key: ConfigParameter):
         section, param = str(key.value).split(".")
         if not param:
             param = section
             section = ""
-        return section, param
+        return (section, param)
 
     def exists(self, key: ConfigParameter):
         section, param = self._split_key(key)
@@ -79,8 +78,8 @@ class Config:
     def check(self):
         for key in ConfigParameter:
             if not self.get(key):
-                return False, key.value
-        return True, None
+                return (False, key.value)
+        return (True, None)
 
     def __repr__(self):
         dict_repr = {}

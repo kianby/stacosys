@@ -18,11 +18,11 @@ class Mailer:
         self._site_admin_email: str = ""
 
     def configure_smtp(
-            self,
-            smtp_host,
-            smtp_port,
-            smtp_login,
-            smtp_password,
+        self,
+        smtp_host,
+        smtp_port,
+        smtp_login,
+        smtp_password,
     ) -> None:
         self._smtp_host = smtp_host
         self._smtp_port = smtp_port

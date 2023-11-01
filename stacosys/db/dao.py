@@ -28,29 +28,29 @@ def delete_comment(comment: Comment):
 
 
 def find_not_notified_comments():
-    return db()(db().comment.notified is None).select()
+    return db()(db().comment.notified == None).select()
 
 
 def find_not_published_comments():
-    return db()(db().comment.published is None).select()
+    return db()(db().comment.published == None).select()
 
 
 def find_published_comments_by_url(url):
-    return db()((db().comment.url == url) & (db().comment.published is not None)).select(
+    return db()((db().comment.url == url) & (db().comment.published != None)).select(
         orderby=db().comment.published
     )
 
 
 def count_published_comments(url):
     return (
-        db()((db().comment.url == url) & (db().comment.published is not None)).count()
+        db()((db().comment.url == url) & (db().comment.published != None)).count()
         if url
-        else db()(db().comment.published is not None).count()
+        else db()(db().comment.published != None).count()
     )
 
 
 def find_recent_published_comments():
-    return db()(db().comment.published is not None).select(
+    return db()(db().comment.published != None).select(
         orderby=~db().comment.published, limitby=(0, 10)
     )
 
