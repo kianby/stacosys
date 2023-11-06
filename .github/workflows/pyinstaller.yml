@@ -1,24 +1,19 @@
-name: Package exe with PyInstaller - Windows
-
+name: Package exe with PyInstaller
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: PyInstaller
-      uses: JackMcKew/pyinstaller-action-windows@python3-10-pyinstaller-5-3
+    - name: Package application
+      uses: JackMcKew/pyinstaller-action-linux@main
       with:
         path: .
-
     - uses: actions/upload-artifact@v2
       with:
-        name: my-exe
-        path: src/dist 
+        name: stacosys
+        path: dist/linux 
