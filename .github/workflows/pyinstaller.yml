@@ -1,4 +1,4 @@
-name: Package exe with PyInstaller
+name: Package with PyInstaller
 on:
   push:
     branches: [ main ]
@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Package application
-      uses: JackMcKew/pyinstaller-action-linux@main
+      uses: JackMcKew/pyinstaller-action-linux@python3.10
       with:
         path: .
     - uses: actions/upload-artifact@v2
