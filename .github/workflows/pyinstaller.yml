@@ -1,4 +1,4 @@
-name: Package with PyInstaller
+name: pyinstaller
 on:
   push:
     branches: [ main ]
