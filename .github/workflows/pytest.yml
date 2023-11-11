@@ -2,7 +2,7 @@ name: pytest
 on: push
 
 jobs:
-  tests:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

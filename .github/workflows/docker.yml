@@ -1,9 +1,9 @@
 name: docker
 on:
   push:
-#    branches: [ main ]
+    branches: [ main ]
 jobs:
-  build:
+  build_docker:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
