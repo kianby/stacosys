@@ -17,6 +17,11 @@ dependencies = [
     "pydal>=20230521.1"
 ]
 
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
