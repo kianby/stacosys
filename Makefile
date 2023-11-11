@@ -5,6 +5,8 @@ ifeq (run,$(firstword $(MAKECMDGOALS)))
   $(eval $(RUN_ARGS):;@:)
 endif
 
+.PHONY: all build run test
+
 # code quality
 all: black typehint lint
 
@@ -24,8 +26,9 @@ test:
 	rye run coverage report
 
 # build
+#rye run pyinstaller src/stacosys/run.py --name stacosys --onefile
 build:
-	rye run pyinstaller stacosys.spec
+	rye run pyinstaller --clean stacosys.spec
 
 # run
 run:
