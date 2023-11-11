@@ -1,7 +1,7 @@
 name: pyinstaller
 on:
   push:
-#    branches: [ main ]
+    branches: [ main ]
 jobs:
   build_binary:
     runs-on: ${{ matrix.os }}
