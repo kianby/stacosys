@@ -5,7 +5,6 @@ from pydal import DAL, Field
 
 
 class Database:
-
     db_dal = DAL()
 
     def configure(self, db_uri):

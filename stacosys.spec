@@ -1,31 +1,24 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-block_cipher = None
-
-
 a = Analysis(
-    ['stacosys/run.py'],
-    pathex=[],
+    ['src/stacosys/run.py'],
+    pathex=['src'],
     binaries=[],
-    datas=[('stacosys/interface/templates/*.html', 'stacosys/interface/templates/')],
+    datas=[('src/stacosys/interface/templates/*.html', 'src/stacosys/interface/templates/')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
 )
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
-    a.zipfiles,
     a.datas,
     [],
     name='stacosys',
