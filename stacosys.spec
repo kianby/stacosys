@@ -3,7 +3,7 @@
 
 a = Analysis(
     ['src/stacosys/run.py'],
-    pathex=[],
+    pathex=['src'],
     binaries=[],
     datas=[('src/stacosys/interface/templates/*.html', 'src/stacosys/interface/templates/')],
     hiddenimports=[],
