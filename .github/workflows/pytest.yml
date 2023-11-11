@@ -2,30 +2,26 @@ name: pytest
 on: push
 
 jobs:
-  ci:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.11.0]
-        poetry-version: [1.2.2]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+  tests:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [3.11.6]
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install poetry
-      uses: abatilo/actions-poetry@v2
-      with:
-        poetry-version: ${{ matrix.poetry-version }}
-    - name: Install dependencies
-      run: poetry install
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up rye
+      uses: atu4403/setup-rye-multiOS@v1
+    - name: Sync dependencies using rye
+      run: |
+        rye pin ${{ matrix.python-version }}
+        rye sync
     - name: Pytest and Coverage
       run: |
-        poetry run coverage run -m --source=stacosys pytest tests
-        poetry run coverage report        
+        rye run coverage run -m --source=stacosys pytest tests
+        rye run coverage report
     - name: Send report to Coveralls
-      run: poetry run coveralls
+      run: rye run coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

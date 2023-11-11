@@ -5,15 +5,12 @@ ifeq (run,$(firstword $(MAKECMDGOALS)))
   $(eval $(RUN_ARGS):;@:)
 endif
 
-all: black test typehint lint 
+# code quality
+all: black typehint lint
 
 black:
 	rye run isort --multi-line 3 --profile black src/ tests/
 	rye run black --target-version py311 src/ tests/
-
-test:	
-	rye run coverage run -m --source=stacosys pytest tests
-	rye run coverage report
 
 typehint: 
 	rye run mypy --ignore-missing-imports src/ tests/
@@ -21,8 +18,15 @@ typehint:
 lint:
 	rye run pylint src/
 
+# test
+test:
+	rye run coverage run -m --source=stacosys pytest tests
+	rye run coverage report
+
+# build
 build:
 	rye run pyinstaller stacosys.spec
 
+# run
 run:
 	rye run python src/stacosys/run.py $(RUN_ARGS)
