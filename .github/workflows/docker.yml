@@ -1,23 +1,24 @@
 name: docker
 on:
   push:
-    branches: [ main ]
+#    branches: [ main ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.11.6]
     steps:
-    - uses: actions/checkout@v3    
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.11.0"
-    - name: Install poetry
-      uses: abatilo/actions-poetry@v2
-      with:
-        poetry-version: 1.2.2
-    - name: Install dependencies
-      run: poetry install    
-    - name: Build project 
-      run: poetry build    
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up rye
+      uses: atu4403/setup-rye-multiOS@v1
+    - name: Sync dependencies using rye
+      run: |
+        rye pin ${{ matrix.python-version }}
+        rye sync
+        rye build --wheel --out dist
     - name: Build the Docker image
       run: |
         echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin docker.io
