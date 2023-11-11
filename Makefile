@@ -8,15 +8,15 @@ endif
 all: black test typehint lint 
 
 black:
-	poetry run isort --multi-line 3 --profile black src/ tests/
-	poetry run black --target-version py311 src/ tests/
+	rye run isort --multi-line 3 --profile black src/ tests/
+	rye run black --target-version py311 src/ tests/
 
 test:	
 	rye run coverage run -m --source=stacosys pytest tests
 	rye run coverage report
 
 typehint: 
-	rye run mypy --ignore-missing-imports stacosys/ tests/
+	rye run mypy --ignore-missing-imports src/ tests/
 
 lint:
 	rye run pylint src/

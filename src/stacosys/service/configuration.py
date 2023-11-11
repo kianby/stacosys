@@ -30,7 +30,6 @@ class ConfigParameter(Enum):
 
 
 class Config:
-
     _cfg = configparser.ConfigParser()
 
     def load(self, config_pathname):
