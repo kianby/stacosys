@@ -5,10 +5,10 @@ block_cipher = None
 
 
 a = Analysis(
-    ['stacosys/run.py'],
+    ['src/stacosys/run.py'],
     pathex=[],
     binaries=[],
-    datas=[('stacosys/interface/templates/*.html', 'stacosys/interface/templates/')],
+    datas=[('src/stacosys/interface/templates/*.html', 'src/stacosys/interface/templates/')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

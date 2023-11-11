@@ -1,16 +1,28 @@
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+  # use the rest as arguments for "run"
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # ...and turn them into do-nothing targets
+  $(eval $(RUN_ARGS):;@:)
+endif
+
 all: black test typehint lint 
 
 black:
-	poetry run isort --multi-line 3 --profile black stacosys/ tests/
-	poetry run black --target-version py311 stacosys/ tests/
+	poetry run isort --multi-line 3 --profile black src/ tests/
+	poetry run black --target-version py311 src/ tests/
 
 test:	
-	poetry run coverage run -m --source=stacosys pytest
-	poetry run coverage report        
+	rye run coverage run -m --source=stacosys pytest tests
+	rye run coverage report
 
 typehint: 
-	poetry run mypy --ignore-missing-imports stacosys/ tests/
+	rye run mypy --ignore-missing-imports stacosys/ tests/
 
 lint:
-	poetry run pylint stacosys/
+	rye run pylint src/
 
+build:
+	rye run pyinstaller stacosys.spec
+
+run:
+	rye run python src/stacosys/run.py $(RUN_ARGS)
