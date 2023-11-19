@@ -20,6 +20,9 @@ typehint:
 lint:
 	rye run pylint src/
 
+# check
+check: all
+
 # test
 test:
 	rye run coverage run -m --source=stacosys pytest tests
