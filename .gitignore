@@ -62,9 +62,6 @@ db.sqlite
 db.json
 node_modules
 comments.xml
-stacosys/bin/
-stacosys/pyvenv.cfg
-stacosys/lib64
 .vscode/
 .pytest_cache/
 workspace.code-workspace
