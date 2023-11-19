@@ -35,4 +35,4 @@ build:
 
 # run
 run:
-	rye run python src/stacosys/run.py $(RUN_ARGS)
+	PYTHONPATH=src/ rye run python src/stacosys/run.py $(RUN_ARGS)
