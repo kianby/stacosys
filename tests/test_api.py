@@ -39,10 +39,13 @@ def test_api_count_global(client):
     assert d and d["count"] == 2
 
 
-def test_api_count_url(client):
+def test_api_count_url_site1(client):
     resp = client.get("/api/comments/count?url=/site1")
     d = json.loads(resp.data)
     assert d and d["count"] == 1
+
+
+def test_api_count_url_site2(client):
     resp = client.get("/api/comments/count?url=/site2")
     d = json.loads(resp.data)
     assert d and d["count"] == 0
