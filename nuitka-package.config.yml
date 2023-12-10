@@ -1,0 +1,13 @@
+#- module-name: 'stacosys'
+#dlls:
+#  - from_filenames:
+#     relative_path: 'src'
+#     prefixes:
+#       - 'stacosys'
+#     suffixes:
+#       - 'so'
+#     when: 'linux'
+#     executable: yes
+implicit-imports:
+  - depends:
+     - 'encodings'

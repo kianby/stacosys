@@ -36,6 +36,7 @@ dev-dependencies = [
     "pytest-cov>=4.1.0",
     "black>=23.10.1",
     "pyinstaller>=6.1.0",
+    "nuitka>=1.9.2",
 ]
 
 [tool.hatch.metadata]

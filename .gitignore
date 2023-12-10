@@ -72,3 +72,6 @@ config-dev.ini
 .python-version
 stacosys.sublime-project
 stacosys.sublime-workspace
+
+run.bin
+run.build/

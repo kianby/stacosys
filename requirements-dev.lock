@@ -31,6 +31,8 @@ markupsafe==2.1.3
 mccabe==0.7.0
 mypy==1.6.1
 mypy-extensions==1.0.0
+nuitka==1.9.2
+ordered-set==4.1.0
 packaging==23.2
 pathspec==0.11.2
 platformdirs==3.11.0
@@ -49,5 +51,6 @@ types-markdown==3.5.0.1
 typing-extensions==4.8.0
 urllib3==2.0.7
 werkzeug==3.0.1
+zstandard==0.22.0
 # The following packages are considered to be unsafe in a requirements file:
 setuptools==68.2.2
