@@ -45,11 +45,16 @@ Stacosys offers a REST API to retrieve and post comments. Static blog is HTML-ba
 
 ### Installation
 
-Build and Dependency management relies on [Poetry](https://python-poetry.org/), but you can also use [published releases](https://github.com/kianby/stacosys/releases) or [Docker image](https://hub.docker.com/r/kianby/stacosys).
+Build and Dependency management relies on [Rye](https://rye-up.com/) but you can also use [Docker image](https://hub.docker.com/r/kianby/stacosys).
 
 Build executable with pyinstaller 
 
-    poetry run pyinstaller stacosys.spec 
+    make build
+
+Update dependencies and sync virtual env
+
+    rye lock --update-all
+    rye sync
 
 ### Improvements
 
