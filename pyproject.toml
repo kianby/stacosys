@@ -12,7 +12,7 @@ dependencies = [
     "markdown>=3.5.1",
     "requests>=2.31.0",
     "background>=0.2.1",
-    "Flask>=3.0.0",
+    "Flask>=3.0.2",
     "types-markdown>=3.5.0.1",
     "pydal>=20230521.1"
 ]
