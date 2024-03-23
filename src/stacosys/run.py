@@ -37,9 +37,9 @@ def stacosys_server(config_pathname):
 
     # load and check config
     config.load(config_pathname)
-    is_config_ok, erreur_config = config.check()
+    is_config_ok, config_error = config.check()
     if not is_config_ok:
-        logger.error("Configuration incorrecte '%s'", erreur_config)
+        logger.error("Invalid configuration '%s'", config_error)
         sys.exit(1)
     logger.info(config)
 
@@ -65,7 +65,9 @@ def stacosys_server(config_pathname):
         config.get(ConfigParameter.SMTP_PASSWORD),
     )
     mailer.configure_destination(config.get(ConfigParameter.SITE_ADMIN_EMAIL))
-    mailer.check()
+    if not mailer.check():
+        logger.error("Email configuration not working")
+        sys.exit(1)
 
     logger.info("start interfaces %s %s %s", api, form, admin)
 
