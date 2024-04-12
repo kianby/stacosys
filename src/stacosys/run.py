@@ -9,55 +9,34 @@ import sys
 from stacosys.db import database
 from stacosys.interface import api, app, form
 from stacosys.interface.web import admin
-from stacosys.service import config, mailer, rss
-from stacosys.service.configuration import ConfigParameter
+from stacosys.service.mail import Mailer
+from stacosys.service.rssfeed import Rss
+from stacosys.service.configuration import Config, ConfigParameter
 
 
 # configure logging
-def configure_logging(level):
-    root_logger = logging.getLogger()
-    root_logger.setLevel(level)
-    handler = logging.StreamHandler()
-    handler.setLevel(level)
-    formatter = logging.Formatter("[%(asctime)s] %(name)s %(levelname)s %(message)s")
-    handler.setFormatter(formatter)
-    root_logger.addHandler(handler)
-
-
-def stacosys_server(config_pathname):
-    # configure logging
+def configure_logging() -> logging.Logger:
+    logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(name)s %(levelname)s %(message)s")
     logger = logging.getLogger(__name__)
-    configure_logging(logging.INFO)
     logging.getLogger("werkzeug").level = logging.WARNING
+    return logger
 
-    # check config file exists
+
+def load_and_validate_config(config_pathname: str, logger: logging.Logger) -> Config:
     if not os.path.isfile(config_pathname):
         logger.error("Configuration file '%s' not found.", config_pathname)
-        sys.exit(1)
+        raise FileNotFoundError(f"Configuration file '{config_pathname}' not found.")
 
-    # load and check config
+    config = Config()
     config.load(config_pathname)
-    is_config_ok, config_error = config.check()
-    if not is_config_ok:
-        logger.error("Invalid configuration '%s'", config_error)
-        sys.exit(1)
-    logger.info(config)
+    if not config.check():
+        raise ValueError(f"Invalid configuration '{config_pathname}'")
+    logger.info("Configuration loaded successfully.")
+    return config
 
-    # initialize database
-    database.configure(config.get(ConfigParameter.DB))
 
-    logger.info("Start Stacosys application")
-
-    # generate RSS
-    rss.configure(
-        config.get(ConfigParameter.RSS_FILE),
-        config.get(ConfigParameter.SITE_NAME),
-        config.get(ConfigParameter.SITE_PROTO),
-        config.get(ConfigParameter.SITE_URL),
-    )
-    rss.generate()
-
-    # configure mailer
+def configure_and_validate_mailer(config, logger):
+    mailer = Mailer()
     mailer.configure_smtp(
         config.get(ConfigParameter.SMTP_HOST),
         config.get_int(ConfigParameter.SMTP_PORT),
@@ -68,10 +47,34 @@ def stacosys_server(config_pathname):
     if not mailer.check():
         logger.error("Email configuration not working")
         sys.exit(1)
+    return mailer
+
+
+def configure_rss(config):
+    rss = Rss()
+    rss.configure(
+        config.get(ConfigParameter.RSS_FILE),
+        config.get(ConfigParameter.SITE_NAME),
+        config.get(ConfigParameter.SITE_PROTO),
+        config.get(ConfigParameter.SITE_URL),
+    )
+    rss.generate()
+    return rss
+
+
+def main(config_pathname):
+    logger = configure_logging()
+    config = load_and_validate_config(config_pathname, logger)
+    database.configure(config.get(ConfigParameter.DB))
+
+    logger.info("Start Stacosys application")
+    rss = configure_rss(config)
+    mailer = configure_and_validate_mailer(config, logger)
 
     logger.info("start interfaces %s %s %s", api, form, admin)
-
-    # start Flask
+    app.config['CONFIG'] = config
+    app.config['MAILER'] = mailer
+    app.config['RSS'] = rss
     app.run(
         host=config.get(ConfigParameter.HTTP_HOST),
         port=config.get_int(ConfigParameter.HTTP_PORT),
@@ -84,4 +87,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("config", help="config path name")
     args = parser.parse_args()
-    stacosys_server(args.config)
+    try:
+        main(args.config)
+    except Exception as e:
+        logging.error(f"Failed to start application: {e}")
+        sys.exit(1)
