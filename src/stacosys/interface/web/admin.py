@@ -24,8 +24,8 @@ def index():
 def is_login_ok(username, password):
     hashed = hashlib.sha256(password.encode()).hexdigest().upper()
     return (
-        app.config['CONFIG'].get(ConfigParameter.WEB_USERNAME) == username
-        and app.config['CONFIG'].get(ConfigParameter.WEB_PASSWORD) == hashed
+        app.config["CONFIG"].get(ConfigParameter.WEB_USERNAME) == username
+        and app.config["CONFIG"].get(ConfigParameter.WEB_PASSWORD) == hashed
     )
 
 
@@ -41,7 +41,9 @@ def login():
         flash("Identifiant ou mot de passe incorrect")
         return redirect("/web/login")
     # GET
-    return render_template("login_" + app.config['CONFIG'].get(ConfigParameter.LANG) + ".html")
+    return render_template(
+        "login_" + app.config["CONFIG"].get(ConfigParameter.LANG) + ".html"
+    )
 
 
 @app.route("/web/logout", methods=["GET"])
@@ -54,7 +56,7 @@ def logout():
 def admin_homepage():
     if not (
         "user" in session
-        and session["user"] == app.config['CONFIG'].get(ConfigParameter.WEB_USERNAME)
+        and session["user"] == app.config["CONFIG"].get(ConfigParameter.WEB_USERNAME)
     ):
         # TODO localization
         flash("Vous avez été déconnecté.")
@@ -62,9 +64,9 @@ def admin_homepage():
 
     comments = dao.find_not_published_comments()
     return render_template(
-        "admin_" + app.config['CONFIG'].get(ConfigParameter.LANG) + ".html",
+        "admin_" + app.config["CONFIG"].get(ConfigParameter.LANG) + ".html",
         comments=comments,
-        baseurl=app.config['CONFIG'].get(ConfigParameter.SITE_URL),
+        baseurl=app.config["CONFIG"].get(ConfigParameter.SITE_URL),
     )
 
 
@@ -76,7 +78,7 @@ def admin_action():
         flash("Commentaire introuvable")
     elif request.form.get("action") == "APPROVE":
         dao.publish_comment(comment)
-        app.config['RSS'].generate()
+        app.config["RSS"].generate()
         # TODO localization
         flash("Commentaire publié")
     else:

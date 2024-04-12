@@ -16,7 +16,9 @@ class Mailer:
         self._smtp_password = ""
         self._site_admin_email = ""
 
-    def configure_smtp(self, smtp_host: str, smtp_port: int, smtp_login: str, smtp_password: str) -> None:
+    def configure_smtp(
+        self, smtp_host: str, smtp_port: int, smtp_login: str, smtp_password: str
+    ) -> None:
         self._smtp_host = smtp_host
         self._smtp_port = smtp_port
         self._smtp_login = smtp_login

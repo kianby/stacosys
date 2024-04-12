@@ -9,14 +9,16 @@ import sys
 from stacosys.db import database
 from stacosys.interface import api, app, form
 from stacosys.interface.web import admin
+from stacosys.service.configuration import Config, ConfigParameter
 from stacosys.service.mail import Mailer
 from stacosys.service.rssfeed import Rss
-from stacosys.service.configuration import Config, ConfigParameter
 
 
 # configure logging
 def configure_logging() -> logging.Logger:
-    logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(name)s %(levelname)s %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="[%(asctime)s] %(name)s %(levelname)s %(message)s"
+    )
     logger = logging.getLogger(__name__)
     logging.getLogger("werkzeug").level = logging.WARNING
     return logger
@@ -72,9 +74,9 @@ def main(config_pathname):
     mailer = configure_and_validate_mailer(config, logger)
 
     logger.info("start interfaces %s %s %s", api, form, admin)
-    app.config['CONFIG'] = config
-    app.config['MAILER'] = mailer
-    app.config['RSS'] = rss
+    app.config["CONFIG"] = config
+    app.config["MAILER"] = mailer
+    app.config["RSS"] = rss
     app.run(
         host=config.get(ConfigParameter.HTTP_HOST),
         port=config.get_int(ConfigParameter.HTTP_PORT),

@@ -17,9 +17,9 @@ def client():
     logger = logging.getLogger(__name__)
     database.configure("sqlite:memory://db.sqlite")
     logger.info(f"start interface {form}")
-    app.config['CONFIG'] = Config()
-    app.config['MAILER'] = Mailer()
-    app.config['RSS'] = Rss()
+    app.config["CONFIG"] = Config()
+    app.config["MAILER"] = Mailer()
+    app.config["RSS"] = Rss()
     return app.test_client()
 
 

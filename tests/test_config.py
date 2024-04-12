@@ -3,14 +3,14 @@
 
 import pytest
 
-from stacosys.service.configuration import Config
-from stacosys.service.configuration import ConfigParameter
+from stacosys.service.configuration import Config, ConfigParameter
 
 EXPECTED_DB = "sqlite://db.sqlite"
 EXPECTED_HTTP_PORT = 8080
 EXPECTED_LANG = "fr"
 
 config = Config()
+
 
 @pytest.fixture
 def init_config():

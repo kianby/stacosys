@@ -46,7 +46,7 @@ def new_form_comment():
     # send notification e-mail asynchronously
     submit_new_comment(comment)
 
-    return redirect(app.config['CONFIG'].get(ConfigParameter.SITE_REDIRECT), code=302)
+    return redirect(app.config["CONFIG"].get(ConfigParameter.SITE_REDIRECT), code=302)
 
 
 def check_form_data(posted_comment):
