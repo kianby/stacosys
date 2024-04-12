@@ -6,7 +6,6 @@ from flask import abort, redirect, request
 
 from stacosys.db import dao
 from stacosys.interface import app, submit_new_comment
-from stacosys.service import config
 from stacosys.service.configuration import ConfigParameter
 
 logger = logging.getLogger(__name__)
@@ -47,7 +46,7 @@ def new_form_comment():
     # send notification e-mail asynchronously
     submit_new_comment(comment)
 
-    return redirect(config.get(ConfigParameter.SITE_REDIRECT), code=302)
+    return redirect(app.config["CONFIG"].get(ConfigParameter.SITE_REDIRECT), code=302)
 
 
 def check_form_data(posted_comment):

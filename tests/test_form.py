@@ -7,6 +7,9 @@ import pytest
 
 from stacosys.db import database
 from stacosys.interface import app, form
+from stacosys.service.configuration import Config
+from stacosys.service.mail import Mailer
+from stacosys.service.rssfeed import Rss
 
 
 @pytest.fixture
@@ -14,6 +17,9 @@ def client():
     logger = logging.getLogger(__name__)
     database.configure("sqlite:memory://db.sqlite")
     logger.info(f"start interface {form}")
+    app.config["CONFIG"] = Config()
+    app.config["MAILER"] = Mailer()
+    app.config["RSS"] = Rss()
     return app.test_client()
 
 
