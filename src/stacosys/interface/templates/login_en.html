@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacosys</title>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+<style>
+      form {
+        width: 350px;
+        margin: 0 auto;
+        text-align: center;
+      }
+</style>
+</head>
+<body>
+  <header>
+    <h2>Comment Moderation Login</h2>
+  </header>
+  <main>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <blockquote>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+      </blockquote>
+      {% endif %}
+      {% endwith %}
+      <form action="/web/login" method="POST">
+        <p><label>Username:</label></p>
+        <p><input type="text" name="username" /></p>
+        <p><label>Password:</label></p>
+        <p><input type="password" name="password" /></p>
+        <input type="submit" value="Log in" />
+      </form>
+  </main>
+  <footer>
+    <p>This page was designed with <a href="https://simplecss.org">Simple.css</a>.</p>
+  </footer>
+</body>
+</html>

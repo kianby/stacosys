@@ -37,8 +37,10 @@ def login():
         if is_login_ok(username, password):
             session["user"] = username
             return redirect("/web/admin")
-        # TODO localization
-        flash("Identifiant ou mot de passe incorrect")
+        if app.config["CONFIG"].get(ConfigParameter.LANG) == "fr":
+            flash("Identifiant ou mot de passe incorrect")
+        else:
+            flash("Username or password incorrect")
         return redirect("/web/login")
     # GET
     return render_template(
@@ -49,6 +51,10 @@ def login():
 @app.route("/web/logout", methods=["GET"])
 def logout():
     session.pop("user")
+    if app.config["CONFIG"].get(ConfigParameter.LANG) == "fr":
+        flash("Vous avez été déconnecté.")
+    else:
+        flash("You have been logged out.")
     return redirect("/web/admin")
 
 
@@ -58,8 +64,6 @@ def admin_homepage():
         "user" in session
         and session["user"] == app.config["CONFIG"].get(ConfigParameter.WEB_USERNAME)
     ):
-        # TODO localization
-        flash("Vous avez été déconnecté.")
         return redirect("/web/login")
 
     comments = dao.find_not_published_comments()
@@ -74,15 +78,21 @@ def admin_homepage():
 def admin_action():
     comment = dao.find_comment_by_id(request.form.get("comment"))
     if comment is None:
-        # TODO localization
-        flash("Commentaire introuvable")
+        if app.config["CONFIG"].get(ConfigParameter.LANG) == "fr":
+            flash("Commentaire introuvable")
+        else:
+            flash("Comment not found.")
     elif request.form.get("action") == "APPROVE":
         dao.publish_comment(comment)
         app.config["RSS"].generate()
-        # TODO localization
-        flash("Commentaire publié")
+        if app.config["CONFIG"].get(ConfigParameter.LANG) == "fr":
+            flash("Commentaire publié")
+        else:
+            flash("Comment published.")
     else:
         dao.delete_comment(comment)
-        # TODO localization
-        flash("Commentaire supprimé")
+        if app.config["CONFIG"].get(ConfigParameter.LANG) == "fr":
+            flash("Commentaire supprimé")
+        else:
+            flash("Comment deleted.")
     return redirect("/web/admin")
