@@ -52,5 +52,5 @@ class Rss:
             lastBuildDate=datetime.now(),
             items=items,
         )
-        # pylint: disable=consider-using-with
-        rss.write_xml(open(self._rss_file, "w", encoding="utf-8"), encoding="utf-8")
+        with open(self._rss_file, "w", encoding="utf-8") as outfile:
+            rss.write_xml(outfile, encoding="utf-8")
