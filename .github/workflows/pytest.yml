@@ -12,7 +12,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Set up rye
-      uses: sksat/setup-rye@v0.8.0
+      uses: sksat/setup-rye@v0.23.1
     - name: Sync dependencies using rye
       run: |
         rye pin ${{ matrix.python-version }}
