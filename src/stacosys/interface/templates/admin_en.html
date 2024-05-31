@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacosys Comment Moderation</title>
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+  <header>
+    <h2>Comment Moderation</h2>
+    <nav>
+        <a href="/web/logout">Log out</a>
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <blockquote>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+      </blockquote>
+      {% endif %}
+    {% endwith %}
+    <table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Author</th>
+            <th>Comment</th>
+            <th>Article</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comment in comments %}
+        <tr>
+            <td>{{ comment.created }}</td>
+            <td>{{ comment.author_name }}</td>
+            <td>{{ comment.content }}</td>
+            <td><a href="{{ baseurl + comment.url }}">{{ comment.url }}</a></td>
+            <td>
+                <form action="/web/admin" method="post">
+                    <input type="hidden" name="comment" value="{{comment.id}}">
+                    <input type="hidden" name="action" value="APPROVE">
+                    <button type="submit">Approve</button>
+                </form>
+                <form action="/web/admin" method="post">
+                    <input type="hidden" name="comment" value="{{comment.id}}">
+                    <input type="hidden" name="action" value="REJECT">
+                    <button type="submit">Reject</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+  </main>
+  <footer>
+    <p>This page was designed by Yax with <a href="https://simplecss.org">Simple.css</a>.</p>
+  </footer>
+</body>
+</html>

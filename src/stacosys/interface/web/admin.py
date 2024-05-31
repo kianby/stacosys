@@ -37,8 +37,7 @@ def login():
         if is_login_ok(username, password):
             session["user"] = username
             return redirect("/web/admin")
-        # TODO localization
-        flash("Identifiant ou mot de passe incorrect")
+        flash(app.config["MESSAGES"].get("login.failure.username"))
         return redirect("/web/login")
     # GET
     return render_template(
@@ -49,6 +48,7 @@ def login():
 @app.route("/web/logout", methods=["GET"])
 def logout():
     session.pop("user")
+    flash(app.config["MESSAGES"].get("logout.flash"))
     return redirect("/web/admin")
 
 
@@ -58,8 +58,6 @@ def admin_homepage():
         "user" in session
         and session["user"] == app.config["CONFIG"].get(ConfigParameter.WEB_USERNAME)
     ):
-        # TODO localization
-        flash("Vous avez été déconnecté.")
         return redirect("/web/login")
 
     comments = dao.find_not_published_comments()
@@ -74,15 +72,12 @@ def admin_homepage():
 def admin_action():
     comment = dao.find_comment_by_id(request.form.get("comment"))
     if comment is None:
-        # TODO localization
-        flash("Commentaire introuvable")
+        flash(app.config["MESSAGES"].get("admin.comment.notfound"))
     elif request.form.get("action") == "APPROVE":
         dao.publish_comment(comment)
         app.config["RSS"].generate()
-        # TODO localization
-        flash("Commentaire publié")
+        flash(app.config["MESSAGES"].get("admin.comment.approved"))
     else:
         dao.delete_comment(comment)
-        # TODO localization
-        flash("Commentaire supprimé")
+        flash(app.config["MESSAGES"].get("admin.comment.deleted"))
     return redirect("/web/admin")

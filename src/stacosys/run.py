@@ -7,6 +7,7 @@ import os
 import sys
 
 from stacosys.db import database
+from stacosys.i18n.messages import Messages
 from stacosys.interface import api, app, form
 from stacosys.interface.web import admin
 from stacosys.service.configuration import Config, ConfigParameter
@@ -64,6 +65,12 @@ def configure_rss(config):
     return rss
 
 
+def configure_localization(config):
+    messages = Messages()
+    messages.load_messages(config.get(ConfigParameter.LANG))
+    return messages
+
+
 def main(config_pathname):
     logger = configure_logging()
     config = load_and_validate_config(config_pathname, logger)
@@ -72,11 +79,13 @@ def main(config_pathname):
     logger.info("Start Stacosys application")
     rss = configure_rss(config)
     mailer = configure_and_validate_mailer(config, logger)
+    messages = configure_localization(config)
 
     logger.info("start interfaces %s %s %s", api, form, admin)
     app.config["CONFIG"] = config
     app.config["MAILER"] = mailer
     app.config["RSS"] = rss
+    app.config["MESSAGES"] = messages
     app.run(
         host=config.get(ConfigParameter.HTTP_HOST),
         port=config.get_int(ConfigParameter.HTTP_PORT),
