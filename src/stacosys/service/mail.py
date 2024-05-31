@@ -38,21 +38,22 @@ class Mailer:
 
     def send(self, subject: str, message: str) -> bool:
         sender = self._smtp_login
-        receivers = [self._site_admin_email]
-
-        msg = MIMEText(message)
-        msg["Subject"] = subject
-        msg["To"] = self._site_admin_email
-        msg["From"] = sender
 
         try:
+            msg = MIMEText(message)
+            msg["Subject"] = subject
+            msg["From"] = sender
+            msg["To"] = self._site_admin_email
+
             with SMTP_SSL(self._smtp_host, self._smtp_port) as server:
-                server.login(self._smtp_login, self._smtp_password)
-                server.send_message(msg, sender, receivers)
+                try:
+                    server.login(self._smtp_login, self._smtp_password)
+                except SMTPAuthenticationError:
+                    logger.exception("Invalid credentials")
+                    return False
+
+                server.send_message(msg)
             return True
-        except SMTPAuthenticationError:
-            logger.exception("Invalid credentials")
-            return False
-        except Exception as e:
-            logger.exception(f"Error sending email: {e}")
-            return False
+        except Exception:
+            logger.error("Error sending email", exc_info=True)
+        return False
