@@ -101,5 +101,5 @@ if __name__ == "__main__":
     try:
         main(args.config)
     except Exception as e:
-        logging.error(f"Failed to start application: {e}")
+        logging.error("Failed to start application: %s", e)
         sys.exit(1)

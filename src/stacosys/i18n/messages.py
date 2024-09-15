@@ -8,9 +8,11 @@ class Messages:
 
     def load_messages(self, lang):
         config = configparser.ConfigParser()
-        config.read(os.path.join(os.path.dirname(__file__), 'messages_' + lang + '.properties'))
+        config.read(
+            os.path.join(os.path.dirname(__file__), "messages_" + lang + ".properties")
+        )
 
-        for key, value in config.items('messages'):
+        for key, value in config.items("messages"):
             self.property_dict[key] = value
 
     def get(self, key):
