@@ -22,7 +22,7 @@ jobs:
       uses: JackMcKew/pyinstaller-action-linux@python3.10
       with:
         path: .
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
-        name: stacosys
+        name: stacosys-${{ matrix.runs-on }}
         path: dist/linux 
