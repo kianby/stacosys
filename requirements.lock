@@ -5,22 +5,48 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
+#   generate-hashes: false
+#   universal: false
 
 -e file:.
 background==0.2.1
-blinker==1.7.0
-certifi==2024.2.2
+    # via stacosys
+blinker==1.8.2
+    # via flask
+certifi==2024.8.30
+    # via requests
 charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
+    # via flask
 flask==3.0.3
-idna==3.7
-itsdangerous==2.1.2
-jinja2==3.1.3
-markdown==3.6
+    # via stacosys
+idna==3.9
+    # via requests
+importlib-metadata==8.5.0
+    # via flask
+    # via markdown
+itsdangerous==2.2.0
+    # via flask
+jinja2==3.1.4
+    # via flask
+markdown==3.7
+    # via stacosys
 markupsafe==2.1.5
-pydal==20231114.3
+    # via jinja2
+    # via werkzeug
+pydal==20240906.1
+    # via stacosys
 pyrss2gen==1.1
-requests==2.31.0
-types-markdown==3.6.0.20240316
-urllib3==2.2.1
-werkzeug==3.0.2
+    # via stacosys
+requests==2.32.3
+    # via stacosys
+types-markdown==3.7.0.20240822
+    # via stacosys
+urllib3==2.2.3
+    # via requests
+werkzeug==3.0.4
+    # via flask
+zipp==3.20.2
+    # via importlib-metadata
