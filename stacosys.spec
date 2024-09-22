@@ -5,7 +5,7 @@ a = Analysis(
     ['src/stacosys/run.py'],
     pathex=['src'],
     binaries=[],
-    datas=[('src/stacosys/interface/templates/*.html', 'src/stacosys/interface/templates/')],
+    datas=[('src/stacosys/interface/templates/*.html', 'stacosys/interface/templates/'), ('src/stacosys/i18n/*.properties', 'stacosys/i18n/')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
