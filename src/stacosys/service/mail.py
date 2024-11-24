@@ -3,7 +3,7 @@
 
 import logging
 from email.mime.text import MIMEText
-from smtplib import SMTP_SSL, SMTPAuthenticationError
+from smtplib import SMTP_SSL, SMTPAuthenticationError, SMTPException
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +54,6 @@ class Mailer:
 
                 server.send_message(msg)
             return True
-        except Exception:
+        except SMTPException:
             logger.error("Error sending email", exc_info=True)
         return False
