@@ -11,28 +11,28 @@ endif
 all: black typehint lint
 
 black:
-	rye run isort --multi-line 3 --profile black src/ tests/
-	rye run black --target-version py311 src/ tests/
+	uv run isort --multi-line 3 --profile black src/ tests/
+	uv run black --target-version py311 src/ tests/
 
 typehint: 
-	rye run mypy --ignore-missing-imports src/ tests/
+	uv run mypy --ignore-missing-imports src/ tests/
 
 lint:
-	rye run pylint src/
+	uv run pylint src/
 
 # check
 check: all
 
 # test
 test:
-	rye run coverage run -m --source=stacosys pytest tests
-	rye run coverage report
+	PYTHONPATH=src/ uv run coverage run -m --source=stacosys pytest tests
+	uv run coverage report
 
 # build
-#rye run pyinstaller src/stacosys/run.py --name stacosys --onefile
 build:
-	rye run pyinstaller --clean stacosys.spec
+	uv build --wheel --out-dir dist
+	docker build -t kianby/stacosys .
 
 # run
 run:
-	PYTHONPATH=src/ rye run python src/stacosys/run.py $(RUN_ARGS)
+	PYTHONPATH=src/ uv run python src/stacosys/run.py $(RUN_ARGS)

@@ -8,17 +8,19 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.10.13]
+        python-version: [3.13.1]
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Set up rye
-      uses: sksat/setup-rye@v0.23.1
-    - name: Sync dependencies using rye
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        version: "latest"
+    - name: Sync dependencies using uv
       run: |
-        rye pin ${{ matrix.python-version }}
-        rye sync
-        rye build --wheel --out dist
+        uv python pin ${{ matrix.python-version }}
+        uv sync
+        uv build --wheel --out-dir dist
     - name: Build the Docker image
       run: |
         echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin docker.io
