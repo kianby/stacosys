@@ -1,45 +1,28 @@
 [project]
 name = "stacosys"
-version = "3.3"
+version = "3.4"
 description = "STAtic COmmenting SYStem"
+readme = "README.md"
 authors = [
     { name = "Yax" }
 ]
-readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">=3.13.1"
 dependencies = [
-    "pyrss2gen>=1.1",
-    "markdown>=3.5.1",
-    "requests>=2.31.0",
     "background>=0.2.1",
-    "Flask>=3.0.2",
-    "types-markdown>=3.5.0.1",
-    "pydal>=20230521.1"
+    "flask>=3.1.0",
+    "markdown>=3.7",
+    "pydal>=20241204.1",
+    "pyrss2gen>=1.1",
+    "requests>=2.32.3",
+    "types-markdown>=3.7.0.20241204",
 ]
 
-[tool.pytest.ini_options]
-pythonpath = [
-  "src"
+[dependency-groups]
+dev = [
+    "coveralls>=4.0.1",
+    "mypy>=1.13.0",
+    "pylint>=3.3.2",
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.4",
+    "black>=24.10.0",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "pylint>=3.0.2",
-    "mypy>=1.6.1",
-    "pytest>=7.4.3",
-    "coveralls>=3.3.1",
-    "pytest-cov>=4.1.0",
-    "black>=23.10.1",
-    "pyinstaller>=6.1.0",
-]
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.build.targets.wheel]
-packages = ["src"]

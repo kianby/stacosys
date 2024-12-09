@@ -7,21 +7,23 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.10.13]
+        python-version: [3.13.1]
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Set up rye
-      uses: sksat/setup-rye@v0.23.1
-    - name: Sync dependencies using rye
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        version: "latest"
+    - name: Sync dependencies using uv
       run: |
-        rye pin ${{ matrix.python-version }}
-        rye sync
+        uv python pin ${{ matrix.python-version }}
+        uv sync
     - name: Pytest and Coverage
       run: |
-        rye run coverage run -m --source=stacosys pytest tests
-        rye run coverage report
+        PYTHONPATH=src/ uv run coverage run -m --source=stacosys pytest tests
+        uv run coverage report
     - name: Send report to Coveralls
-      run: rye run coveralls
+      run: uv run coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
