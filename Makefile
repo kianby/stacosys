@@ -30,6 +30,7 @@ test:
 
 # build
 build:
+	rm -rf build *.egg-info
 	uv build --wheel --out-dir dist
 	docker build -t kianby/stacosys .
 
