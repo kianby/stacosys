@@ -1,6 +1,6 @@
 import configparser
 import os
-
+import importlib.resources
 
 class Messages:
     def __init__(self):
@@ -8,9 +8,12 @@ class Messages:
 
     def load_messages(self, lang):
         config = configparser.ConfigParser()
-        config.read(
-            os.path.join(os.path.dirname(__file__), "messages_" + lang + ".properties")
-        )
+
+        # Access the resource file within the package
+        with importlib.resources.open_text(
+            __package__, f"messages_{lang}.properties"
+        ) as file:
+            config.read_file(file)
 
         for key, value in config.items("messages"):
             self.property_dict[key] = value

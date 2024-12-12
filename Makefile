@@ -30,7 +30,9 @@ test:
 
 # build
 build:
-	rm -rf build *.egg-info
+	# https://stackoverflow.com/questions/24347450/how-do-you-add-additional-files-to-a-wheel
+	rm -rf build/* dist/* *.egg-info
+>>>>>>> upgrade-docker
 	uv build --wheel --out-dir dist
 	docker build -t kianby/stacosys .
 
