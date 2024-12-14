@@ -19,7 +19,8 @@ jobs:
     - name: Sync dependencies using uv
       run: |
         uv python pin ${{ matrix.python-version }}
-        uv sync        
+        uv sync
+        rm -rf build/* dist/* *.egg-info
         uv build --wheel --out-dir dist
     - name: Build the Docker image
       run: |

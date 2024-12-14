@@ -6,4 +6,4 @@ cp -f stacosys/run.py .
 python3 run.py /config/config.ini
 
 # catch for debug
-tail -f /dev/null
+#tail -f /dev/null

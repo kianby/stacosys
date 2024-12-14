@@ -411,7 +411,7 @@ wheels = [
 [[package]]
 name = "stacosys"
 version = "3.4"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "background" },
     { name = "flask" },
