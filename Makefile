@@ -34,6 +34,8 @@ build:
 	rm -rf build/* dist/* *.egg-info
 	uv build --wheel --out-dir dist
 	docker build -t kianby/stacosys .
+	#docker login -u kianby
+	#docker push docker.io/kianby/stacosys:latest
 
 # run
 run:
